@@ -1,0 +1,1192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model activity_log {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime? @db.Timestamp(6)
+  description String?   @db.VarChar(255)
+  type        String?   @db.VarChar(255)
+  updated_at  DateTime? @db.Timestamp(6)
+  user_id     Int?
+  users       users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model admin_panel {
+  id             Int       @id @default(autoincrement())
+  color          String?   @db.VarChar(255)
+  created_at     DateTime? @db.Timestamp(6)
+  date_format    String?   @db.VarChar(255)
+  financial_year Int?
+  header_logo    String?   @db.VarChar(255)
+  language       String?   @db.VarChar(255)
+  login_logo     String?   @db.VarChar(255)
+  time_format    String?   @db.VarChar(255)
+  updated_at     DateTime? @db.Timestamp(6)
+}
+
+model award {
+  id                                                  Int              @id @default(autoincrement())
+  active                                              Boolean?         @default(true)
+  award_file_name                                     String?          @db.VarChar(255)
+  created_at                                          DateTime?        @db.Timestamp(6)
+  name                                                String?          @db.VarChar(255)
+  points                                              Int
+  updated_at                                          DateTime?        @db.Timestamp(6)
+  created_by                                          Int?
+  library_awards                                      Int?
+  updated_by                                          Int?
+  library_awards_award_library_awardsTolibrary_awards library_awards?  @relation("award_library_awardsTolibrary_awards", fields: [library_awards], references: [id])
+  users_award_created_byTousers                       users?           @relation("award_created_byTousers", fields: [created_by], references: [id])
+  users_award_updated_byTousers                       users?           @relation("award_updated_byTousers", fields: [updated_by], references: [id])
+  award_hash_tag                                      award_hash_tag[] @ignore
+  manage_awards                                       manage_awards[]
+  scheduler                                           scheduler[]
+
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model award_hash_tag {
+  award_id    Int
+  hash_tag_id Int
+  award       award   @relation(fields: [award_id], references: [id])
+  hashtag     hashtag @relation(fields: [hash_tag_id], references: [id])
+
+  @@ignore
+}
+
+model badge {
+  id                                                  Int              @id @default(autoincrement())
+  active                                              Boolean?         @default(true)
+  badge_file_name                                     String?          @db.VarChar(255)
+  created_at                                          DateTime?        @db.Timestamp(6)
+  name                                                String?          @db.VarChar(255)
+  points                                              Int
+  updated_at                                          DateTime?        @db.Timestamp(6)
+  created_by                                          Int?
+  library_badges                                      Int?
+  updated_by                                          Int?
+  users_badge_updated_byTousers                       users?           @relation("badge_updated_byTousers", fields: [updated_by], references: [id])
+  library_badges_badge_library_badgesTolibrary_badges library_badges?  @relation("badge_library_badgesTolibrary_badges", fields: [library_badges], references: [id])
+  users_badge_created_byTousers                       users?           @relation("badge_created_byTousers", fields: [created_by], references: [id])
+  badge_hash_tag                                      badge_hash_tag[] @ignore
+  user_badges                                         user_badges[]
+
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model badge_hash_tag {
+  badge_id    Int
+  hash_tag_id Int
+  hashtag     hashtag @relation(fields: [hash_tag_id], references: [id])
+  badge       badge   @relation(fields: [badge_id], references: [id])
+
+  @@ignore
+}
+
+model certificate {
+  id                                  Int                @id @default(autoincrement())
+  certificate_file_name               String?            @db.VarChar(255)
+  certificate_image_file_name         String?            @db.VarChar(255)
+  created_at                          DateTime?          @db.Timestamp(6)
+  name                                String?            @db.VarChar(255)
+  parameters                          String?
+  updated_at                          DateTime?          @db.Timestamp(6)
+  created_by                          Int?
+  updated_by                          Int?
+  users_certificate_updated_byTousers users?             @relation("certificate_updated_byTousers", fields: [updated_by], references: [id])
+  users_certificate_created_byTousers users?             @relation("certificate_created_byTousers", fields: [created_by], references: [id])
+  user_certificate                    user_certificate[]
+
+}
+
+model configuration {
+  name                                  String    @id @db.VarChar(255)
+  created_at                            DateTime? @db.Timestamp(6)
+  updated_at                            DateTime? @db.Timestamp(6)
+  value                                 String?   @db.VarChar(255)
+  created_by                            Int?
+  updated_by                            Int?
+  users_configuration_updated_byTousers users?    @relation("configuration_updated_byTousers", fields: [updated_by], references: [id])
+  users_configuration_created_byTousers users?    @relation("configuration_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model department {
+  id                                    Int                @id @default(autoincrement())
+  active                                Boolean?           @default(true)
+  created_at                            DateTime?          @db.Timestamp(6)
+  name                                  String?            @unique(map: "UK1t68827l97cwyxo9r1u6t4p7d") @db.VarChar(255)
+  updated_at                            DateTime?          @db.Timestamp(6)
+  created_by                            Int?
+  updated_by                            Int?
+  users_department_created_byTousers    users?             @relation("department_created_byTousers", fields: [created_by], references: [id])
+  users_department_updated_byTousers    users?             @relation("department_updated_byTousers", fields: [updated_by], references: [id])
+  forum_department                      forum_department[]
+  idea_department                       idea_department[]
+  manage_awards                         manage_awards[]
+  users_users_department_idTodepartment users[]            @relation("users_department_idTodepartment")
+
+}
+
+model ecard {
+  id                              Int       @id @default(autoincrement())
+  card_file_name                  String?   @db.VarChar(255)
+  created_at                      DateTime? @db.Timestamp(6)
+  info                            String?
+  liked                           Int?      @default(0)
+  message                         String?   @db.VarChar(255)
+  seen                            Int?      @default(0)
+  subject                         String?   @db.VarChar(255)
+  template_id                     Int?      @default(0)
+  type                            String?   @db.VarChar(255)
+  updated_at                      DateTime? @db.Timestamp(6)
+  created_by                      Int?
+  from_user_id                    Int?
+  to_user_id                      Int?
+  updated_by                      Int?
+  users_ecard_from_user_idTousers users?    @relation("ecard_from_user_idTousers", fields: [from_user_id], references: [id])
+  users_ecard_created_byTousers   users?    @relation("ecard_created_byTousers", fields: [created_by], references: [id])
+  users_ecard_updated_byTousers   users?    @relation("ecard_updated_byTousers", fields: [updated_by], references: [id])
+  users_ecard_to_user_idTousers   users?    @relation("ecard_to_user_idTousers", fields: [to_user_id], references: [id])
+
+}
+
+model forum {
+  id                            Int                 @id @default(autoincrement())
+  active                        Boolean?            @default(true)
+  created_at                    DateTime?           @db.Timestamp(6)
+  description                   String?             @db.VarChar(255)
+  title                         String?             @db.VarChar(255)
+  updated_at                    DateTime?           @db.Timestamp(6)
+  created_by                    Int?
+  updated_by                    Int?
+  users_forum_created_byTousers users?              @relation("forum_created_byTousers", fields: [created_by], references: [id])
+  users_forum_updated_byTousers users?              @relation("forum_updated_byTousers", fields: [updated_by], references: [id])
+  forum_attachments             forum_attachments[]
+  forum_department              forum_department[]
+  forum_following               forum_following[]
+  forum_likes                   forum_likes[]
+  forum_read                    forum_read[]
+  forumcomments                 forumcomments[]
+
+}
+
+model forum_attachments {
+  id                                        Int       @id @default(autoincrement())
+  created_at                                DateTime? @db.Timestamp(6)
+  forum_attachments_file_name               String?   @db.VarChar(255)
+  updated_at                                DateTime? @db.Timestamp(6)
+  created_by                                Int?
+  forum_id                                  Int?
+  updated_by                                Int?
+  users_forum_attachments_created_byTousers users?    @relation("forum_attachments_created_byTousers", fields: [created_by], references: [id])
+  users_forum_attachments_updated_byTousers users?    @relation("forum_attachments_updated_byTousers", fields: [updated_by], references: [id])
+  forum                                     forum?    @relation(fields: [forum_id], references: [id])
+
+}
+
+model forum_comment_likes {
+  id               Int            @id @default(autoincrement())
+  created_at       DateTime?      @db.Timestamp(6)
+  forumcomments_id Int?
+  user_id          Int?
+  users            users?         @relation(fields: [user_id], references: [id])
+  forumcomments    forumcomments? @relation(fields: [forumcomments_id], references: [id])
+
+}
+
+model forum_department {
+  id                                       Int         @id @default(autoincrement())
+  created_at                               DateTime?   @db.Timestamp(6)
+  updated_at                               DateTime?   @db.Timestamp(6)
+  created_by                               Int?
+  dep_id                                   Int?
+  forum_id                                 Int?
+  updated_by                               Int?
+  forum                                    forum?      @relation(fields: [forum_id], references: [id])
+  users_forum_department_created_byTousers users?      @relation("forum_department_created_byTousers", fields: [created_by], references: [id])
+  department                               department? @relation(fields: [dep_id], references: [id])
+  users_forum_department_updated_byTousers users?      @relation("forum_department_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model forum_following {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  forum_id   Int?
+  user_id    Int?
+  forum      forum?    @relation(fields: [forum_id], references: [id])
+  users      users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model forum_likes {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  forum_id   Int?
+  user_id    Int?
+  forum      forum?    @relation(fields: [forum_id], references: [id])
+  users      users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model forum_read {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  forum_id   Int?
+  user_id    Int?
+  forum      forum?    @relation(fields: [forum_id], references: [id])
+  users      users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model forumcomments {
+  id                                    Int                   @id @default(autoincrement())
+  created_at                            DateTime?             @db.Timestamp(6)
+  message                               String?
+  updated_at                            DateTime?             @db.Timestamp(6)
+  created_by                            Int?
+  forum_id                              Int?
+  parent_id                             Int?
+  updated_by                            Int?
+  forum_comment_likes                   forum_comment_likes[]
+  users_forumcomments_updated_byTousers users?                @relation("forumcomments_updated_byTousers", fields: [updated_by], references: [id])
+  forumcomments                         forumcomments?        @relation("forumcommentsToforumcomments", fields: [parent_id], references: [id])
+  other_forumcomments                   forumcomments[]       @relation("forumcommentsToforumcomments")
+  users_forumcomments_created_byTousers users?                @relation("forumcomments_created_byTousers", fields: [created_by], references: [id])
+  forum                                 forum?                @relation(fields: [forum_id], references: [id])
+
+}
+
+model hashtag {
+  id                              Int                    @id @default(autoincrement())
+  active                          Boolean?               @default(true)
+  color_code                      String?                @db.VarChar(255)
+  created_at                      DateTime?              @db.Timestamp(6)
+  hashtag_name                    String?                @db.VarChar(255)
+  updated_at                      DateTime?              @db.Timestamp(6)
+  created_by                      Int?
+  updated_by                      Int?
+  award_hash_tag                  award_hash_tag[]       @ignore
+  badge_hash_tag                  badge_hash_tag[]       @ignore
+  users_hashtag_created_byTousers users?                 @relation("hashtag_created_byTousers", fields: [created_by], references: [id])
+  users_hashtag_updated_byTousers users?                 @relation("hashtag_updated_byTousers", fields: [updated_by], references: [id])
+  reward_hash_tag                 reward_hash_tag[]
+  user_badges_hash_tag            user_badges_hash_tag[]
+
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model hibernate_sequence {
+  next_val Int?
+
+  @@ignore
+}
+
+model idea {
+  id                           Int                @id @default(autoincrement())
+  active                       Boolean?           @default(true)
+  created_at                   DateTime?          @db.Timestamp(6)
+  description                  String?            @db.VarChar(255)
+  title                        String?            @db.VarChar(255)
+  updated_at                   DateTime?          @db.Timestamp(6)
+  created_by                   Int?
+  updated_by                   Int?
+  users_idea_updated_byTousers users?             @relation("idea_updated_byTousers", fields: [updated_by], references: [id])
+  users_idea_created_byTousers users?             @relation("idea_created_byTousers", fields: [created_by], references: [id])
+  idea_attachments             idea_attachments[]
+  idea_comments                idea_comments[]
+  idea_department              idea_department[]
+  idea_favorites               idea_favorites[]
+  idea_likes                   idea_likes[]
+  idea_read                    idea_read[]
+
+}
+
+model idea_attachments {
+  id                                       Int       @id @default(autoincrement())
+  created_at                               DateTime? @db.Timestamp(6)
+  idea_attachments_file_name               String?   @db.VarChar(255)
+  updated_at                               DateTime? @db.Timestamp(6)
+  created_by                               Int?
+  idea_id                                  Int?
+  updated_by                               Int?
+  users_idea_attachments_created_byTousers users?    @relation("idea_attachments_created_byTousers", fields: [created_by], references: [id])
+  users_idea_attachments_updated_byTousers users?    @relation("idea_attachments_updated_byTousers", fields: [updated_by], references: [id])
+  idea                                     idea?     @relation(fields: [idea_id], references: [id])
+
+}
+
+model idea_comments {
+  id                                    Int                        @id @default(autoincrement())
+  comments                              String?                    @db.VarChar(255)
+  created_at                            DateTime?                  @db.Timestamp(6)
+  updated_at                            DateTime?                  @db.Timestamp(6)
+  created_by                            Int?
+  idea_id                               Int?
+  updated_by                            Int?
+  users_idea_comments_created_byTousers users?                     @relation("idea_comments_created_byTousers", fields: [created_by], references: [id])
+  idea                                  idea?                      @relation(fields: [idea_id], references: [id])
+  users_idea_comments_updated_byTousers users?                     @relation("idea_comments_updated_byTousers", fields: [updated_by], references: [id])
+  ideacomments_attachments              ideacomments_attachments[]
+
+}
+
+model idea_department {
+  id                                      Int         @id @default(autoincrement())
+  created_at                              DateTime?   @db.Timestamp(6)
+  updated_at                              DateTime?   @db.Timestamp(6)
+  created_by                              Int?
+  dep_id                                  Int?
+  idea_id                                 Int?
+  updated_by                              Int?
+  department                              department? @relation(fields: [dep_id], references: [id])
+  users_idea_department_created_byTousers users?      @relation("idea_department_created_byTousers", fields: [created_by], references: [id])
+  idea                                    idea?       @relation(fields: [idea_id], references: [id])
+  users_idea_department_updated_byTousers users?      @relation("idea_department_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model idea_favorites {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  idea_id    Int?
+  user_id    Int?
+  users      users?    @relation(fields: [user_id], references: [id])
+  idea       idea?     @relation(fields: [idea_id], references: [id])
+
+}
+
+model idea_likes {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  idea_id    Int?
+  user_id    Int?
+  idea       idea?     @relation(fields: [idea_id], references: [id])
+  users      users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model idea_read {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  idea_id    Int?
+  user_id    Int?
+  idea       idea?     @relation(fields: [idea_id], references: [id])
+  users      users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model ideacomments_attachments {
+  id                                               Int            @id @default(autoincrement())
+  attach_file_name                                 String?        @db.VarChar(255)
+  created_at                                       DateTime?      @db.Timestamp(6)
+  updated_at                                       DateTime?      @db.Timestamp(6)
+  created_by                                       Int?
+  ideacomments_id                                  Int?
+  updated_by                                       Int?
+  idea_comments                                    idea_comments? @relation(fields: [ideacomments_id], references: [id])
+  users_ideacomments_attachments_updated_byTousers users?         @relation("ideacomments_attachments_updated_byTousers", fields: [updated_by], references: [id])
+  users_ideacomments_attachments_created_byTousers users?         @relation("ideacomments_attachments_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model library_awards {
+  id                                         Int     @id @default(autoincrement())
+  file_name                                  String? @db.VarChar(255)
+  name                                       String? @db.VarChar(255)
+  award_award_library_awardsTolibrary_awards award[] @relation("award_library_awardsTolibrary_awards")
+}
+
+model library_badges {
+  id                                         Int     @id @default(autoincrement())
+  file_name                                  String? @db.VarChar(255)
+  name                                       String? @db.VarChar(255)
+  badge_badge_library_badgesTolibrary_badges badge[] @relation("badge_library_badgesTolibrary_badges")
+}
+
+model manage_award_nomination {
+  id                                              Int            @id @default(autoincrement())
+  created_at                                      DateTime?      @db.Timestamp(6)
+  message                                         String?        @db.VarChar(255)
+  status                                          String?        @db.VarChar(255)
+  updated_at                                      DateTime?      @db.Timestamp(6)
+  created_by                                      Int?
+  manage_awards_id                                Int?
+  updated_by                                      Int?
+  user_id                                         Int?
+  users_manage_award_nomination_user_idTousers    users?         @relation("manage_award_nomination_user_idTousers", fields: [user_id], references: [id])
+  users_manage_award_nomination_created_byTousers users?         @relation("manage_award_nomination_created_byTousers", fields: [created_by], references: [id])
+  users_manage_award_nomination_updated_byTousers users?         @relation("manage_award_nomination_updated_byTousers", fields: [updated_by], references: [id])
+  manage_awards                                   manage_awards? @relation(fields: [manage_awards_id], references: [id])
+
+}
+
+model manage_awards {
+  id                                      Int                       @id @default(autoincrement())
+  created_at                              DateTime?                 @db.Timestamp(6)
+  ends_on                                 DateTime?                 @db.Date
+  nominated                               Boolean
+  recognized                              Boolean
+  sub_type                                String?                   @db.VarChar(255)
+  type                                    String?                   @db.VarChar(255)
+  updated_at                              DateTime?                 @db.Timestamp(6)
+  award_id                                Int?
+  created_by                              Int?
+  department_id                           Int?
+  judge_id                                Int?
+  nominator_id                            Int?
+  updated_by                              Int?
+  manage_award_nomination                 manage_award_nomination[]
+  award                                   award?                    @relation(fields: [award_id], references: [id])
+  users_manage_awards_updated_byTousers   users?                    @relation("manage_awards_updated_byTousers", fields: [updated_by], references: [id])
+  users_manage_awards_judge_idTousers     users?                    @relation("manage_awards_judge_idTousers", fields: [judge_id], references: [id])
+  department                              department?               @relation(fields: [department_id], references: [id])
+  users_manage_awards_nominator_idTousers users?                    @relation("manage_awards_nominator_idTousers", fields: [nominator_id], references: [id])
+  users_manage_awards_created_byTousers   users?                    @relation("manage_awards_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model message {
+  id                                 Int                                 @id @default(autoincrement())
+  category                           String?                             @db.VarChar(255)
+  created_at                         DateTime?                           @db.Timestamp(6)
+  message                            String?                             @db.VarChar(255)
+  scheduled                          Boolean
+  settings_id                        Int?                                @default(0)
+  updated_at                         DateTime?                           @db.Timestamp(6)
+  created_by                         Int?
+  updated_by                         Int?
+  users_message_created_byTousers    users?                              @relation("message_created_byTousers", fields: [created_by], references: [id])
+  users_message_updated_byTousers    users?                              @relation("message_updated_byTousers", fields: [updated_by], references: [id])
+  schedule_setting_schedule_messages schedule_setting_schedule_messages?
+
+}
+
+model notification {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime? @db.Timestamp(6)
+  date        DateTime? @db.Timestamp(6)
+  message     String?   @db.VarChar(255)
+  resource_id Int
+  seen        Boolean?  @default(true)
+  type        String?   @db.VarChar(255)
+  updated_at  DateTime? @db.Timestamp(6)
+  user_id     Int?
+  users       users?    @relation(fields: [user_id], references: [id])
+
+}
+
+model password_reset_token {
+  id          Int       @id
+  created_at  DateTime? @db.Timestamp(6)
+  expiry_date DateTime? @db.Timestamp(6)
+  token       String?   @db.VarChar(255)
+  updated_at  DateTime? @db.Timestamp(6)
+  user_id     Int
+  users       users     @relation(fields: [user_id], references: [id])
+
+}
+
+model poll_choice {
+  id                                  Int            @id @default(autoincrement())
+  created_at                          DateTime?      @db.Timestamp(6)
+  updated_at                          DateTime?      @db.Timestamp(6)
+  value                               String?        @db.VarChar(255)
+  created_by                          Int?
+  poll_response_id                    Int?
+  updated_by                          Int?
+  poll_response                       poll_response? @relation(fields: [poll_response_id], references: [id])
+  users_poll_choice_updated_byTousers users?         @relation("poll_choice_updated_byTousers", fields: [updated_by], references: [id])
+  users_poll_choice_created_byTousers users?         @relation("poll_choice_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model poll_mapping {
+  id        Int     @id @default(autoincrement())
+  mappingid Int?
+  type      String? @db.Char(1)
+  poll_id   Int?
+  polls     polls?  @relation(fields: [poll_id], references: [id])
+
+}
+
+model poll_response {
+  id                                    Int           @id @default(autoincrement())
+  created_at                            DateTime?     @db.Timestamp(6)
+  state                                 String?       @db.VarChar(255)
+  updated_at                            DateTime?     @db.Timestamp(6)
+  created_by                            Int?
+  poll_id                               Int?
+  updated_by                            Int?
+  user_id                               Int?
+  poll_choice                           poll_choice[]
+  polls                                 polls?        @relation(fields: [poll_id], references: [id])
+  users_poll_response_user_idTousers    users?        @relation("poll_response_user_idTousers", fields: [user_id], references: [id])
+  users_poll_response_created_byTousers users?        @relation("poll_response_created_byTousers", fields: [created_by], references: [id])
+  users_poll_response_updated_byTousers users?        @relation("poll_response_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model polls {
+  id                            Int             @id @default(autoincrement())
+  active                        Boolean?        @default(true)
+  created_at                    DateTime?       @db.Timestamp(6)
+  end_date                      DateTime?       @db.Timestamp(6)
+  name                          String?         @db.VarChar(255)
+  options                       String?         @db.VarChar(255)
+  type                          String?         @db.VarChar(255)
+  updated_at                    DateTime?       @db.Timestamp(6)
+  created_by                    Int?
+  updated_by                    Int?
+  poll_mapping                  poll_mapping[]
+  poll_response                 poll_response[]
+  users_polls_updated_byTousers users?          @relation("polls_updated_byTousers", fields: [updated_by], references: [id])
+  users_polls_created_byTousers users?          @relation("polls_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model program {
+  id                              Int              @id @default(autoincrement())
+  created_at                      DateTime?        @db.Timestamp(6)
+  department_id                   Int?             @default(0)
+  description                     String?          @db.VarChar(255)
+  end_date                        DateTime?        @db.Timestamp(6)
+  name                            String?          @db.VarChar(255)
+  progress                        Int?             @default(0)
+  start_date                      DateTime?        @db.Timestamp(6)
+  state                           String?          @db.VarChar(255)
+  updated_at                      DateTime?        @db.Timestamp(6)
+  created_by                      Int?
+  manager_id                      Int?
+  updated_by                      Int?
+  users_program_updated_byTousers users?           @relation("program_updated_byTousers", fields: [updated_by], references: [id])
+  users_program_manager_idTousers users?           @relation("program_manager_idTousers", fields: [manager_id], references: [id])
+  users_program_created_byTousers users?           @relation("program_created_byTousers", fields: [created_by], references: [id])
+  program_reward                  program_reward[]
+  program_task                    program_task[]
+  program_user                    program_user[]
+
+}
+
+model program_cash_reward {
+  id                                          Int       @id @default(autoincrement())
+  amount                                      Int?      @default(0)
+  created_at                                  DateTime? @db.Timestamp(6)
+  source_reso_id                              Int?      @default(0)
+  updated_at                                  DateTime? @db.Timestamp(6)
+  created_by                                  Int?
+  updated_by                                  Int?
+  user_id                                     Int?
+  users_program_cash_reward_created_byTousers users?    @relation("program_cash_reward_created_byTousers", fields: [created_by], references: [id])
+  users_program_cash_reward_updated_byTousers users?    @relation("program_cash_reward_updated_byTousers", fields: [updated_by], references: [id])
+  users_program_cash_reward_user_idTousers    users?    @relation("program_cash_reward_user_idTousers", fields: [user_id], references: [id])
+
+}
+
+model program_reward {
+  id         Int      @id @default(autoincrement())
+  reward     Int
+  type       Int
+  program_id Int?
+  program    program? @relation(fields: [program_id], references: [id])
+
+}
+
+model program_task {
+  id                                     Int                       @id @default(autoincrement())
+  created_at                             DateTime?                 @db.Timestamp(6)
+  deny_reason                            String?                   @db.VarChar(255)
+  end_date                               DateTime?                 @db.Timestamp(6)
+  progress                               Int?                      @default(0)
+  start_date                             DateTime?                 @db.Timestamp(6)
+  state                                  String?                   @db.VarChar(255)
+  task_description                       String?                   @db.VarChar(255)
+  task_name                              String?                   @db.VarChar(255)
+  updated_at                             DateTime?                 @db.Timestamp(6)
+  created_by                             Int?
+  program_id                             Int?
+  submitted_by                           Int?
+  updated_by                             Int?
+  users_program_task_created_byTousers   users?                    @relation("program_task_created_byTousers", fields: [created_by], references: [id])
+  program                                program?                  @relation(fields: [program_id], references: [id])
+  users_program_task_updated_byTousers   users?                    @relation("program_task_updated_byTousers", fields: [updated_by], references: [id])
+  users_program_task_submitted_byTousers users?                    @relation("program_task_submitted_byTousers", fields: [submitted_by], references: [id])
+  program_task_attachment                program_task_attachment[]
+  program_task_comment                   program_task_comment[]
+  program_task_reward                    program_task_reward[]
+  program_task_user                      program_task_user[]
+
+}
+
+model program_task_attachment {
+  id                                              Int           @id @default(autoincrement())
+  created_at                                      DateTime?     @db.Timestamp(6)
+  file_name                                       String?       @db.VarChar(255)
+  updated_at                                      DateTime?     @db.Timestamp(6)
+  created_by                                      Int?
+  programtask_id                                  Int?
+  updated_by                                      Int?
+  users_program_task_attachment_created_byTousers users?        @relation("program_task_attachment_created_byTousers", fields: [created_by], references: [id])
+  users_program_task_attachment_updated_byTousers users?        @relation("program_task_attachment_updated_byTousers", fields: [updated_by], references: [id])
+  program_task                                    program_task? @relation(fields: [programtask_id], references: [id])
+
+}
+
+model program_task_comment {
+  id                                           Int           @id @default(autoincrement())
+  comment                                      String?       @db.VarChar(255)
+  created_at                                   DateTime?     @db.Timestamp(6)
+  updated_at                                   DateTime?     @db.Timestamp(6)
+  created_by                                   Int?
+  programtask_id                               Int?
+  updated_by                                   Int?
+  program_task                                 program_task? @relation(fields: [programtask_id], references: [id])
+  users_program_task_comment_updated_byTousers users?        @relation("program_task_comment_updated_byTousers", fields: [updated_by], references: [id])
+  users_program_task_comment_created_byTousers users?        @relation("program_task_comment_created_byTousers", fields: [created_by], references: [id])
+
+}
+
+model program_task_reward {
+  id             Int           @id @default(autoincrement())
+  reward         Int
+  type           Int
+  programtask_id Int?
+  program_task   program_task? @relation(fields: [programtask_id], references: [id])
+
+}
+
+model program_task_user {
+  id             Int           @id @default(autoincrement())
+  programtask_id Int?
+  user_id        Int?
+  users          users?        @relation(fields: [user_id], references: [id])
+  program_task   program_task? @relation(fields: [programtask_id], references: [id])
+
+}
+
+model program_user {
+  id         Int      @id @default(autoincrement())
+  program_id Int?
+  user_id    Int?
+  program    program? @relation(fields: [program_id], references: [id])
+  users      users?   @relation(fields: [user_id], references: [id])
+
+}
+
+model refreshtoken {
+  id          Int      @id
+  expiry_date DateTime @db.Timestamp(6)
+  token       String   @unique(map: "UK_or156wbneyk8noo4jstv55ii3") @db.VarChar(255)
+  user_id     Int?
+  users       users?   @relation(fields: [user_id], references: [id])
+
+}
+
+model reward {
+  id                             Int               @id @default(autoincrement())
+  created_at                     DateTime?         @db.Timestamp(6)
+  description                    String?           @db.VarChar(255)
+  reward_reso_id                 Int?
+  share_wall_post                Boolean
+  source                         Int?
+  source_reso_id                 Int?              @default(0)
+  sub_type                       String?           @db.VarChar(255)
+  type                           Int?
+  updated_at                     DateTime?         @db.Timestamp(6)
+  wall_post                      Boolean
+  created_by                     Int?
+  updated_by                     Int?
+  user_id                        Int?
+  users_reward_created_byTousers users?            @relation("reward_created_byTousers", fields: [created_by], references: [id])
+  users_reward_updated_byTousers users?            @relation("reward_updated_byTousers", fields: [updated_by], references: [id])
+  users_reward_user_idTousers    users?            @relation("reward_user_idTousers", fields: [user_id], references: [id])
+  reward_hash_tag                reward_hash_tag[]
+  socialwall                     socialwall[]
+
+}
+
+model reward_hash_tag {
+  reward_id   Int
+  hash_tag_id Int
+  reward      reward  @relation(fields: [reward_id], references: [id])
+  hashtag     hashtag @relation(fields: [hash_tag_id], references: [id])
+
+  @@id([reward_id, hash_tag_id])
+}
+
+model role {
+  id                           Int                  @id @default(autoincrement())
+  admin_role                   Boolean?             @default(true)
+  color_code                   String?              @db.VarChar(255)
+  created_at                   DateTime?            @db.Timestamp(6)
+  is_default                   Boolean?             @default(true)
+  role_name                    String?              @unique(map: "UKbgeqjb5opmijvwc14fbtaj4xx") @db.VarChar(255)
+  updated_at                   DateTime?            @db.Timestamp(6)
+  created_by                   Int?
+  updated_by                   Int?
+  users_role_created_byTousers users?               @relation("role_created_byTousers", fields: [created_by], references: [id])
+  users_role_updated_byTousers users?               @relation("role_updated_byTousers", fields: [updated_by], references: [id])
+  role_screen_mapping          role_screen_mapping?
+  users_users_role_idTorole    users[]              @relation("users_role_idTorole")
+
+}
+
+model role_screen_mapping {
+  id                                          Int       @id @default(autoincrement())
+  created_at                                  DateTime? @db.Timestamp(6)
+  screen_access                               String?
+  updated_at                                  DateTime? @db.Timestamp(6)
+  created_by                                  Int?
+  role_id                                     Int?      @unique(map: "UK_qtp8i4eegbs0n2f548knr4b8u")
+  updated_by                                  Int?
+  users_role_screen_mapping_updated_byTousers users?    @relation("role_screen_mapping_updated_byTousers", fields: [updated_by], references: [id])
+  users_role_screen_mapping_created_byTousers users?    @relation("role_screen_mapping_created_byTousers", fields: [created_by], references: [id])
+  role                                        role?     @relation(fields: [role_id], references: [id])
+
+}
+
+model schedule_job {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  job_id     Int
+  job_type   String?   @db.VarChar(255)
+  message    String?   @db.VarChar(255)
+  status     String?   @db.VarChar(255)
+  time       DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+}
+
+model schedule_setting {
+  id                                       Int                                   @id @default(autoincrement())
+  category                                 String?                               @db.VarChar(255)
+  created_at                               DateTime?                             @db.Timestamp(6)
+  updated_at                               DateTime?                             @db.Timestamp(6)
+  years_interval                           Int
+  created_by                               Int?
+  updated_by                               Int?
+  users_schedule_setting_created_byTousers users?                                @relation("schedule_setting_created_byTousers", fields: [created_by], references: [id])
+  users_schedule_setting_updated_byTousers users?                                @relation("schedule_setting_updated_byTousers", fields: [updated_by], references: [id])
+  schedule_setting_schedule_messages       schedule_setting_schedule_messages[]
+  schedule_setting_schedule_templates      schedule_setting_schedule_templates[]
+
+}
+
+model schedule_setting_schedule_messages {
+  schedule_setting_id  Int
+  schedule_messages_id Int              @unique(map: "UK_rxgloiflf6pei4h89s26n214c")
+  schedule_setting     schedule_setting @relation(fields: [schedule_setting_id], references: [id])
+  message              message          @relation(fields: [schedule_messages_id], references: [id])
+
+  @@id([schedule_setting_id, schedule_messages_id])
+}
+
+model schedule_setting_schedule_templates {
+  schedule_setting_id   Int
+  schedule_templates_id Int              @unique(map: "UK_48ob3y4h6pmbi1lelyom6fya")
+  template              template         @relation(fields: [schedule_templates_id], references: [id])
+  schedule_setting      schedule_setting @relation(fields: [schedule_setting_id], references: [id])
+
+  @@id([schedule_setting_id, schedule_templates_id])
+}
+
+model scheduler {
+  id                                  Int       @id @default(autoincrement())
+  created_at                          DateTime? @db.Timestamp(6)
+  date1                               DateTime? @db.Date
+  date2                               DateTime? @db.Date
+  day                                 Int
+  details                             String?
+  entity_type                         String?   @db.VarChar(255)
+  last_run                            DateTime? @db.Timestamp(6)
+  month                               Int
+  next_run                            DateTime? @db.Timestamp(6)
+  time                                DateTime? @db.Time(6)
+  type                                String?   @db.VarChar(255)
+  updated_at                          DateTime? @db.Timestamp(6)
+  award_id                            Int?
+  created_by                          Int?
+  judge_id                            Int?
+  nominator_id                        Int?
+  updated_by                          Int?
+  users_scheduler_updated_byTousers   users?    @relation("scheduler_updated_byTousers", fields: [updated_by], references: [id])
+  users_scheduler_nominator_idTousers users?    @relation("scheduler_nominator_idTousers", fields: [nominator_id], references: [id])
+  users_scheduler_judge_idTousers     users?    @relation("scheduler_judge_idTousers", fields: [judge_id], references: [id])
+  users_scheduler_created_byTousers   users?    @relation("scheduler_created_byTousers", fields: [created_by], references: [id])
+  award                               award?    @relation(fields: [award_id], references: [id])
+
+}
+
+model social_wall_likepost {
+  id            Int         @id @default(autoincrement())
+  created_at    DateTime?   @db.Timestamp(6)
+  socialwall_id Int?
+  user_id       Int?
+  socialwall    socialwall? @relation(fields: [socialwall_id], references: [id])
+  users         users?      @relation(fields: [user_id], references: [id])
+
+}
+
+model socialwall {
+  id                                 Int                    @id @default(autoincrement())
+  created_at                         DateTime?              @db.Timestamp(6)
+  type                               Int
+  updated_at                         DateTime?              @db.Timestamp(6)
+  created_by                         Int?
+  reward_id                          Int?
+  updated_by                         Int?
+  social_wall_likepost               social_wall_likepost[]
+  users_socialwall_updated_byTousers users?                 @relation("socialwall_updated_byTousers", fields: [updated_by], references: [id])
+  users_socialwall_created_byTousers users?                 @relation("socialwall_created_byTousers", fields: [created_by], references: [id])
+  reward                             reward?                @relation(fields: [reward_id], references: [id])
+  socialwallcomments                 socialwallcomments[]
+
+}
+
+model socialwallcomments {
+  id                                         Int                  @id @default(autoincrement())
+  created_at                                 DateTime?            @db.Timestamp(6)
+  message                                    String?              @db.VarChar(255)
+  updated_at                                 DateTime?            @db.Timestamp(6)
+  created_by                                 Int?
+  parent_id                                  Int?
+  social_wall                                Int?
+  updated_by                                 Int?
+  users_socialwallcomments_updated_byTousers users?               @relation("socialwallcomments_updated_byTousers", fields: [updated_by], references: [id])
+  users_socialwallcomments_created_byTousers users?               @relation("socialwallcomments_created_byTousers", fields: [created_by], references: [id])
+  socialwall                                 socialwall?          @relation(fields: [social_wall], references: [id])
+  socialwallcomments                         socialwallcomments?  @relation("socialwallcommentsTosocialwallcomments", fields: [parent_id], references: [id])
+  other_socialwallcomments                   socialwallcomments[] @relation("socialwallcommentsTosocialwallcomments")
+
+}
+
+model survey {
+  id                             Int                @id @default(autoincrement())
+  accept_response                Boolean
+  created_at                     DateTime?          @db.Timestamp(6)
+  name                           String?            @db.VarChar(255)
+  updated_at                     DateTime?          @db.Timestamp(6)
+  created_by                     Int?
+  updated_by                     Int?
+  users_survey_updated_byTousers users?             @relation("survey_updated_byTousers", fields: [updated_by], references: [id])
+  users_survey_created_byTousers users?             @relation("survey_created_byTousers", fields: [created_by], references: [id])
+  survey_important               survey_important[]
+  survey_mapping                 survey_mapping[]
+  survey_question                survey_question[]
+  survey_response                survey_response[]
+
+}
+
+model survey_important {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @db.Timestamp(6)
+  survey_id  Int?
+  user_id    Int?
+  users      users?    @relation(fields: [user_id], references: [id])
+  survey     survey?   @relation(fields: [survey_id], references: [id])
+
+}
+
+model survey_mapping {
+  id        Int     @id @default(autoincrement())
+  mappingid Int?
+  type      String? @db.Char(1)
+  survey_id Int?
+  survey    survey? @relation(fields: [survey_id], references: [id])
+
+}
+
+model survey_question {
+  id                                      Int                    @id @default(autoincrement())
+  created_at                              DateTime?              @db.Timestamp(6)
+  extras                                  String?                @db.VarChar(255)
+  label                                   String?                @db.VarChar(255)
+  name                                    String?                @db.VarChar(255)
+  parameters                              String?
+  question                                String?                @db.VarChar(255)
+  type                                    String?                @db.VarChar(255)
+  updated_at                              DateTime?              @db.Timestamp(6)
+  created_by                              Int?
+  survey_id                               Int?
+  updated_by                              Int?
+  users_survey_question_updated_byTousers users?                 @relation("survey_question_updated_byTousers", fields: [updated_by], references: [id])
+  survey                                  survey?                @relation(fields: [survey_id], references: [id])
+  users_survey_question_created_byTousers users?                 @relation("survey_question_created_byTousers", fields: [created_by], references: [id])
+  survey_response_item                    survey_response_item[]
+
+}
+
+model survey_question_bank {
+  id                                           Int       @id @default(autoincrement())
+  created_at                                   DateTime? @db.Timestamp(6)
+  parameters                                   String?
+  question                                     String?   @db.VarChar(255)
+  question_hash                                Int?      @unique(map: "UK_1i7jjdd1ya3kh65umgw0dhdiu")
+  type                                         String?   @db.VarChar(255)
+  updated_at                                   DateTime? @db.Timestamp(6)
+  created_by                                   Int?
+  updated_by                                   Int?
+  users_survey_question_bank_created_byTousers users?    @relation("survey_question_bank_created_byTousers", fields: [created_by], references: [id])
+  users_survey_question_bank_updated_byTousers users?    @relation("survey_question_bank_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model survey_response {
+  id                                                                         Int                    @id @default(autoincrement())
+  created_at                                                                 DateTime?              @db.Timestamp(6)
+  name                                                                       String?                @db.VarChar(255)
+  state                                                                      String?                @db.VarChar(255)
+  updated_at                                                                 DateTime?              @db.Timestamp(6)
+  created_by                                                                 Int?
+  survey_id                                                                  Int?
+  updated_by                                                                 Int?
+  user_id                                                                    Int?
+  users_survey_response_created_byTousers                                    users?                 @relation("survey_response_created_byTousers", fields: [created_by], references: [id])
+  survey                                                                     survey?                @relation(fields: [survey_id], references: [id])
+  users_survey_response_user_idTousers                                       users?                 @relation("survey_response_user_idTousers", fields: [user_id], references: [id])
+  users_survey_response_updated_byTousers                                    users?                 @relation("survey_response_updated_byTousers", fields: [updated_by], references: [id])
+  survey_response_item_survey_response_item_survey_responseTosurvey_response survey_response_item[] @relation("survey_response_item_survey_responseTosurvey_response")
+
+}
+
+model survey_response_item {
+  id                                                                    Int              @id @default(autoincrement())
+  created_at                                                            DateTime?        @db.Timestamp(6)
+  multiple                                                              Boolean
+  name                                                                  String?          @db.VarChar(255)
+  parameters                                                            String?
+  question                                                              String?          @db.VarChar(255)
+  type                                                                  String?          @db.VarChar(255)
+  updated_at                                                            DateTime?        @db.Timestamp(6)
+  value                                                                 String?          @db.VarChar(255)
+  created_by                                                            Int?
+  question_id                                                           Int?
+  survey_response                                                       Int?
+  updated_by                                                            Int?
+  survey_question                                                       survey_question? @relation(fields: [question_id], references: [id])
+  users_survey_response_item_created_byTousers                          users?           @relation("survey_response_item_created_byTousers", fields: [created_by], references: [id])
+  users_survey_response_item_updated_byTousers                          users?           @relation("survey_response_item_updated_byTousers", fields: [updated_by], references: [id])
+  survey_response_survey_response_item_survey_responseTosurvey_response survey_response? @relation("survey_response_item_survey_responseTosurvey_response", fields: [survey_response], references: [id])
+
+}
+
+model template {
+  id                                  Int                                  @id @default(autoincrement())
+  category                            String?                              @db.VarChar(255)
+  created_at                          DateTime?                            @db.Timestamp(6)
+  name                                String?                              @db.VarChar(255)
+  scheduled                           Boolean
+  settings_id                         Int?                                 @default(0)
+  template_file_name                  String?                              @db.VarChar(255)
+  updated_at                          DateTime?                            @db.Timestamp(6)
+  created_by                          Int?
+  updated_by                          Int?
+  schedule_setting_schedule_templates schedule_setting_schedule_templates?
+  users_template_created_byTousers    users?                               @relation("template_created_byTousers", fields: [created_by], references: [id])
+  users_template_updated_byTousers    users?                               @relation("template_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model user_badges {
+  id                                  Int                    @id @default(autoincrement())
+  created_at                          DateTime?              @db.Timestamp(6)
+  message                             String?                @db.VarChar(255)
+  share_wall_post                     Boolean
+  updated_at                          DateTime?              @db.Timestamp(6)
+  wall_post                           Boolean
+  badge_id                            Int?
+  created_by                          Int?
+  given_by                            Int?
+  updated_by                          Int?
+  user_id                             Int?
+  users_user_badges_updated_byTousers users?                 @relation("user_badges_updated_byTousers", fields: [updated_by], references: [id])
+  users_user_badges_given_byTousers   users?                 @relation("user_badges_given_byTousers", fields: [given_by], references: [id])
+  users_user_badges_created_byTousers users?                 @relation("user_badges_created_byTousers", fields: [created_by], references: [id])
+  badge                               badge?                 @relation(fields: [badge_id], references: [id])
+  users_user_badges_user_idTousers    users?                 @relation("user_badges_user_idTousers", fields: [user_id], references: [id])
+  user_badges_hash_tag                user_badges_hash_tag[]
+
+}
+
+model user_badges_hash_tag {
+  user_badges_id Int
+  hash_tag_id    Int
+  hashtag        hashtag     @relation(fields: [hash_tag_id], references: [id])
+  user_badges    user_badges @relation(fields: [user_badges_id], references: [id])
+
+  @@id([user_badges_id, hash_tag_id])
+}
+
+model user_certificate {
+  id                                       Int          @id @default(autoincrement())
+  created_at                               DateTime?    @db.Timestamp(6)
+  message                                  String?      @db.VarChar(255)
+  updated_at                               DateTime?    @db.Timestamp(6)
+  user_certificate_file_name               String?      @db.VarChar(255)
+  certificate_id                           Int?
+  created_by                               Int?
+  given_by                                 Int?
+  updated_by                               Int?
+  user_id                                  Int?
+  users_user_certificate_user_idTousers    users?       @relation("user_certificate_user_idTousers", fields: [user_id], references: [id])
+  users_user_certificate_given_byTousers   users?       @relation("user_certificate_given_byTousers", fields: [given_by], references: [id])
+  users_user_certificate_created_byTousers users?       @relation("user_certificate_created_byTousers", fields: [created_by], references: [id])
+  certificate                              certificate? @relation(fields: [certificate_id], references: [id])
+  users_user_certificate_updated_byTousers users?       @relation("user_certificate_updated_byTousers", fields: [updated_by], references: [id])
+
+}
+
+model users {
+  id                                                                  Int                        @id @default(autoincrement())
+  active                                                              Boolean
+  country_code                                                        String?                    @db.VarChar(255)
+  created_at                                                          DateTime?                  @db.Timestamp(6)
+  created_by                                                          Int?
+  date_of_birth                                                       DateTime?                  @db.Timestamp(6)
+  date_of_joining                                                     DateTime?                  @db.Timestamp(6)
+  designation                                                         String?                    @db.VarChar(50)
+  email                                                               String?                    @unique(map: "UK6dotkott2kjsp8vw4d0m25fb7") @db.VarChar(50)
+  enabled_reason                                                      String?                    @db.VarChar(255)
+  firstname                                                           String?                    @db.VarChar(20)
+  is_default                                                          Boolean
+  lastname                                                            String?                    @db.VarChar(20)
+  password                                                            String?                    @db.VarChar(120)
+  pic_name                                                            String?                    @db.VarChar(255)
+  project_tour                                                        String?
+  sig_name                                                            String?                    @db.VarChar(255)
+  telephone_number                                                    String?                    @db.VarChar(255)
+  updated_at                                                          DateTime?                  @db.Timestamp(6)
+  updated_by                                                          Int?
+  username                                                            String?                    @unique(map: "UKr43af9ap4edm43mmtq01oddj6") @db.VarChar(20)
+  department_id                                                       Int?
+  manager_id                                                          Int?
+  role_id                                                             Int?
+  activity_log                                                        activity_log[]
+  award_award_created_byTousers                                       award[]                    @relation("award_created_byTousers")
+  award_award_updated_byTousers                                       award[]                    @relation("award_updated_byTousers")
+  badge_badge_updated_byTousers                                       badge[]                    @relation("badge_updated_byTousers")
+  badge_badge_created_byTousers                                       badge[]                    @relation("badge_created_byTousers")
+  certificate_certificate_updated_byTousers                           certificate[]              @relation("certificate_updated_byTousers")
+  certificate_certificate_created_byTousers                           certificate[]              @relation("certificate_created_byTousers")
+  configuration_configuration_updated_byTousers                       configuration[]            @relation("configuration_updated_byTousers")
+  configuration_configuration_created_byTousers                       configuration[]            @relation("configuration_created_byTousers")
+  department_department_created_byTousers                             department[]               @relation("department_created_byTousers")
+  department_department_updated_byTousers                             department[]               @relation("department_updated_byTousers")
+  ecard_ecard_from_user_idTousers                                     ecard[]                    @relation("ecard_from_user_idTousers")
+  ecard_ecard_created_byTousers                                       ecard[]                    @relation("ecard_created_byTousers")
+  ecard_ecard_updated_byTousers                                       ecard[]                    @relation("ecard_updated_byTousers")
+  ecard_ecard_to_user_idTousers                                       ecard[]                    @relation("ecard_to_user_idTousers")
+  forum_forum_created_byTousers                                       forum[]                    @relation("forum_created_byTousers")
+  forum_forum_updated_byTousers                                       forum[]                    @relation("forum_updated_byTousers")
+  forum_attachments_forum_attachments_created_byTousers               forum_attachments[]        @relation("forum_attachments_created_byTousers")
+  forum_attachments_forum_attachments_updated_byTousers               forum_attachments[]        @relation("forum_attachments_updated_byTousers")
+  forum_comment_likes                                                 forum_comment_likes[]
+  forum_department_forum_department_created_byTousers                 forum_department[]         @relation("forum_department_created_byTousers")
+  forum_department_forum_department_updated_byTousers                 forum_department[]         @relation("forum_department_updated_byTousers")
+  forum_following                                                     forum_following[]
+  forum_likes                                                         forum_likes[]
+  forum_read                                                          forum_read[]
+  forumcomments_forumcomments_updated_byTousers                       forumcomments[]            @relation("forumcomments_updated_byTousers")
+  forumcomments_forumcomments_created_byTousers                       forumcomments[]            @relation("forumcomments_created_byTousers")
+  hashtag_hashtag_created_byTousers                                   hashtag[]                  @relation("hashtag_created_byTousers")
+  hashtag_hashtag_updated_byTousers                                   hashtag[]                  @relation("hashtag_updated_byTousers")
+  idea_idea_updated_byTousers                                         idea[]                     @relation("idea_updated_byTousers")
+  idea_idea_created_byTousers                                         idea[]                     @relation("idea_created_byTousers")
+  idea_attachments_idea_attachments_created_byTousers                 idea_attachments[]         @relation("idea_attachments_created_byTousers")
+  idea_attachments_idea_attachments_updated_byTousers                 idea_attachments[]         @relation("idea_attachments_updated_byTousers")
+  idea_comments_idea_comments_created_byTousers                       idea_comments[]            @relation("idea_comments_created_byTousers")
+  idea_comments_idea_comments_updated_byTousers                       idea_comments[]            @relation("idea_comments_updated_byTousers")
+  idea_department_idea_department_created_byTousers                   idea_department[]          @relation("idea_department_created_byTousers")
+  idea_department_idea_department_updated_byTousers                   idea_department[]          @relation("idea_department_updated_byTousers")
+  idea_favorites                                                      idea_favorites[]
+  idea_likes                                                          idea_likes[]
+  idea_read                                                           idea_read[]
+  ideacomments_attachments_ideacomments_attachments_updated_byTousers ideacomments_attachments[] @relation("ideacomments_attachments_updated_byTousers")
+  ideacomments_attachments_ideacomments_attachments_created_byTousers ideacomments_attachments[] @relation("ideacomments_attachments_created_byTousers")
+  manage_award_nomination_manage_award_nomination_user_idTousers      manage_award_nomination[]  @relation("manage_award_nomination_user_idTousers")
+  manage_award_nomination_manage_award_nomination_created_byTousers   manage_award_nomination[]  @relation("manage_award_nomination_created_byTousers")
+  manage_award_nomination_manage_award_nomination_updated_byTousers   manage_award_nomination[]  @relation("manage_award_nomination_updated_byTousers")
+  manage_awards_manage_awards_updated_byTousers                       manage_awards[]            @relation("manage_awards_updated_byTousers")
+  manage_awards_manage_awards_judge_idTousers                         manage_awards[]            @relation("manage_awards_judge_idTousers")
+  manage_awards_manage_awards_nominator_idTousers                     manage_awards[]            @relation("manage_awards_nominator_idTousers")
+  manage_awards_manage_awards_created_byTousers                       manage_awards[]            @relation("manage_awards_created_byTousers")
+  message_message_created_byTousers                                   message[]                  @relation("message_created_byTousers")
+  message_message_updated_byTousers                                   message[]                  @relation("message_updated_byTousers")
+  notification                                                        notification[]
+  password_reset_token                                                password_reset_token[]
+  poll_choice_poll_choice_updated_byTousers                           poll_choice[]              @relation("poll_choice_updated_byTousers")
+  poll_choice_poll_choice_created_byTousers                           poll_choice[]              @relation("poll_choice_created_byTousers")
+  poll_response_poll_response_user_idTousers                          poll_response[]            @relation("poll_response_user_idTousers")
+  poll_response_poll_response_created_byTousers                       poll_response[]            @relation("poll_response_created_byTousers")
+  poll_response_poll_response_updated_byTousers                       poll_response[]            @relation("poll_response_updated_byTousers")
+  polls_polls_updated_byTousers                                       polls[]                    @relation("polls_updated_byTousers")
+  polls_polls_created_byTousers                                       polls[]                    @relation("polls_created_byTousers")
+  program_program_updated_byTousers                                   program[]                  @relation("program_updated_byTousers")
+  program_program_manager_idTousers                                   program[]                  @relation("program_manager_idTousers")
+  program_program_created_byTousers                                   program[]                  @relation("program_created_byTousers")
+  program_cash_reward_program_cash_reward_created_byTousers           program_cash_reward[]      @relation("program_cash_reward_created_byTousers")
+  program_cash_reward_program_cash_reward_updated_byTousers           program_cash_reward[]      @relation("program_cash_reward_updated_byTousers")
+  program_cash_reward_program_cash_reward_user_idTousers              program_cash_reward[]      @relation("program_cash_reward_user_idTousers")
+  program_task_program_task_created_byTousers                         program_task[]             @relation("program_task_created_byTousers")
+  program_task_program_task_updated_byTousers                         program_task[]             @relation("program_task_updated_byTousers")
+  program_task_program_task_submitted_byTousers                       program_task[]             @relation("program_task_submitted_byTousers")
+  program_task_attachment_program_task_attachment_created_byTousers   program_task_attachment[]  @relation("program_task_attachment_created_byTousers")
+  program_task_attachment_program_task_attachment_updated_byTousers   program_task_attachment[]  @relation("program_task_attachment_updated_byTousers")
+  program_task_comment_program_task_comment_updated_byTousers         program_task_comment[]     @relation("program_task_comment_updated_byTousers")
+  program_task_comment_program_task_comment_created_byTousers         program_task_comment[]     @relation("program_task_comment_created_byTousers")
+  program_task_user                                                   program_task_user[]
+  program_user                                                        program_user[]
+  refreshtoken                                                        refreshtoken[]
+  reward_reward_created_byTousers                                     reward[]                   @relation("reward_created_byTousers")
+  reward_reward_updated_byTousers                                     reward[]                   @relation("reward_updated_byTousers")
+  reward_reward_user_idTousers                                        reward[]                   @relation("reward_user_idTousers")
+  role_role_created_byTousers                                         role[]                     @relation("role_created_byTousers")
+  role_role_updated_byTousers                                         role[]                     @relation("role_updated_byTousers")
+  role_screen_mapping_role_screen_mapping_updated_byTousers           role_screen_mapping[]      @relation("role_screen_mapping_updated_byTousers")
+  role_screen_mapping_role_screen_mapping_created_byTousers           role_screen_mapping[]      @relation("role_screen_mapping_created_byTousers")
+  schedule_setting_schedule_setting_created_byTousers                 schedule_setting[]         @relation("schedule_setting_created_byTousers")
+  schedule_setting_schedule_setting_updated_byTousers                 schedule_setting[]         @relation("schedule_setting_updated_byTousers")
+  scheduler_scheduler_updated_byTousers                               scheduler[]                @relation("scheduler_updated_byTousers")
+  scheduler_scheduler_nominator_idTousers                             scheduler[]                @relation("scheduler_nominator_idTousers")
+  scheduler_scheduler_judge_idTousers                                 scheduler[]                @relation("scheduler_judge_idTousers")
+  scheduler_scheduler_created_byTousers                               scheduler[]                @relation("scheduler_created_byTousers")
+  social_wall_likepost                                                social_wall_likepost[]
+  socialwall_socialwall_updated_byTousers                             socialwall[]               @relation("socialwall_updated_byTousers")
+  socialwall_socialwall_created_byTousers                             socialwall[]               @relation("socialwall_created_byTousers")
+  socialwallcomments_socialwallcomments_updated_byTousers             socialwallcomments[]       @relation("socialwallcomments_updated_byTousers")
+  socialwallcomments_socialwallcomments_created_byTousers             socialwallcomments[]       @relation("socialwallcomments_created_byTousers")
+  survey_survey_updated_byTousers                                     survey[]                   @relation("survey_updated_byTousers")
+  survey_survey_created_byTousers                                     survey[]                   @relation("survey_created_byTousers")
+  survey_important                                                    survey_important[]
+  survey_question_survey_question_updated_byTousers                   survey_question[]          @relation("survey_question_updated_byTousers")
+  survey_question_survey_question_created_byTousers                   survey_question[]          @relation("survey_question_created_byTousers")
+  survey_question_bank_survey_question_bank_created_byTousers         survey_question_bank[]     @relation("survey_question_bank_created_byTousers")
+  survey_question_bank_survey_question_bank_updated_byTousers         survey_question_bank[]     @relation("survey_question_bank_updated_byTousers")
+  survey_response_survey_response_created_byTousers                   survey_response[]          @relation("survey_response_created_byTousers")
+  survey_response_survey_response_user_idTousers                      survey_response[]          @relation("survey_response_user_idTousers")
+  survey_response_survey_response_updated_byTousers                   survey_response[]          @relation("survey_response_updated_byTousers")
+  survey_response_item_survey_response_item_created_byTousers         survey_response_item[]     @relation("survey_response_item_created_byTousers")
+  survey_response_item_survey_response_item_updated_byTousers         survey_response_item[]     @relation("survey_response_item_updated_byTousers")
+  template_template_created_byTousers                                 template[]                 @relation("template_created_byTousers")
+  template_template_updated_byTousers                                 template[]                 @relation("template_updated_byTousers")
+  user_badges_user_badges_updated_byTousers                           user_badges[]              @relation("user_badges_updated_byTousers")
+  user_badges_user_badges_given_byTousers                             user_badges[]              @relation("user_badges_given_byTousers")
+  user_badges_user_badges_created_byTousers                           user_badges[]              @relation("user_badges_created_byTousers")
+  user_badges_user_badges_user_idTousers                              user_badges[]              @relation("user_badges_user_idTousers")
+  user_certificate_user_certificate_user_idTousers                    user_certificate[]         @relation("user_certificate_user_idTousers")
+  user_certificate_user_certificate_given_byTousers                   user_certificate[]         @relation("user_certificate_given_byTousers")
+  user_certificate_user_certificate_created_byTousers                 user_certificate[]         @relation("user_certificate_created_byTousers")
+  user_certificate_user_certificate_updated_byTousers                 user_certificate[]         @relation("user_certificate_updated_byTousers")
+  role_users_role_idTorole                                            role?                      @relation("users_role_idTorole", fields: [role_id], references: [id])
+  users                                                               users?                     @relation("usersTousers", fields: [manager_id], references: [id])
+  other_users                                                         users[]                    @relation("usersTousers")
+  department_users_department_idTodepartment                          department?                @relation("users_department_idTodepartment", fields: [department_id], references: [id])
+
+}
