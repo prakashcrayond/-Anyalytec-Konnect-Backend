@@ -9,20 +9,20 @@ import {
   Role,
   RoleScreenMapping,
   Users,
-} from "./seed";
+} from "./seed/index";
 const prisma = new PrismaClient();
 
 const main = async () => {
   console.log("Seeding in Progress.....");
+  await Role();
+  await RoleScreenMapping();
+  await Department();
+  await Users();
   await ActivityLog();
   await Configuration();
-  await Department();
   await LibraryAwards();
   await LibraryBadges();
   await Refreshtoken();
-  await RoleScreenMapping();
-  await Role();
-  await Users();
   console.log("Seeding Completed");
 };
 main()

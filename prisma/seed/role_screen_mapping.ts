@@ -1,7 +1,7 @@
-import { role_screen_mapping } from "@prisma/client";
-export const RoleScreenMapping: { table: string; data: role_screen_mapping[] } =
-  {
-    table: "role_screen_mapping",
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+export const RoleScreenMapping = async () => {
+  await prisma.role_screen_mapping.createMany({
     data: [
       {
         id: 1,
@@ -14,7 +14,7 @@ export const RoleScreenMapping: { table: string; data: role_screen_mapping[] } =
         updated_at: new Date(),
       },
       {
-        id: 1,
+        id: 2,
         screen_access:
           '{"adminPanel":false,"employeeEngagementDashboard":false,"hallOfFame":false,"ecardTemplates":false,"certificateSend":false,"certificateCreate":false,"certificateModify":false,"badgeSend":false,"badgeCreate":false,"badgeModify":false,"awardCreate":false,"awardModify":false,"awardCategorisation":false,"awardNominatorAssignee":false,"programCreate":false,"programModify":false,"programManage":false,"surveyCreate":false,"surveyModify":false,"ideaboxHide":false,"forumHide":false,"pollCreate":false,"pollModify":false,"enliteWallHide":false}',
         role_id: 2,
@@ -24,4 +24,5 @@ export const RoleScreenMapping: { table: string; data: role_screen_mapping[] } =
         updated_at: new Date(),
       },
     ],
-  };
+  });
+};
