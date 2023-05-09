@@ -44,7 +44,7 @@ export class idea_attachment extends Model<idea_attachmentAttributes, idea_attac
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_attachment {
-    return idea_attachment.init({
+    return sequelize.define('idea_attachment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ export class idea_attachment extends Model<idea_attachmentAttributes, idea_attac
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_attachments',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class idea_attachment extends Model<idea_attachmentAttributes, idea_attac
         ]
       },
     ]
-  });
+  }) as typeof idea_attachment;
   }
 }

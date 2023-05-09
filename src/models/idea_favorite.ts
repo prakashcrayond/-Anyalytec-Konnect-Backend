@@ -33,7 +33,7 @@ export class idea_favorite extends Model<idea_favoriteAttributes, idea_favoriteC
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_favorite {
-    return idea_favorite.init({
+    return sequelize.define('idea_favorite', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class idea_favorite extends Model<idea_favoriteAttributes, idea_favoriteC
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_favorites',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class idea_favorite extends Model<idea_favoriteAttributes, idea_favoriteC
         ]
       },
     ]
-  });
+  }) as typeof idea_favorite;
   }
 }

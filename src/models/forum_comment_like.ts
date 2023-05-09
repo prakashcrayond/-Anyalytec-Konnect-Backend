@@ -33,7 +33,7 @@ export class forum_comment_like extends Model<forum_comment_likeAttributes, foru
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forum_comment_like {
-    return forum_comment_like.init({
+    return sequelize.define('forum_comment_like', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class forum_comment_like extends Model<forum_comment_likeAttributes, foru
       }
     }
   }, {
-    sequelize,
     tableName: 'forum_comment_likes',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class forum_comment_like extends Model<forum_comment_likeAttributes, foru
         ]
       },
     ]
-  });
+  }) as typeof forum_comment_like;
   }
 }

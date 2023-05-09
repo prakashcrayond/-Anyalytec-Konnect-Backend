@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import type { hashtag, hashtagId } from './hashtag';
 import type { user_badge, user_badgeId } from './user_badge';
 
@@ -28,7 +28,7 @@ export class user_badges_hash_tag extends Model<user_badges_hash_tagAttributes, 
   createUser_badge!: Sequelize.BelongsToCreateAssociationMixin<user_badge>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user_badges_hash_tag {
-    return user_badges_hash_tag.init({
+    return sequelize.define('user_badges_hash_tag', {
     user_badges_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -48,7 +48,6 @@ export class user_badges_hash_tag extends Model<user_badges_hash_tagAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'user_badges_hash_tag',
     schema: 'public',
     timestamps: false,
@@ -68,6 +67,6 @@ export class user_badges_hash_tag extends Model<user_badges_hash_tagAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof user_badges_hash_tag;
   }
 }

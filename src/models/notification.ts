@@ -37,7 +37,7 @@ export class notification extends Model<notificationAttributes, notificationCrea
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof notification {
-    return notification.init({
+    return sequelize.define('notification', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -84,7 +84,6 @@ export class notification extends Model<notificationAttributes, notificationCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'notification',
     schema: 'public',
     timestamps: false,
@@ -103,6 +102,6 @@ export class notification extends Model<notificationAttributes, notificationCrea
         ]
       },
     ]
-  });
+  }) as typeof notification;
   }
 }

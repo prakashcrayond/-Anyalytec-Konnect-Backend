@@ -1,6 +1,5 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { badge_hash_tag, badge_hash_tagId } from './badge_hash_tag';
 import type { library_badge, library_badgeId } from './library_badge';
 import type { user_badge, user_badgeId } from './user_badge';
 import type { user, userId } from './user';
@@ -35,18 +34,6 @@ export class badge extends Model<badgeAttributes, badgeCreationAttributes> imple
   library_badges?: number;
   updated_by?: number;
 
-  // badge hasMany badge_hash_tag via badge_id
-  badge_hash_tags!: badge_hash_tag[];
-  getBadge_hash_tags!: Sequelize.HasManyGetAssociationsMixin<badge_hash_tag>;
-  setBadge_hash_tags!: Sequelize.HasManySetAssociationsMixin<badge_hash_tag, badge_hash_tagId>;
-  addBadge_hash_tag!: Sequelize.HasManyAddAssociationMixin<badge_hash_tag, badge_hash_tagId>;
-  addBadge_hash_tags!: Sequelize.HasManyAddAssociationsMixin<badge_hash_tag, badge_hash_tagId>;
-  createBadge_hash_tag!: Sequelize.HasManyCreateAssociationMixin<badge_hash_tag>;
-  removeBadge_hash_tag!: Sequelize.HasManyRemoveAssociationMixin<badge_hash_tag, badge_hash_tagId>;
-  removeBadge_hash_tags!: Sequelize.HasManyRemoveAssociationsMixin<badge_hash_tag, badge_hash_tagId>;
-  hasBadge_hash_tag!: Sequelize.HasManyHasAssociationMixin<badge_hash_tag, badge_hash_tagId>;
-  hasBadge_hash_tags!: Sequelize.HasManyHasAssociationsMixin<badge_hash_tag, badge_hash_tagId>;
-  countBadge_hash_tags!: Sequelize.HasManyCountAssociationsMixin;
   // badge hasMany user_badge via badge_id
   user_badges!: user_badge[];
   getUser_badges!: Sequelize.HasManyGetAssociationsMixin<user_badge>;
@@ -76,7 +63,7 @@ export class badge extends Model<badgeAttributes, badgeCreationAttributes> imple
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof badge {
-    return badge.init({
+    return sequelize.define('badge', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -135,7 +122,6 @@ export class badge extends Model<badgeAttributes, badgeCreationAttributes> imple
       }
     }
   }, {
-    sequelize,
     tableName: 'badge',
     schema: 'public',
     timestamps: false,
@@ -166,6 +152,6 @@ export class badge extends Model<badgeAttributes, badgeCreationAttributes> imple
         ]
       },
     ]
-  });
+  }) as typeof badge;
   }
 }

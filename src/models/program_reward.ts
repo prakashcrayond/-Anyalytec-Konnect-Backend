@@ -27,7 +27,7 @@ export class program_reward extends Model<program_rewardAttributes, program_rewa
   createProgram!: Sequelize.BelongsToCreateAssociationMixin<program>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_reward {
-    return program_reward.init({
+    return sequelize.define('program_reward', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -51,7 +51,6 @@ export class program_reward extends Model<program_rewardAttributes, program_rewa
       }
     }
   }, {
-    sequelize,
     tableName: 'program_reward',
     schema: 'public',
     timestamps: false,
@@ -70,6 +69,6 @@ export class program_reward extends Model<program_rewardAttributes, program_rewa
         ]
       },
     ]
-  });
+  }) as typeof program_reward;
   }
 }

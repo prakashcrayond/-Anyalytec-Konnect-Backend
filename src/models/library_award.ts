@@ -32,7 +32,7 @@ export class library_award extends Model<library_awardAttributes, library_awardC
   countAwards!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof library_award {
-    return library_award.init({
+    return sequelize.define('library_award', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -50,7 +50,6 @@ export class library_award extends Model<library_awardAttributes, library_awardC
       defaultValue: "NULL"
     }
   }, {
-    sequelize,
     tableName: 'library_awards',
     schema: 'public',
     timestamps: false,
@@ -63,6 +62,6 @@ export class library_award extends Model<library_awardAttributes, library_awardC
         ]
       },
     ]
-  });
+  }) as typeof library_award;
   }
 }

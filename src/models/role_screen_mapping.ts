@@ -44,7 +44,7 @@ export class role_screen_mapping extends Model<role_screen_mappingAttributes, ro
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof role_screen_mapping {
-    return role_screen_mapping.init({
+    return sequelize.define('role_screen_mapping', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -88,7 +88,6 @@ export class role_screen_mapping extends Model<role_screen_mappingAttributes, ro
       }
     }
   }, {
-    sequelize,
     tableName: 'role_screen_mapping',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class role_screen_mapping extends Model<role_screen_mappingAttributes, ro
         ]
       },
     ]
-  });
+  }) as typeof role_screen_mapping;
   }
 }

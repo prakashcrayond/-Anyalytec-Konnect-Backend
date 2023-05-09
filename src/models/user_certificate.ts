@@ -60,7 +60,7 @@ export class user_certificate extends Model<user_certificateAttributes, user_cer
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user_certificate {
-    return user_certificate.init({
+    return sequelize.define('user_certificate', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -126,7 +126,6 @@ export class user_certificate extends Model<user_certificateAttributes, user_cer
       }
     }
   }, {
-    sequelize,
     tableName: 'user_certificate',
     schema: 'public',
     timestamps: false,
@@ -169,6 +168,6 @@ export class user_certificate extends Model<user_certificateAttributes, user_cer
         ]
       },
     ]
-  });
+  }) as typeof user_certificate;
   }
 }

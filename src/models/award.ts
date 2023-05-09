@@ -1,6 +1,5 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { award_hash_tag, award_hash_tagId } from './award_hash_tag';
 import type { library_award, library_awardId } from './library_award';
 import type { manage_award, manage_awardId } from './manage_award';
 import type { scheduler, schedulerId } from './scheduler';
@@ -36,18 +35,6 @@ export class award extends Model<awardAttributes, awardCreationAttributes> imple
   library_awards?: number;
   updated_by?: number;
 
-  // award hasMany award_hash_tag via award_id
-  award_hash_tags!: award_hash_tag[];
-  getAward_hash_tags!: Sequelize.HasManyGetAssociationsMixin<award_hash_tag>;
-  setAward_hash_tags!: Sequelize.HasManySetAssociationsMixin<award_hash_tag, award_hash_tagId>;
-  addAward_hash_tag!: Sequelize.HasManyAddAssociationMixin<award_hash_tag, award_hash_tagId>;
-  addAward_hash_tags!: Sequelize.HasManyAddAssociationsMixin<award_hash_tag, award_hash_tagId>;
-  createAward_hash_tag!: Sequelize.HasManyCreateAssociationMixin<award_hash_tag>;
-  removeAward_hash_tag!: Sequelize.HasManyRemoveAssociationMixin<award_hash_tag, award_hash_tagId>;
-  removeAward_hash_tags!: Sequelize.HasManyRemoveAssociationsMixin<award_hash_tag, award_hash_tagId>;
-  hasAward_hash_tag!: Sequelize.HasManyHasAssociationMixin<award_hash_tag, award_hash_tagId>;
-  hasAward_hash_tags!: Sequelize.HasManyHasAssociationsMixin<award_hash_tag, award_hash_tagId>;
-  countAward_hash_tags!: Sequelize.HasManyCountAssociationsMixin;
   // award hasMany manage_award via award_id
   manage_awards!: manage_award[];
   getManage_awards!: Sequelize.HasManyGetAssociationsMixin<manage_award>;
@@ -89,7 +76,7 @@ export class award extends Model<awardAttributes, awardCreationAttributes> imple
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof award {
-    return award.init({
+    return sequelize.define('award', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -148,7 +135,6 @@ export class award extends Model<awardAttributes, awardCreationAttributes> imple
       }
     }
   }, {
-    sequelize,
     tableName: 'award',
     schema: 'public',
     timestamps: false,
@@ -179,6 +165,6 @@ export class award extends Model<awardAttributes, awardCreationAttributes> imple
         ]
       },
     ]
-  });
+  }) as typeof award;
   }
 }

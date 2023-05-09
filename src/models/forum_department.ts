@@ -50,7 +50,7 @@ export class forum_department extends Model<forum_departmentAttributes, forum_de
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forum_department {
-    return forum_department.init({
+    return sequelize.define('forum_department', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -98,7 +98,6 @@ export class forum_department extends Model<forum_departmentAttributes, forum_de
       }
     }
   }, {
-    sequelize,
     tableName: 'forum_department',
     schema: 'public',
     timestamps: false,
@@ -135,6 +134,6 @@ export class forum_department extends Model<forum_departmentAttributes, forum_de
         ]
       },
     ]
-  });
+  }) as typeof forum_department;
   }
 }

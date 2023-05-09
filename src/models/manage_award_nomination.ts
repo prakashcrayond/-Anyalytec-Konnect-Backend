@@ -53,7 +53,7 @@ export class manage_award_nomination extends Model<manage_award_nominationAttrib
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof manage_award_nomination {
-    return manage_award_nomination.init({
+    return sequelize.define('manage_award_nomination', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -111,7 +111,6 @@ export class manage_award_nomination extends Model<manage_award_nominationAttrib
       }
     }
   }, {
-    sequelize,
     tableName: 'manage_award_nomination',
     schema: 'public',
     timestamps: false,
@@ -148,6 +147,6 @@ export class manage_award_nomination extends Model<manage_award_nominationAttrib
         ]
       },
     ]
-  });
+  }) as typeof manage_award_nomination;
   }
 }

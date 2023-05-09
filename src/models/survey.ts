@@ -90,7 +90,7 @@ export class survey extends Model<surveyAttributes, surveyCreationAttributes> im
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof survey {
-    return survey.init({
+    return sequelize.define('survey', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -131,7 +131,6 @@ export class survey extends Model<surveyAttributes, surveyCreationAttributes> im
       }
     }
   }, {
-    sequelize,
     tableName: 'survey',
     schema: 'public',
     timestamps: false,
@@ -156,6 +155,6 @@ export class survey extends Model<surveyAttributes, surveyCreationAttributes> im
         ]
       },
     ]
-  });
+  }) as typeof survey;
   }
 }

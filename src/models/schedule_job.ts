@@ -29,7 +29,7 @@ export class schedule_job extends Model<schedule_jobAttributes, schedule_jobCrea
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof schedule_job {
-    return schedule_job.init({
+    return sequelize.define('schedule_job', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -68,7 +68,6 @@ export class schedule_job extends Model<schedule_jobAttributes, schedule_jobCrea
       allowNull: true
     }
   }, {
-    sequelize,
     tableName: 'schedule_job',
     schema: 'public',
     timestamps: false,
@@ -81,6 +80,6 @@ export class schedule_job extends Model<schedule_jobAttributes, schedule_jobCrea
         ]
       },
     ]
-  });
+  }) as typeof schedule_job;
   }
 }

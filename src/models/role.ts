@@ -67,7 +67,7 @@ export class role extends Model<roleAttributes, roleCreationAttributes> implemen
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof role {
-    return role.init({
+    return sequelize.define('role', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -119,7 +119,6 @@ export class role extends Model<roleAttributes, roleCreationAttributes> implemen
       }
     }
   }, {
-    sequelize,
     tableName: 'role',
     schema: 'public',
     timestamps: false,
@@ -151,6 +150,6 @@ export class role extends Model<roleAttributes, roleCreationAttributes> implemen
         ]
       },
     ]
-  });
+  }) as typeof role;
   }
 }

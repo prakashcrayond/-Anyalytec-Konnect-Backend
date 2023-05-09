@@ -70,7 +70,7 @@ export class poll extends Model<pollAttributes, pollCreationAttributes> implemen
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof poll {
-    return poll.init({
+    return sequelize.define('poll', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -126,7 +126,6 @@ export class poll extends Model<pollAttributes, pollCreationAttributes> implemen
       }
     }
   }, {
-    sequelize,
     tableName: 'polls',
     schema: 'public',
     timestamps: false,
@@ -151,6 +150,6 @@ export class poll extends Model<pollAttributes, pollCreationAttributes> implemen
         ]
       },
     ]
-  });
+  }) as typeof poll;
   }
 }

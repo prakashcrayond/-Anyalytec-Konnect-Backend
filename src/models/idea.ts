@@ -118,7 +118,7 @@ export class idea extends Model<ideaAttributes, ideaCreationAttributes> implemen
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea {
-    return idea.init({
+    return sequelize.define('idea', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -165,7 +165,6 @@ export class idea extends Model<ideaAttributes, ideaCreationAttributes> implemen
       }
     }
   }, {
-    sequelize,
     tableName: 'idea',
     schema: 'public',
     timestamps: false,
@@ -190,6 +189,6 @@ export class idea extends Model<ideaAttributes, ideaCreationAttributes> implemen
         ]
       },
     ]
-  });
+  }) as typeof idea;
   }
 }

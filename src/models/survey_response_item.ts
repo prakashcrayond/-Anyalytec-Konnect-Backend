@@ -41,7 +41,6 @@ export class survey_response_item extends Model<survey_response_itemAttributes, 
   updated_by?: number;
 
   // survey_response_item belongsTo survey_question via question_id
-  question!: survey_question;
   getQuestion!: Sequelize.BelongsToGetAssociationMixin<survey_question>;
   setQuestion!: Sequelize.BelongsToSetAssociationMixin<survey_question, survey_questionId>;
   createQuestion!: Sequelize.BelongsToCreateAssociationMixin<survey_question>;
@@ -62,7 +61,7 @@ export class survey_response_item extends Model<survey_response_itemAttributes, 
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof survey_response_item {
-    return survey_response_item.init({
+    return sequelize.define('survey_response_item', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -138,7 +137,6 @@ export class survey_response_item extends Model<survey_response_itemAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'survey_response_item',
     schema: 'public',
     timestamps: false,
@@ -175,6 +173,6 @@ export class survey_response_item extends Model<survey_response_itemAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof survey_response_item;
   }
 }

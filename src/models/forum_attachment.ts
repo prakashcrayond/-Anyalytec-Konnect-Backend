@@ -44,7 +44,7 @@ export class forum_attachment extends Model<forum_attachmentAttributes, forum_at
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forum_attachment {
-    return forum_attachment.init({
+    return sequelize.define('forum_attachment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ export class forum_attachment extends Model<forum_attachmentAttributes, forum_at
       }
     }
   }, {
-    sequelize,
     tableName: 'forum_attachments',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class forum_attachment extends Model<forum_attachmentAttributes, forum_at
         ]
       },
     ]
-  });
+  }) as typeof forum_attachment;
   }
 }

@@ -87,7 +87,7 @@ export class manage_award extends Model<manage_awardAttributes, manage_awardCrea
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof manage_award {
-    return manage_award.init({
+    return sequelize.define('manage_award', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -173,7 +173,6 @@ export class manage_award extends Model<manage_awardAttributes, manage_awardCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'manage_awards',
     schema: 'public',
     timestamps: false,
@@ -222,6 +221,6 @@ export class manage_award extends Model<manage_awardAttributes, manage_awardCrea
         ]
       },
     ]
-  });
+  }) as typeof manage_award;
   }
 }

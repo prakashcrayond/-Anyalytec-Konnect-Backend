@@ -44,7 +44,7 @@ export class program_task_comment extends Model<program_task_commentAttributes, 
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_task_comment {
-    return program_task_comment.init({
+    return sequelize.define('program_task_comment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ export class program_task_comment extends Model<program_task_commentAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'program_task_comment',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class program_task_comment extends Model<program_task_commentAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof program_task_comment;
   }
 }

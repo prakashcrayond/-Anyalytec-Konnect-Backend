@@ -27,7 +27,7 @@ export class refreshtoken extends Model<refreshtokenAttributes, refreshtokenCrea
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof refreshtoken {
-    return refreshtoken.init({
+    return sequelize.define('refreshtoken', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -50,7 +50,6 @@ export class refreshtoken extends Model<refreshtokenAttributes, refreshtokenCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'refreshtoken',
     schema: 'public',
     timestamps: false,
@@ -76,6 +75,6 @@ export class refreshtoken extends Model<refreshtokenAttributes, refreshtokenCrea
         ]
       },
     ]
-  });
+  }) as typeof refreshtoken;
   }
 }

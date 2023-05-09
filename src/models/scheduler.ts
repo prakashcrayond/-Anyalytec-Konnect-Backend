@@ -76,7 +76,7 @@ export class scheduler extends Model<schedulerAttributes, schedulerCreationAttri
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof scheduler {
-    return scheduler.init({
+    return sequelize.define('scheduler', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -174,7 +174,6 @@ export class scheduler extends Model<schedulerAttributes, schedulerCreationAttri
       }
     }
   }, {
-    sequelize,
     tableName: 'scheduler',
     schema: 'public',
     timestamps: false,
@@ -217,6 +216,6 @@ export class scheduler extends Model<schedulerAttributes, schedulerCreationAttri
         ]
       },
     ]
-  });
+  }) as typeof scheduler;
   }
 }

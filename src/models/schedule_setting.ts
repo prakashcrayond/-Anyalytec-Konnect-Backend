@@ -90,7 +90,7 @@ export class schedule_setting extends Model<schedule_settingAttributes, schedule
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof schedule_setting {
-    return schedule_setting.init({
+    return sequelize.define('schedule_setting', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -131,7 +131,6 @@ export class schedule_setting extends Model<schedule_settingAttributes, schedule
       }
     }
   }, {
-    sequelize,
     tableName: 'schedule_setting',
     schema: 'public',
     timestamps: false,
@@ -156,6 +155,6 @@ export class schedule_setting extends Model<schedule_settingAttributes, schedule
         ]
       },
     ]
-  });
+  }) as typeof schedule_setting;
   }
 }

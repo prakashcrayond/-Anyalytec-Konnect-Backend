@@ -27,7 +27,7 @@ export class poll_mapping extends Model<poll_mappingAttributes, poll_mappingCrea
   createPoll!: Sequelize.BelongsToCreateAssociationMixin<poll>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof poll_mapping {
-    return poll_mapping.init({
+    return sequelize.define('poll_mapping', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -52,7 +52,6 @@ export class poll_mapping extends Model<poll_mappingAttributes, poll_mappingCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'poll_mapping',
     schema: 'public',
     timestamps: false,
@@ -71,6 +70,6 @@ export class poll_mapping extends Model<poll_mappingAttributes, poll_mappingCrea
         ]
       },
     ]
-  });
+  }) as typeof poll_mapping;
   }
 }

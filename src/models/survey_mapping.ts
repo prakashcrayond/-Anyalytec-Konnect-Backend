@@ -27,7 +27,7 @@ export class survey_mapping extends Model<survey_mappingAttributes, survey_mappi
   createSurvey!: Sequelize.BelongsToCreateAssociationMixin<survey>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof survey_mapping {
-    return survey_mapping.init({
+    return sequelize.define('survey_mapping', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -52,7 +52,6 @@ export class survey_mapping extends Model<survey_mappingAttributes, survey_mappi
       }
     }
   }, {
-    sequelize,
     tableName: 'survey_mapping',
     schema: 'public',
     timestamps: false,
@@ -71,6 +70,6 @@ export class survey_mapping extends Model<survey_mappingAttributes, survey_mappi
         ]
       },
     ]
-  });
+  }) as typeof survey_mapping;
   }
 }

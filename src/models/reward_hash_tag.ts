@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import type { hashtag, hashtagId } from './hashtag';
 import type { reward, rewardId } from './reward';
 
@@ -28,7 +28,7 @@ export class reward_hash_tag extends Model<reward_hash_tagAttributes, reward_has
   createReward!: Sequelize.BelongsToCreateAssociationMixin<reward>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof reward_hash_tag {
-    return reward_hash_tag.init({
+    return sequelize.define('reward_hash_tag', {
     reward_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -48,7 +48,6 @@ export class reward_hash_tag extends Model<reward_hash_tagAttributes, reward_has
       }
     }
   }, {
-    sequelize,
     tableName: 'reward_hash_tag',
     schema: 'public',
     timestamps: false,
@@ -68,6 +67,6 @@ export class reward_hash_tag extends Model<reward_hash_tagAttributes, reward_has
         ]
       },
     ]
-  });
+  }) as typeof reward_hash_tag;
   }
 }

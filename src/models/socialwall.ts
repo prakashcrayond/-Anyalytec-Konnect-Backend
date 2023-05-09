@@ -70,7 +70,7 @@ export class socialwall extends Model<socialwallAttributes, socialwallCreationAt
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof socialwall {
-    return socialwall.init({
+    return sequelize.define('socialwall', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -114,7 +114,6 @@ export class socialwall extends Model<socialwallAttributes, socialwallCreationAt
       }
     }
   }, {
-    sequelize,
     tableName: 'socialwall',
     schema: 'public',
     timestamps: false,
@@ -145,6 +144,6 @@ export class socialwall extends Model<socialwallAttributes, socialwallCreationAt
         ]
       },
     ]
-  });
+  }) as typeof socialwall;
   }
 }

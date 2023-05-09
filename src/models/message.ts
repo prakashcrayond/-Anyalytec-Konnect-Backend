@@ -68,7 +68,7 @@ export class message extends Model<messageAttributes, messageCreationAttributes>
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof message {
-    return message.init({
+    return sequelize.define('message', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -119,7 +119,6 @@ export class message extends Model<messageAttributes, messageCreationAttributes>
       }
     }
   }, {
-    sequelize,
     tableName: 'message',
     schema: 'public',
     timestamps: false,
@@ -144,6 +143,6 @@ export class message extends Model<messageAttributes, messageCreationAttributes>
         ]
       },
     ]
-  });
+  }) as typeof message;
   }
 }

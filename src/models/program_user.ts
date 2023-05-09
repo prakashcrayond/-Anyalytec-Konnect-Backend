@@ -31,7 +31,7 @@ export class program_user extends Model<program_userAttributes, program_userCrea
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_user {
-    return program_user.init({
+    return sequelize.define('program_user', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -55,7 +55,6 @@ export class program_user extends Model<program_userAttributes, program_userCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'program_user',
     schema: 'public',
     timestamps: false,
@@ -80,6 +79,6 @@ export class program_user extends Model<program_userAttributes, program_userCrea
         ]
       },
     ]
-  });
+  }) as typeof program_user;
   }
 }

@@ -1,7 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { survey, surveyId } from './survey';
-import type { survey_response_item, survey_response_itemId } from './survey_response_item';
 import type { user, userId } from './user';
 
 export interface survey_questionAttributes {
@@ -43,18 +42,6 @@ export class survey_question extends Model<survey_questionAttributes, survey_que
   getSurvey!: Sequelize.BelongsToGetAssociationMixin<survey>;
   setSurvey!: Sequelize.BelongsToSetAssociationMixin<survey, surveyId>;
   createSurvey!: Sequelize.BelongsToCreateAssociationMixin<survey>;
-  // survey_question hasMany survey_response_item via question_id
-  survey_response_items!: survey_response_item[];
-  getSurvey_response_items!: Sequelize.HasManyGetAssociationsMixin<survey_response_item>;
-  setSurvey_response_items!: Sequelize.HasManySetAssociationsMixin<survey_response_item, survey_response_itemId>;
-  addSurvey_response_item!: Sequelize.HasManyAddAssociationMixin<survey_response_item, survey_response_itemId>;
-  addSurvey_response_items!: Sequelize.HasManyAddAssociationsMixin<survey_response_item, survey_response_itemId>;
-  createSurvey_response_item!: Sequelize.HasManyCreateAssociationMixin<survey_response_item>;
-  removeSurvey_response_item!: Sequelize.HasManyRemoveAssociationMixin<survey_response_item, survey_response_itemId>;
-  removeSurvey_response_items!: Sequelize.HasManyRemoveAssociationsMixin<survey_response_item, survey_response_itemId>;
-  hasSurvey_response_item!: Sequelize.HasManyHasAssociationMixin<survey_response_item, survey_response_itemId>;
-  hasSurvey_response_items!: Sequelize.HasManyHasAssociationsMixin<survey_response_item, survey_response_itemId>;
-  countSurvey_response_items!: Sequelize.HasManyCountAssociationsMixin;
   // survey_question belongsTo user via updated_by
   updated_by_user!: user;
   getUpdated_by_user!: Sequelize.BelongsToGetAssociationMixin<user>;
@@ -67,7 +54,7 @@ export class survey_question extends Model<survey_questionAttributes, survey_que
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof survey_question {
-    return survey_question.init({
+    return sequelize.define('survey_question', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -136,7 +123,6 @@ export class survey_question extends Model<survey_questionAttributes, survey_que
       }
     }
   }, {
-    sequelize,
     tableName: 'survey_question',
     schema: 'public',
     timestamps: false,
@@ -167,6 +153,6 @@ export class survey_question extends Model<survey_questionAttributes, survey_que
         ]
       },
     ]
-  });
+  }) as typeof survey_question;
   }
 }

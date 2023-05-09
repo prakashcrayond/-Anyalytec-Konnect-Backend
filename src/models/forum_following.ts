@@ -33,7 +33,7 @@ export class forum_following extends Model<forum_followingAttributes, forum_foll
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forum_following {
-    return forum_following.init({
+    return sequelize.define('forum_following', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class forum_following extends Model<forum_followingAttributes, forum_foll
       }
     }
   }, {
-    sequelize,
     tableName: 'forum_following',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class forum_following extends Model<forum_followingAttributes, forum_foll
         ]
       },
     ]
-  });
+  }) as typeof forum_following;
   }
 }

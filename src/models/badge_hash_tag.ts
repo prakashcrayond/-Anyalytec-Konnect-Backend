@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import type { badge, badgeId } from './badge';
 import type { hashtag, hashtagId } from './hashtag';
 
@@ -9,7 +9,8 @@ export interface badge_hash_tagAttributes {
 }
 
 export type badge_hash_tagCreationAttributes = badge_hash_tagAttributes;
-
+export type badge_hash_tagPk = "badge_id" | "hash_tag_id";
+export type badge_hash_tagId = badge_hash_tag[badge_hash_tagPk];
 export class badge_hash_tag extends Model<badge_hash_tagAttributes, badge_hash_tagCreationAttributes> implements badge_hash_tagAttributes {
   badge_id!: number;
   hash_tag_id!: number;
@@ -26,7 +27,7 @@ export class badge_hash_tag extends Model<badge_hash_tagAttributes, badge_hash_t
   createHash_tag!: Sequelize.BelongsToCreateAssociationMixin<hashtag>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof badge_hash_tag {
-    return badge_hash_tag.init({
+    return sequelize.define('badge_hash_tag', {
     badge_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -44,7 +45,6 @@ export class badge_hash_tag extends Model<badge_hash_tagAttributes, badge_hash_t
       }
     }
   }, {
-    sequelize,
     tableName: 'badge_hash_tag',
     schema: 'public',
     timestamps: false,
@@ -62,6 +62,6 @@ export class badge_hash_tag extends Model<badge_hash_tagAttributes, badge_hash_t
         ]
       },
     ]
-  });
+  }) as typeof badge_hash_tag;
   }
 }

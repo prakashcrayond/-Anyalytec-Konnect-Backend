@@ -70,7 +70,7 @@ export class template extends Model<templateAttributes, templateCreationAttribut
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof template {
-    return template.init({
+    return sequelize.define('template', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -126,7 +126,6 @@ export class template extends Model<templateAttributes, templateCreationAttribut
       }
     }
   }, {
-    sequelize,
     tableName: 'template',
     schema: 'public',
     timestamps: false,
@@ -151,6 +150,6 @@ export class template extends Model<templateAttributes, templateCreationAttribut
         ]
       },
     ]
-  });
+  }) as typeof template;
   }
 }

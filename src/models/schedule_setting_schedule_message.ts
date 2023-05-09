@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import type { message, messageId } from './message';
 import type { schedule_setting, schedule_settingId } from './schedule_setting';
 
@@ -28,7 +28,7 @@ export class schedule_setting_schedule_message extends Model<schedule_setting_sc
   createSchedule_setting!: Sequelize.BelongsToCreateAssociationMixin<schedule_setting>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof schedule_setting_schedule_message {
-    return schedule_setting_schedule_message.init({
+    return sequelize.define('schedule_setting_schedule_message', {
     schedule_setting_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -48,7 +48,6 @@ export class schedule_setting_schedule_message extends Model<schedule_setting_sc
       }
     }
   }, {
-    sequelize,
     tableName: 'schedule_setting_schedule_messages',
     schema: 'public',
     timestamps: false,
@@ -69,6 +68,6 @@ export class schedule_setting_schedule_message extends Model<schedule_setting_sc
         ]
       },
     ]
-  });
+  }) as typeof schedule_setting_schedule_message;
   }
 }

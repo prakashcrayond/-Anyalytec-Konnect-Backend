@@ -36,7 +36,7 @@ export class configuration extends Model<configurationAttributes, configurationC
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof configuration {
-    return configuration.init({
+    return sequelize.define('configuration', {
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -72,7 +72,6 @@ export class configuration extends Model<configurationAttributes, configurationC
       }
     }
   }, {
-    sequelize,
     tableName: 'configuration',
     schema: 'public',
     timestamps: false,
@@ -97,6 +96,6 @@ export class configuration extends Model<configurationAttributes, configurationC
         ]
       },
     ]
-  });
+  }) as typeof configuration;
   }
 }

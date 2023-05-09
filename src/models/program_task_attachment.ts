@@ -44,7 +44,7 @@ export class program_task_attachment extends Model<program_task_attachmentAttrib
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_task_attachment {
-    return program_task_attachment.init({
+    return sequelize.define('program_task_attachment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ export class program_task_attachment extends Model<program_task_attachmentAttrib
       }
     }
   }, {
-    sequelize,
     tableName: 'program_task_attachment',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class program_task_attachment extends Model<program_task_attachmentAttrib
         ]
       },
     ]
-  });
+  }) as typeof program_task_attachment;
   }
 }

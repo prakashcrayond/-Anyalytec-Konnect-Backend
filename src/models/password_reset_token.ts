@@ -31,7 +31,7 @@ export class password_reset_token extends Model<password_reset_tokenAttributes, 
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof password_reset_token {
-    return password_reset_token.init({
+    return sequelize.define('password_reset_token', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -63,7 +63,6 @@ export class password_reset_token extends Model<password_reset_tokenAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'password_reset_token',
     schema: 'public',
     timestamps: false,
@@ -82,6 +81,6 @@ export class password_reset_token extends Model<password_reset_tokenAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof password_reset_token;
   }
 }

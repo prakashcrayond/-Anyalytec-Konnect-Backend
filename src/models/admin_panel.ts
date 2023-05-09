@@ -33,7 +33,7 @@ export class admin_panel extends Model<admin_panelAttributes, admin_panelCreatio
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof admin_panel {
-    return admin_panel.init({
+    return sequelize.define('admin_panel', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -83,7 +83,6 @@ export class admin_panel extends Model<admin_panelAttributes, admin_panelCreatio
       allowNull: true
     }
   }, {
-    sequelize,
     tableName: 'admin_panel',
     schema: 'public',
     timestamps: false,
@@ -96,6 +95,6 @@ export class admin_panel extends Model<admin_panelAttributes, admin_panelCreatio
         ]
       },
     ]
-  });
+  }) as typeof admin_panel;
   }
 }

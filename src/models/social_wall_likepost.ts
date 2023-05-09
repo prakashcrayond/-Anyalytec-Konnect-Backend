@@ -33,7 +33,7 @@ export class social_wall_likepost extends Model<social_wall_likepostAttributes, 
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof social_wall_likepost {
-    return social_wall_likepost.init({
+    return sequelize.define('social_wall_likepost', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class social_wall_likepost extends Model<social_wall_likepostAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'social_wall_likepost',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class social_wall_likepost extends Model<social_wall_likepostAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof social_wall_likepost;
   }
 }

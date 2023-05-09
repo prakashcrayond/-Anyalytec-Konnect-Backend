@@ -5,12 +5,8 @@ import { admin_panel as _admin_panel } from "./admin_panel";
 import type { admin_panelAttributes, admin_panelCreationAttributes } from "./admin_panel";
 import { award as _award } from "./award";
 import type { awardAttributes, awardCreationAttributes } from "./award";
-import { award_hash_tag as _award_hash_tag } from "./award_hash_tag";
-import type { award_hash_tagAttributes, award_hash_tagCreationAttributes } from "./award_hash_tag";
 import { badge as _badge } from "./badge";
 import type { badgeAttributes, badgeCreationAttributes } from "./badge";
-import { badge_hash_tag as _badge_hash_tag } from "./badge_hash_tag";
-import type { badge_hash_tagAttributes, badge_hash_tagCreationAttributes } from "./badge_hash_tag";
 import { certificate as _certificate } from "./certificate";
 import type { certificateAttributes, certificateCreationAttributes } from "./certificate";
 import { configuration as _configuration } from "./configuration";
@@ -99,8 +95,6 @@ import { refreshtoken as _refreshtoken } from "./refreshtoken";
 import type { refreshtokenAttributes, refreshtokenCreationAttributes } from "./refreshtoken";
 import { reward as _reward } from "./reward";
 import type { rewardAttributes, rewardCreationAttributes } from "./reward";
-import { reward_hash_tag as _reward_hash_tag } from "./reward_hash_tag";
-import type { reward_hash_tagAttributes, reward_hash_tagCreationAttributes } from "./reward_hash_tag";
 import { role as _role } from "./role";
 import type { roleAttributes, roleCreationAttributes } from "./role";
 import { role_screen_mapping as _role_screen_mapping } from "./role_screen_mapping";
@@ -133,14 +127,10 @@ import { survey_question_bank as _survey_question_bank } from "./survey_question
 import type { survey_question_bankAttributes, survey_question_bankCreationAttributes } from "./survey_question_bank";
 import { survey_response as _survey_response } from "./survey_response";
 import type { survey_responseAttributes, survey_responseCreationAttributes } from "./survey_response";
-import { survey_response_item as _survey_response_item } from "./survey_response_item";
-import type { survey_response_itemAttributes, survey_response_itemCreationAttributes } from "./survey_response_item";
 import { template as _template } from "./template";
 import type { templateAttributes, templateCreationAttributes } from "./template";
 import { user_badge as _user_badge } from "./user_badge";
 import type { user_badgeAttributes, user_badgeCreationAttributes } from "./user_badge";
-import { user_badges_hash_tag as _user_badges_hash_tag } from "./user_badges_hash_tag";
-import type { user_badges_hash_tagAttributes, user_badges_hash_tagCreationAttributes } from "./user_badges_hash_tag";
 import { user_certificate as _user_certificate } from "./user_certificate";
 import type { user_certificateAttributes, user_certificateCreationAttributes } from "./user_certificate";
 import { user as _user } from "./user";
@@ -150,9 +140,7 @@ export {
   _activity_log as activity_log,
   _admin_panel as admin_panel,
   _award as award,
-  _award_hash_tag as award_hash_tag,
   _badge as badge,
-  _badge_hash_tag as badge_hash_tag,
   _certificate as certificate,
   _configuration as configuration,
   _department as department,
@@ -197,7 +185,6 @@ export {
   _program_user as program_user,
   _refreshtoken as refreshtoken,
   _reward as reward,
-  _reward_hash_tag as reward_hash_tag,
   _role as role,
   _role_screen_mapping as role_screen_mapping,
   _schedule_job as schedule_job,
@@ -214,10 +201,8 @@ export {
   _survey_question as survey_question,
   _survey_question_bank as survey_question_bank,
   _survey_response as survey_response,
-  _survey_response_item as survey_response_item,
   _template as template,
   _user_badge as user_badge,
-  _user_badges_hash_tag as user_badges_hash_tag,
   _user_certificate as user_certificate,
   _user as user,
 };
@@ -229,12 +214,8 @@ export type {
   admin_panelCreationAttributes,
   awardAttributes,
   awardCreationAttributes,
-  award_hash_tagAttributes,
-  award_hash_tagCreationAttributes,
   badgeAttributes,
   badgeCreationAttributes,
-  badge_hash_tagAttributes,
-  badge_hash_tagCreationAttributes,
   certificateAttributes,
   certificateCreationAttributes,
   configurationAttributes,
@@ -323,8 +304,6 @@ export type {
   refreshtokenCreationAttributes,
   rewardAttributes,
   rewardCreationAttributes,
-  reward_hash_tagAttributes,
-  reward_hash_tagCreationAttributes,
   roleAttributes,
   roleCreationAttributes,
   role_screen_mappingAttributes,
@@ -357,14 +336,10 @@ export type {
   survey_question_bankCreationAttributes,
   survey_responseAttributes,
   survey_responseCreationAttributes,
-  survey_response_itemAttributes,
-  survey_response_itemCreationAttributes,
   templateAttributes,
   templateCreationAttributes,
   user_badgeAttributes,
   user_badgeCreationAttributes,
-  user_badges_hash_tagAttributes,
-  user_badges_hash_tagCreationAttributes,
   user_certificateAttributes,
   user_certificateCreationAttributes,
   userAttributes,
@@ -375,9 +350,7 @@ export function initModels(sequelize: Sequelize) {
   const activity_log = _activity_log.initModel(sequelize);
   const admin_panel = _admin_panel.initModel(sequelize);
   const award = _award.initModel(sequelize);
-  const award_hash_tag = _award_hash_tag.initModel(sequelize);
   const badge = _badge.initModel(sequelize);
-  const badge_hash_tag = _badge_hash_tag.initModel(sequelize);
   const certificate = _certificate.initModel(sequelize);
   const configuration = _configuration.initModel(sequelize);
   const department = _department.initModel(sequelize);
@@ -422,7 +395,6 @@ export function initModels(sequelize: Sequelize) {
   const program_user = _program_user.initModel(sequelize);
   const refreshtoken = _refreshtoken.initModel(sequelize);
   const reward = _reward.initModel(sequelize);
-  const reward_hash_tag = _reward_hash_tag.initModel(sequelize);
   const role = _role.initModel(sequelize);
   const role_screen_mapping = _role_screen_mapping.initModel(sequelize);
   const schedule_job = _schedule_job.initModel(sequelize);
@@ -439,383 +411,351 @@ export function initModels(sequelize: Sequelize) {
   const survey_question = _survey_question.initModel(sequelize);
   const survey_question_bank = _survey_question_bank.initModel(sequelize);
   const survey_response = _survey_response.initModel(sequelize);
-  const survey_response_item = _survey_response_item.initModel(sequelize);
   const template = _template.initModel(sequelize);
   const user_badge = _user_badge.initModel(sequelize);
-  const user_badges_hash_tag = _user_badges_hash_tag.initModel(sequelize);
   const user_certificate = _user_certificate.initModel(sequelize);
   const user = _user.initModel(sequelize);
 
-  hashtag.belongsToMany(reward, { as: 'reward_id_rewards', through: reward_hash_tag, foreignKey: "hash_tag_id", otherKey: "reward_id" });
-  hashtag.belongsToMany(user_badge, { as: 'user_badges_id_user_badges', through: user_badges_hash_tag, foreignKey: "hash_tag_id", otherKey: "user_badges_id" });
   message.belongsToMany(schedule_setting, { as: 'schedule_setting_id_schedule_settings', through: schedule_setting_schedule_message, foreignKey: "schedule_messages_id", otherKey: "schedule_setting_id" });
-  reward.belongsToMany(hashtag, { as: 'hash_tag_id_hashtags', through: reward_hash_tag, foreignKey: "reward_id", otherKey: "hash_tag_id" });
   schedule_setting.belongsToMany(message, { as: 'schedule_messages_id_messages', through: schedule_setting_schedule_message, foreignKey: "schedule_setting_id", otherKey: "schedule_messages_id" });
   schedule_setting.belongsToMany(template, { as: 'schedule_templates_id_templates', through: schedule_setting_schedule_template, foreignKey: "schedule_setting_id", otherKey: "schedule_templates_id" });
   template.belongsToMany(schedule_setting, { as: 'schedule_setting_id_schedule_setting_schedule_setting_schedule_templates', through: schedule_setting_schedule_template, foreignKey: "schedule_templates_id", otherKey: "schedule_setting_id" });
-  user_badge.belongsToMany(hashtag, { as: 'hash_tag_id_hashtag_user_badges_hash_tags', through: user_badges_hash_tag, foreignKey: "user_badges_id", otherKey: "hash_tag_id" });
-  award_hash_tag.belongsTo(award, { foreignKey: "award_id"});
-  award.hasMany(award_hash_tag, { foreignKey: "award_id"});
-  manage_award.belongsTo(award, { foreignKey: "award_id"});
-  award.hasMany(manage_award, { foreignKey: "award_id"});
-  scheduler.belongsTo(award, { foreignKey: "award_id"});
-  award.hasMany(scheduler, { foreignKey: "award_id"});
-  badge_hash_tag.belongsTo(badge, { foreignKey: "badge_id"});
-  badge.hasMany(badge_hash_tag, { foreignKey: "badge_id"});
-  user_badge.belongsTo(badge, { foreignKey: "badge_id"});
-  badge.hasMany(user_badge, { foreignKey: "badge_id"});
-  user_certificate.belongsTo(certificate, { foreignKey: "certificate_id"});
-  certificate.hasMany(user_certificate, { foreignKey: "certificate_id"});
-  forum_department.belongsTo(department, { foreignKey: "dep_id"});
-  department.hasMany(forum_department, { foreignKey: "dep_id"});
-  idea_department.belongsTo(department, { foreignKey: "dep_id"});
-  department.hasMany(idea_department, { foreignKey: "dep_id"});
-  manage_award.belongsTo(department, { foreignKey: "department_id"});
-  department.hasMany(manage_award, { foreignKey: "department_id"});
-  user.belongsTo(department, { foreignKey: "department_id"});
-  department.hasMany(user, { foreignKey: "department_id"});
-  forum_attachment.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forum_attachment, { foreignKey: "forum_id"});
-  forum_department.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forum_department, { foreignKey: "forum_id"});
-  forum_following.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forum_following, { foreignKey: "forum_id"});
-  forum_like.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forum_like, { foreignKey: "forum_id"});
-  forum_read.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forum_read, { foreignKey: "forum_id"});
-  forumcomment.belongsTo(forum, { foreignKey: "forum_id"});
-  forum.hasMany(forumcomment, { foreignKey: "forum_id"});
-  forum_comment_like.belongsTo(forumcomment, { foreignKey: "forumcomments_id"});
-  forumcomment.hasMany(forum_comment_like, { foreignKey: "forumcomments_id"});
-  forumcomment.belongsTo(forumcomment, { foreignKey: "parent_id"});
-  forumcomment.hasMany(forumcomment, { foreignKey: "parent_id"});
-  award_hash_tag.belongsTo(hashtag, { foreignKey: "hash_tag_id"});
-  hashtag.hasMany(award_hash_tag, { foreignKey: "hash_tag_id"});
-  badge_hash_tag.belongsTo(hashtag, { foreignKey: "hash_tag_id"});
-  hashtag.hasMany(badge_hash_tag, { foreignKey: "hash_tag_id"});
-  reward_hash_tag.belongsTo(hashtag, { foreignKey: "hash_tag_id"});
-  hashtag.hasMany(reward_hash_tag, { foreignKey: "hash_tag_id"});
-  user_badges_hash_tag.belongsTo(hashtag, { foreignKey: "hash_tag_id"});
-  hashtag.hasMany(user_badges_hash_tag, { foreignKey: "hash_tag_id"});
-  idea_attachment.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_attachment, { foreignKey: "idea_id"});
-  idea_comment.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_comment, { foreignKey: "idea_id"});
-  idea_department.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_department, { foreignKey: "idea_id"});
-  idea_favorite.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_favorite, { foreignKey: "idea_id"});
-  idea_like.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_like, { foreignKey: "idea_id"});
-  idea_read.belongsTo(idea, { foreignKey: "idea_id"});
-  idea.hasMany(idea_read, { foreignKey: "idea_id"});
-  ideacomments_attachment.belongsTo(idea_comment, { foreignKey: "ideacomments_id"});
-  idea_comment.hasMany(ideacomments_attachment, { foreignKey: "ideacomments_id"});
-  award.belongsTo(library_award, { foreignKey: "library_awards"});
-  library_award.hasMany(award, { foreignKey: "library_awards"});
-  badge.belongsTo(library_badge, { foreignKey: "library_badges"});
-  library_badge.hasMany(badge, { foreignKey: "library_badges"});
-  manage_award_nomination.belongsTo(manage_award, { foreignKey: "manage_awards_id"});
-  manage_award.hasMany(manage_award_nomination, { foreignKey: "manage_awards_id"});
-  schedule_setting_schedule_message.belongsTo(message, { foreignKey: "schedule_messages_id"});
-  message.hasMany(schedule_setting_schedule_message, { foreignKey: "schedule_messages_id"});
-  poll_choice.belongsTo(poll_response, { foreignKey: "poll_response_id"});
-  poll_response.hasMany(poll_choice, { foreignKey: "poll_response_id"});
-  poll_mapping.belongsTo(poll, { foreignKey: "poll_id"});
-  poll.hasMany(poll_mapping, { foreignKey: "poll_id"});
-  poll_response.belongsTo(poll, { foreignKey: "poll_id"});
-  poll.hasMany(poll_response, { foreignKey: "poll_id"});
-  program_reward.belongsTo(program, { foreignKey: "program_id"});
-  program.hasMany(program_reward, { foreignKey: "program_id"});
-  program_task.belongsTo(program, { foreignKey: "program_id"});
-  program.hasMany(program_task, { foreignKey: "program_id"});
-  program_user.belongsTo(program, { foreignKey: "program_id"});
-  program.hasMany(program_user, { foreignKey: "program_id"});
-  program_task_attachment.belongsTo(program_task, { foreignKey: "programtask_id"});
-  program_task.hasMany(program_task_attachment, { foreignKey: "programtask_id"});
-  program_task_comment.belongsTo(program_task, { foreignKey: "programtask_id"});
-  program_task.hasMany(program_task_comment, { foreignKey: "programtask_id"});
-  program_task_reward.belongsTo(program_task, { foreignKey: "programtask_id"});
-  program_task.hasMany(program_task_reward, { foreignKey: "programtask_id"});
-  program_task_user.belongsTo(program_task, { foreignKey: "programtask_id"});
-  program_task.hasMany(program_task_user, { foreignKey: "programtask_id"});
-  reward_hash_tag.belongsTo(reward, { foreignKey: "reward_id"});
-  reward.hasMany(reward_hash_tag, { foreignKey: "reward_id"});
-  socialwall.belongsTo(reward, { foreignKey: "reward_id"});
-  reward.hasMany(socialwall, { foreignKey: "reward_id"});
-  role_screen_mapping.belongsTo(role, { foreignKey: "role_id"});
-  role.hasMany(role_screen_mapping, { foreignKey: "role_id"});
-  user.belongsTo(role, { foreignKey: "role_id"});
-  role.hasMany(user, { foreignKey: "role_id"});
-  schedule_setting_schedule_message.belongsTo(schedule_setting, { foreignKey: "schedule_setting_id"});
-  schedule_setting.hasMany(schedule_setting_schedule_message, { foreignKey: "schedule_setting_id"});
-  schedule_setting_schedule_template.belongsTo(schedule_setting, { foreignKey: "schedule_setting_id"});
-  schedule_setting.hasMany(schedule_setting_schedule_template, { foreignKey: "schedule_setting_id"});
-  social_wall_likepost.belongsTo(socialwall, { foreignKey: "socialwall_id"});
-  socialwall.hasMany(social_wall_likepost, { foreignKey: "socialwall_id"});
-  socialwallcomment.belongsTo(socialwall, { foreignKey: "social_wall"});
-  socialwall.hasMany(socialwallcomment, { foreignKey: "social_wall"});
-  socialwallcomment.belongsTo(socialwallcomment, { foreignKey: "parent_id"});
-  socialwallcomment.hasMany(socialwallcomment, { foreignKey: "parent_id"});
-  survey_important.belongsTo(survey, { foreignKey: "survey_id"});
-  survey.hasMany(survey_important, { foreignKey: "survey_id"});
-  survey_mapping.belongsTo(survey, { foreignKey: "survey_id"});
-  survey.hasMany(survey_mapping, { foreignKey: "survey_id"});
-  survey_question.belongsTo(survey, { foreignKey: "survey_id"});
-  survey.hasMany(survey_question, { foreignKey: "survey_id"});
-  survey_response.belongsTo(survey, { foreignKey: "survey_id"});
-  survey.hasMany(survey_response, { foreignKey: "survey_id"});
-  survey_response_item.belongsTo(survey_question, { foreignKey: "question_id"});
-  survey_question.hasMany(survey_response_item, { foreignKey: "question_id"});
-  survey_response_item.belongsTo(survey_response, { foreignKey: "survey_response"});
-  survey_response.hasMany(survey_response_item, { foreignKey: "survey_response"});
-  schedule_setting_schedule_template.belongsTo(template, { foreignKey: "schedule_templates_id"});
-  template.hasMany(schedule_setting_schedule_template, { foreignKey: "schedule_templates_id"});
-  user_badges_hash_tag.belongsTo(user_badge, { foreignKey: "user_badges_id"});
-  user_badge.hasMany(user_badges_hash_tag, { foreignKey: "user_badges_id"});
-  activity_log.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(activity_log, { foreignKey: "user_id"});
-  award.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(award, { foreignKey: "created_by"});
-  award.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(award, { foreignKey: "updated_by"});
-  badge.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(badge, { foreignKey: "updated_by"});
-  badge.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(badge, { foreignKey: "created_by"});
-  certificate.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(certificate, { foreignKey: "updated_by"});
-  certificate.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(certificate, { foreignKey: "created_by"});
-  configuration.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(configuration, { foreignKey: "updated_by"});
-  configuration.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(configuration, { foreignKey: "created_by"});
-  department.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(department, { foreignKey: "created_by"});
-  department.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(department, { foreignKey: "updated_by"});
-  ecard.belongsTo(user, { foreignKey: "from_user_id"});
-  user.hasMany(ecard, { foreignKey: "from_user_id"});
-  ecard.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(ecard, { foreignKey: "created_by"});
-  ecard.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(ecard, { foreignKey: "updated_by"});
-  ecard.belongsTo(user, { foreignKey: "to_user_id"});
-  user.hasMany(ecard, { foreignKey: "to_user_id"});
-  forum.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(forum, { foreignKey: "created_by"});
-  forum.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(forum, { foreignKey: "updated_by"});
-  forum_attachment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(forum_attachment, { foreignKey: "created_by"});
-  forum_attachment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(forum_attachment, { foreignKey: "updated_by"});
-  forum_comment_like.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(forum_comment_like, { foreignKey: "user_id"});
-  forum_department.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(forum_department, { foreignKey: "created_by"});
-  forum_department.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(forum_department, { foreignKey: "updated_by"});
-  forum_following.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(forum_following, { foreignKey: "user_id"});
-  forum_like.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(forum_like, { foreignKey: "user_id"});
-  forum_read.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(forum_read, { foreignKey: "user_id"});
-  forumcomment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(forumcomment, { foreignKey: "updated_by"});
-  forumcomment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(forumcomment, { foreignKey: "created_by"});
-  hashtag.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(hashtag, { foreignKey: "created_by"});
-  hashtag.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(hashtag, { foreignKey: "updated_by"});
-  idea.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(idea, { foreignKey: "updated_by"});
-  idea.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(idea, { foreignKey: "created_by"});
-  idea_attachment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(idea_attachment, { foreignKey: "created_by"});
-  idea_attachment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(idea_attachment, { foreignKey: "updated_by"});
-  idea_comment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(idea_comment, { foreignKey: "created_by"});
-  idea_comment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(idea_comment, { foreignKey: "updated_by"});
-  idea_department.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(idea_department, { foreignKey: "created_by"});
-  idea_department.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(idea_department, { foreignKey: "updated_by"});
-  idea_favorite.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(idea_favorite, { foreignKey: "user_id"});
-  idea_like.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(idea_like, { foreignKey: "user_id"});
-  idea_read.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(idea_read, { foreignKey: "user_id"});
-  ideacomments_attachment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(ideacomments_attachment, { foreignKey: "updated_by"});
-  ideacomments_attachment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(ideacomments_attachment, { foreignKey: "created_by"});
-  manage_award_nomination.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(manage_award_nomination, { foreignKey: "user_id"});
-  manage_award_nomination.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(manage_award_nomination, { foreignKey: "created_by"});
-  manage_award_nomination.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(manage_award_nomination, { foreignKey: "updated_by"});
-  manage_award.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(manage_award, { foreignKey: "updated_by"});
-  manage_award.belongsTo(user, { foreignKey: "judge_id"});
-  user.hasMany(manage_award, { foreignKey: "judge_id"});
-  manage_award.belongsTo(user, { foreignKey: "nominator_id"});
-  user.hasMany(manage_award, { foreignKey: "nominator_id"});
-  manage_award.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(manage_award, { foreignKey: "created_by"});
-  message.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(message, { foreignKey: "created_by"});
-  message.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(message, { foreignKey: "updated_by"});
-  notification.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(notification, { foreignKey: "user_id"});
-  password_reset_token.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(password_reset_token, { foreignKey: "user_id"});
-  poll_choice.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(poll_choice, { foreignKey: "updated_by"});
-  poll_choice.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(poll_choice, { foreignKey: "created_by"});
-  poll_response.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(poll_response, { foreignKey: "user_id"});
-  poll_response.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(poll_response, { foreignKey: "created_by"});
-  poll_response.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(poll_response, { foreignKey: "updated_by"});
-  poll.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(poll, { foreignKey: "updated_by"});
-  poll.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(poll, { foreignKey: "created_by"});
-  program.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(program, { foreignKey: "updated_by"});
-  program.belongsTo(user, { foreignKey: "manager_id"});
-  user.hasMany(program, { foreignKey: "manager_id"});
-  program.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(program, { foreignKey: "created_by"});
-  program_cash_reward.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(program_cash_reward, { foreignKey: "created_by"});
-  program_cash_reward.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(program_cash_reward, { foreignKey: "updated_by"});
-  program_cash_reward.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(program_cash_reward, { foreignKey: "user_id"});
-  program_task.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(program_task, { foreignKey: "created_by"});
-  program_task.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(program_task, { foreignKey: "updated_by"});
-  program_task.belongsTo(user, { foreignKey: "submitted_by"});
-  user.hasMany(program_task, { foreignKey: "submitted_by"});
-  program_task_attachment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(program_task_attachment, { foreignKey: "created_by"});
-  program_task_attachment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(program_task_attachment, { foreignKey: "updated_by"});
-  program_task_comment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(program_task_comment, { foreignKey: "updated_by"});
-  program_task_comment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(program_task_comment, { foreignKey: "created_by"});
-  program_task_user.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(program_task_user, { foreignKey: "user_id"});
-  program_user.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(program_user, { foreignKey: "user_id"});
-  refreshtoken.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(refreshtoken, { foreignKey: "user_id"});
-  reward.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(reward, { foreignKey: "created_by"});
-  reward.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(reward, { foreignKey: "updated_by"});
-  reward.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(reward, { foreignKey: "user_id"});
-  role.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(role, { foreignKey: "created_by"});
-  role.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(role, { foreignKey: "updated_by"});
-  role_screen_mapping.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(role_screen_mapping, { foreignKey: "updated_by"});
-  role_screen_mapping.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(role_screen_mapping, { foreignKey: "created_by"});
-  schedule_setting.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(schedule_setting, { foreignKey: "created_by"});
-  schedule_setting.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(schedule_setting, { foreignKey: "updated_by"});
-  scheduler.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(scheduler, { foreignKey: "updated_by"});
-  scheduler.belongsTo(user, { foreignKey: "nominator_id"});
-  user.hasMany(scheduler, { foreignKey: "nominator_id"});
-  scheduler.belongsTo(user, { foreignKey: "judge_id"});
-  user.hasMany(scheduler, { foreignKey: "judge_id"});
-  scheduler.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(scheduler, { foreignKey: "created_by"});
-  social_wall_likepost.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(social_wall_likepost, { foreignKey: "user_id"});
-  socialwall.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(socialwall, { foreignKey: "updated_by"});
-  socialwall.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(socialwall, { foreignKey: "created_by"});
-  socialwallcomment.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(socialwallcomment, { foreignKey: "updated_by"});
-  socialwallcomment.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(socialwallcomment, { foreignKey: "created_by"});
-  survey.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(survey, { foreignKey: "updated_by"});
-  survey.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(survey, { foreignKey: "created_by"});
-  survey_important.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(survey_important, { foreignKey: "user_id"});
-  survey_question.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(survey_question, { foreignKey: "updated_by"});
-  survey_question.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(survey_question, { foreignKey: "created_by"});
-  survey_question_bank.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(survey_question_bank, { foreignKey: "created_by"});
-  survey_question_bank.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(survey_question_bank, { foreignKey: "updated_by"});
-  survey_response.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(survey_response, { foreignKey: "created_by"});
-  survey_response.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(survey_response, { foreignKey: "user_id"});
-  survey_response.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(survey_response, { foreignKey: "updated_by"});
-  survey_response_item.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(survey_response_item, { foreignKey: "created_by"});
-  survey_response_item.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(survey_response_item, { foreignKey: "updated_by"});
-  template.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(template, { foreignKey: "created_by"});
-  template.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(template, { foreignKey: "updated_by"});
-  user_badge.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(user_badge, { foreignKey: "updated_by"});
-  user_badge.belongsTo(user, { foreignKey: "given_by"});
-  user.hasMany(user_badge, { foreignKey: "given_by"});
-  user_badge.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(user_badge, { foreignKey: "created_by"});
-  user_badge.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(user_badge, { foreignKey: "user_id"});
-  user_certificate.belongsTo(user, { foreignKey: "user_id"});
-  user.hasMany(user_certificate, { foreignKey: "user_id"});
-  user_certificate.belongsTo(user, { foreignKey: "given_by"});
-  user.hasMany(user_certificate, { foreignKey: "given_by"});
-  user_certificate.belongsTo(user, { foreignKey: "created_by"});
-  user.hasMany(user_certificate, { foreignKey: "created_by"});
-  user_certificate.belongsTo(user, { foreignKey: "updated_by"});
-  user.hasMany(user_certificate, { foreignKey: "updated_by"});
-  user.belongsTo(user, { foreignKey: "manager_id"});
-  user.hasMany(user, { foreignKey: "manager_id"});
+  manage_award.belongsTo(award, { as: "award", foreignKey: "award_id"});
+  award.hasMany(manage_award, { as: "manage_awards", foreignKey: "award_id"});
+  scheduler.belongsTo(award, { as: "award", foreignKey: "award_id"});
+  award.hasMany(scheduler, { as: "schedulers", foreignKey: "award_id"});
+  user_badge.belongsTo(badge, { as: "badge", foreignKey: "badge_id"});
+  badge.hasMany(user_badge, { as: "user_badges", foreignKey: "badge_id"});
+  user_certificate.belongsTo(certificate, { as: "certificate", foreignKey: "certificate_id"});
+  certificate.hasMany(user_certificate, { as: "user_certificates", foreignKey: "certificate_id"});
+  forum_department.belongsTo(department, { as: "dep", foreignKey: "dep_id"});
+  department.hasMany(forum_department, { as: "forum_departments", foreignKey: "dep_id"});
+  idea_department.belongsTo(department, { as: "dep", foreignKey: "dep_id"});
+  department.hasMany(idea_department, { as: "idea_departments", foreignKey: "dep_id"});
+  manage_award.belongsTo(department, { as: "department", foreignKey: "department_id"});
+  department.hasMany(manage_award, { as: "manage_awards", foreignKey: "department_id"});
+  user.belongsTo(department, { as: "department_department", foreignKey: "department_id"});
+  department.hasMany(user, { as: "users", foreignKey: "department_id"});
+  forum_attachment.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forum_attachment, { as: "forum_attachments", foreignKey: "forum_id"});
+  forum_department.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forum_department, { as: "forum_departments", foreignKey: "forum_id"});
+  forum_following.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forum_following, { as: "forum_followings", foreignKey: "forum_id"});
+  forum_like.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forum_like, { as: "forum_likes", foreignKey: "forum_id"});
+  forum_read.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forum_read, { as: "forum_reads", foreignKey: "forum_id"});
+  forumcomment.belongsTo(forum, { as: "forum", foreignKey: "forum_id"});
+  forum.hasMany(forumcomment, { as: "forumcomments", foreignKey: "forum_id"});
+  forum_comment_like.belongsTo(forumcomment, { as: "forumcomment", foreignKey: "forumcomments_id"});
+  forumcomment.hasMany(forum_comment_like, { as: "forum_comment_likes", foreignKey: "forumcomments_id"});
+  forumcomment.belongsTo(forumcomment, { as: "parent", foreignKey: "parent_id"});
+  forumcomment.hasMany(forumcomment, { as: "forumcomments", foreignKey: "parent_id"});
+  idea_attachment.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_attachment, { as: "idea_attachments", foreignKey: "idea_id"});
+  idea_comment.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_comment, { as: "idea_comments", foreignKey: "idea_id"});
+  idea_department.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_department, { as: "idea_departments", foreignKey: "idea_id"});
+  idea_favorite.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_favorite, { as: "idea_favorites", foreignKey: "idea_id"});
+  idea_like.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_like, { as: "idea_likes", foreignKey: "idea_id"});
+  idea_read.belongsTo(idea, { as: "idea", foreignKey: "idea_id"});
+  idea.hasMany(idea_read, { as: "idea_reads", foreignKey: "idea_id"});
+  ideacomments_attachment.belongsTo(idea_comment, { as: "ideacomment", foreignKey: "ideacomments_id"});
+  idea_comment.hasMany(ideacomments_attachment, { as: "ideacomments_attachments", foreignKey: "ideacomments_id"});
+  award.belongsTo(library_award, { as: "library_awards_library_award", foreignKey: "library_awards"});
+  library_award.hasMany(award, { as: "awards", foreignKey: "library_awards"});
+  badge.belongsTo(library_badge, { as: "library_badges_library_badge", foreignKey: "library_badges"});
+  library_badge.hasMany(badge, { as: "badges", foreignKey: "library_badges"});
+  manage_award_nomination.belongsTo(manage_award, { as: "manage_award", foreignKey: "manage_awards_id"});
+  manage_award.hasMany(manage_award_nomination, { as: "manage_award_nominations", foreignKey: "manage_awards_id"});
+  schedule_setting_schedule_message.belongsTo(message, { as: "schedule_message", foreignKey: "schedule_messages_id"});
+  message.hasMany(schedule_setting_schedule_message, { as: "schedule_setting_schedule_messages", foreignKey: "schedule_messages_id"});
+  poll_choice.belongsTo(poll_response, { as: "poll_response", foreignKey: "poll_response_id"});
+  poll_response.hasMany(poll_choice, { as: "poll_choices", foreignKey: "poll_response_id"});
+  poll_mapping.belongsTo(poll, { as: "poll", foreignKey: "poll_id"});
+  poll.hasMany(poll_mapping, { as: "poll_mappings", foreignKey: "poll_id"});
+  poll_response.belongsTo(poll, { as: "poll", foreignKey: "poll_id"});
+  poll.hasMany(poll_response, { as: "poll_responses", foreignKey: "poll_id"});
+  program_reward.belongsTo(program, { as: "program", foreignKey: "program_id"});
+  program.hasMany(program_reward, { as: "program_rewards", foreignKey: "program_id"});
+  program_task.belongsTo(program, { as: "program", foreignKey: "program_id"});
+  program.hasMany(program_task, { as: "program_tasks", foreignKey: "program_id"});
+  program_user.belongsTo(program, { as: "program", foreignKey: "program_id"});
+  program.hasMany(program_user, { as: "program_users", foreignKey: "program_id"});
+  program_task_attachment.belongsTo(program_task, { as: "programtask", foreignKey: "programtask_id"});
+  program_task.hasMany(program_task_attachment, { as: "program_task_attachments", foreignKey: "programtask_id"});
+  program_task_comment.belongsTo(program_task, { as: "programtask", foreignKey: "programtask_id"});
+  program_task.hasMany(program_task_comment, { as: "program_task_comments", foreignKey: "programtask_id"});
+  program_task_reward.belongsTo(program_task, { as: "programtask", foreignKey: "programtask_id"});
+  program_task.hasMany(program_task_reward, { as: "program_task_rewards", foreignKey: "programtask_id"});
+  program_task_user.belongsTo(program_task, { as: "programtask", foreignKey: "programtask_id"});
+  program_task.hasMany(program_task_user, { as: "program_task_users", foreignKey: "programtask_id"});
+  socialwall.belongsTo(reward, { as: "reward", foreignKey: "reward_id"});
+  reward.hasMany(socialwall, { as: "socialwalls", foreignKey: "reward_id"});
+  role_screen_mapping.belongsTo(role, { as: "role", foreignKey: "role_id"});
+  role.hasMany(role_screen_mapping, { as: "role_screen_mappings", foreignKey: "role_id"});
+  user.belongsTo(role, { as: "role_role", foreignKey: "role_id"});
+  role.hasMany(user, { as: "users", foreignKey: "role_id"});
+  schedule_setting_schedule_message.belongsTo(schedule_setting, { as: "schedule_setting", foreignKey: "schedule_setting_id"});
+  schedule_setting.hasMany(schedule_setting_schedule_message, { as: "schedule_setting_schedule_messages", foreignKey: "schedule_setting_id"});
+  schedule_setting_schedule_template.belongsTo(schedule_setting, { as: "schedule_setting", foreignKey: "schedule_setting_id"});
+  schedule_setting.hasMany(schedule_setting_schedule_template, { as: "schedule_setting_schedule_templates", foreignKey: "schedule_setting_id"});
+  social_wall_likepost.belongsTo(socialwall, { as: "socialwall", foreignKey: "socialwall_id"});
+  socialwall.hasMany(social_wall_likepost, { as: "social_wall_likeposts", foreignKey: "socialwall_id"});
+  socialwallcomment.belongsTo(socialwall, { as: "social_wall_socialwall", foreignKey: "social_wall"});
+  socialwall.hasMany(socialwallcomment, { as: "socialwallcomments", foreignKey: "social_wall"});
+  socialwallcomment.belongsTo(socialwallcomment, { as: "parent", foreignKey: "parent_id"});
+  socialwallcomment.hasMany(socialwallcomment, { as: "socialwallcomments", foreignKey: "parent_id"});
+  survey_important.belongsTo(survey, { as: "survey", foreignKey: "survey_id"});
+  survey.hasMany(survey_important, { as: "survey_importants", foreignKey: "survey_id"});
+  survey_mapping.belongsTo(survey, { as: "survey", foreignKey: "survey_id"});
+  survey.hasMany(survey_mapping, { as: "survey_mappings", foreignKey: "survey_id"});
+  survey_question.belongsTo(survey, { as: "survey", foreignKey: "survey_id"});
+  survey.hasMany(survey_question, { as: "survey_questions", foreignKey: "survey_id"});
+  survey_response.belongsTo(survey, { as: "survey", foreignKey: "survey_id"});
+  survey.hasMany(survey_response, { as: "survey_responses", foreignKey: "survey_id"});
+  schedule_setting_schedule_template.belongsTo(template, { as: "schedule_template", foreignKey: "schedule_templates_id"});
+  template.hasMany(schedule_setting_schedule_template, { as: "schedule_setting_schedule_templates", foreignKey: "schedule_templates_id"});
+  activity_log.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(activity_log, { as: "activity_logs", foreignKey: "user_id"});
+  award.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(award, { as: "awards", foreignKey: "created_by"});
+  award.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(award, { as: "updated_by_awards", foreignKey: "updated_by"});
+  badge.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(badge, { as: "badges", foreignKey: "updated_by"});
+  badge.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(badge, { as: "created_by_badges", foreignKey: "created_by"});
+  certificate.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(certificate, { as: "certificates", foreignKey: "updated_by"});
+  certificate.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(certificate, { as: "created_by_certificates", foreignKey: "created_by"});
+  configuration.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(configuration, { as: "configurations", foreignKey: "updated_by"});
+  configuration.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(configuration, { as: "created_by_configurations", foreignKey: "created_by"});
+  department.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(department, { as: "departments", foreignKey: "created_by"});
+  department.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(department, { as: "updated_by_departments", foreignKey: "updated_by"});
+  ecard.belongsTo(user, { as: "from_user", foreignKey: "from_user_id"});
+  user.hasMany(ecard, { as: "ecards", foreignKey: "from_user_id"});
+  ecard.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(ecard, { as: "created_by_ecards", foreignKey: "created_by"});
+  ecard.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(ecard, { as: "updated_by_ecards", foreignKey: "updated_by"});
+  ecard.belongsTo(user, { as: "to_user", foreignKey: "to_user_id"});
+  user.hasMany(ecard, { as: "to_user_ecards", foreignKey: "to_user_id"});
+  forum.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(forum, { as: "forums", foreignKey: "created_by"});
+  forum.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(forum, { as: "updated_by_forums", foreignKey: "updated_by"});
+  forum_attachment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(forum_attachment, { as: "forum_attachments", foreignKey: "created_by"});
+  forum_attachment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(forum_attachment, { as: "updated_by_forum_attachments", foreignKey: "updated_by"});
+  forum_comment_like.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(forum_comment_like, { as: "forum_comment_likes", foreignKey: "user_id"});
+  forum_department.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(forum_department, { as: "forum_departments", foreignKey: "created_by"});
+  forum_department.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(forum_department, { as: "updated_by_forum_departments", foreignKey: "updated_by"});
+  forum_following.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(forum_following, { as: "forum_followings", foreignKey: "user_id"});
+  forum_like.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(forum_like, { as: "forum_likes", foreignKey: "user_id"});
+  forum_read.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(forum_read, { as: "forum_reads", foreignKey: "user_id"});
+  forumcomment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(forumcomment, { as: "forumcomments", foreignKey: "updated_by"});
+  forumcomment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(forumcomment, { as: "created_by_forumcomments", foreignKey: "created_by"});
+  hashtag.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(hashtag, { as: "hashtags", foreignKey: "created_by"});
+  hashtag.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(hashtag, { as: "updated_by_hashtags", foreignKey: "updated_by"});
+  idea.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(idea, { as: "ideas", foreignKey: "updated_by"});
+  idea.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(idea, { as: "created_by_ideas", foreignKey: "created_by"});
+  idea_attachment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(idea_attachment, { as: "idea_attachments", foreignKey: "created_by"});
+  idea_attachment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(idea_attachment, { as: "updated_by_idea_attachments", foreignKey: "updated_by"});
+  idea_comment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(idea_comment, { as: "idea_comments", foreignKey: "created_by"});
+  idea_comment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(idea_comment, { as: "updated_by_idea_comments", foreignKey: "updated_by"});
+  idea_department.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(idea_department, { as: "idea_departments", foreignKey: "created_by"});
+  idea_department.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(idea_department, { as: "updated_by_idea_departments", foreignKey: "updated_by"});
+  idea_favorite.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(idea_favorite, { as: "idea_favorites", foreignKey: "user_id"});
+  idea_like.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(idea_like, { as: "idea_likes", foreignKey: "user_id"});
+  idea_read.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(idea_read, { as: "idea_reads", foreignKey: "user_id"});
+  ideacomments_attachment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(ideacomments_attachment, { as: "ideacomments_attachments", foreignKey: "updated_by"});
+  ideacomments_attachment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(ideacomments_attachment, { as: "created_by_ideacomments_attachments", foreignKey: "created_by"});
+  manage_award_nomination.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(manage_award_nomination, { as: "manage_award_nominations", foreignKey: "user_id"});
+  manage_award_nomination.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(manage_award_nomination, { as: "created_by_manage_award_nominations", foreignKey: "created_by"});
+  manage_award_nomination.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(manage_award_nomination, { as: "updated_by_manage_award_nominations", foreignKey: "updated_by"});
+  manage_award.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(manage_award, { as: "manage_awards", foreignKey: "updated_by"});
+  manage_award.belongsTo(user, { as: "judge", foreignKey: "judge_id"});
+  user.hasMany(manage_award, { as: "judge_manage_awards", foreignKey: "judge_id"});
+  manage_award.belongsTo(user, { as: "nominator", foreignKey: "nominator_id"});
+  user.hasMany(manage_award, { as: "nominator_manage_awards", foreignKey: "nominator_id"});
+  manage_award.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(manage_award, { as: "created_by_manage_awards", foreignKey: "created_by"});
+  message.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(message, { as: "messages", foreignKey: "created_by"});
+  message.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(message, { as: "updated_by_messages", foreignKey: "updated_by"});
+  notification.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(notification, { as: "notifications", foreignKey: "user_id"});
+  password_reset_token.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(password_reset_token, { as: "password_reset_tokens", foreignKey: "user_id"});
+  poll_choice.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(poll_choice, { as: "poll_choices", foreignKey: "updated_by"});
+  poll_choice.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(poll_choice, { as: "created_by_poll_choices", foreignKey: "created_by"});
+  poll_response.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(poll_response, { as: "poll_responses", foreignKey: "user_id"});
+  poll_response.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(poll_response, { as: "created_by_poll_responses", foreignKey: "created_by"});
+  poll_response.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(poll_response, { as: "updated_by_poll_responses", foreignKey: "updated_by"});
+  poll.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(poll, { as: "polls", foreignKey: "updated_by"});
+  poll.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(poll, { as: "created_by_polls", foreignKey: "created_by"});
+  program.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(program, { as: "programs", foreignKey: "updated_by"});
+  program.belongsTo(user, { as: "manager", foreignKey: "manager_id"});
+  user.hasMany(program, { as: "manager_programs", foreignKey: "manager_id"});
+  program.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(program, { as: "created_by_programs", foreignKey: "created_by"});
+  program_cash_reward.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(program_cash_reward, { as: "program_cash_rewards", foreignKey: "created_by"});
+  program_cash_reward.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(program_cash_reward, { as: "updated_by_program_cash_rewards", foreignKey: "updated_by"});
+  program_cash_reward.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(program_cash_reward, { as: "user_program_cash_rewards", foreignKey: "user_id"});
+  program_task.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(program_task, { as: "program_tasks", foreignKey: "created_by"});
+  program_task.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(program_task, { as: "updated_by_program_tasks", foreignKey: "updated_by"});
+  program_task.belongsTo(user, { as: "submitted_by_user", foreignKey: "submitted_by"});
+  user.hasMany(program_task, { as: "submitted_by_program_tasks", foreignKey: "submitted_by"});
+  program_task_attachment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(program_task_attachment, { as: "program_task_attachments", foreignKey: "created_by"});
+  program_task_attachment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(program_task_attachment, { as: "updated_by_program_task_attachments", foreignKey: "updated_by"});
+  program_task_comment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(program_task_comment, { as: "program_task_comments", foreignKey: "updated_by"});
+  program_task_comment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(program_task_comment, { as: "created_by_program_task_comments", foreignKey: "created_by"});
+  program_task_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(program_task_user, { as: "program_task_users", foreignKey: "user_id"});
+  program_user.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(program_user, { as: "program_users", foreignKey: "user_id"});
+  refreshtoken.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(refreshtoken, { as: "refreshtokens", foreignKey: "user_id"});
+  reward.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(reward, { as: "rewards", foreignKey: "created_by"});
+  reward.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(reward, { as: "updated_by_rewards", foreignKey: "updated_by"});
+  reward.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(reward, { as: "user_rewards", foreignKey: "user_id"});
+  role.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(role, { as: "roles", foreignKey: "created_by"});
+  role.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(role, { as: "updated_by_roles", foreignKey: "updated_by"});
+  role_screen_mapping.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(role_screen_mapping, { as: "role_screen_mappings", foreignKey: "updated_by"});
+  role_screen_mapping.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(role_screen_mapping, { as: "created_by_role_screen_mappings", foreignKey: "created_by"});
+  schedule_setting.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(schedule_setting, { as: "schedule_settings", foreignKey: "created_by"});
+  schedule_setting.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(schedule_setting, { as: "updated_by_schedule_settings", foreignKey: "updated_by"});
+  scheduler.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(scheduler, { as: "schedulers", foreignKey: "updated_by"});
+  scheduler.belongsTo(user, { as: "nominator", foreignKey: "nominator_id"});
+  user.hasMany(scheduler, { as: "nominator_schedulers", foreignKey: "nominator_id"});
+  scheduler.belongsTo(user, { as: "judge", foreignKey: "judge_id"});
+  user.hasMany(scheduler, { as: "judge_schedulers", foreignKey: "judge_id"});
+  scheduler.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(scheduler, { as: "created_by_schedulers", foreignKey: "created_by"});
+  social_wall_likepost.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(social_wall_likepost, { as: "social_wall_likeposts", foreignKey: "user_id"});
+  socialwall.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(socialwall, { as: "socialwalls", foreignKey: "updated_by"});
+  socialwall.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(socialwall, { as: "created_by_socialwalls", foreignKey: "created_by"});
+  socialwallcomment.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(socialwallcomment, { as: "socialwallcomments", foreignKey: "updated_by"});
+  socialwallcomment.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(socialwallcomment, { as: "created_by_socialwallcomments", foreignKey: "created_by"});
+  survey.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(survey, { as: "surveys", foreignKey: "updated_by"});
+  survey.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(survey, { as: "created_by_surveys", foreignKey: "created_by"});
+  survey_important.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(survey_important, { as: "survey_importants", foreignKey: "user_id"});
+  survey_question.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(survey_question, { as: "survey_questions", foreignKey: "updated_by"});
+  survey_question.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(survey_question, { as: "created_by_survey_questions", foreignKey: "created_by"});
+  survey_question_bank.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(survey_question_bank, { as: "survey_question_banks", foreignKey: "created_by"});
+  survey_question_bank.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(survey_question_bank, { as: "updated_by_survey_question_banks", foreignKey: "updated_by"});
+  survey_response.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(survey_response, { as: "survey_responses", foreignKey: "created_by"});
+  survey_response.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(survey_response, { as: "user_survey_responses", foreignKey: "user_id"});
+  survey_response.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(survey_response, { as: "updated_by_survey_responses", foreignKey: "updated_by"});
+  template.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(template, { as: "templates", foreignKey: "created_by"});
+  template.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(template, { as: "updated_by_templates", foreignKey: "updated_by"});
+  user_badge.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(user_badge, { as: "user_badges", foreignKey: "updated_by"});
+  user_badge.belongsTo(user, { as: "given_by_user", foreignKey: "given_by"});
+  user.hasMany(user_badge, { as: "given_by_user_badges", foreignKey: "given_by"});
+  user_badge.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(user_badge, { as: "created_by_user_badges", foreignKey: "created_by"});
+  user_badge.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(user_badge, { as: "user_user_badges", foreignKey: "user_id"});
+  user_certificate.belongsTo(user, { as: "user", foreignKey: "user_id"});
+  user.hasMany(user_certificate, { as: "user_certificates", foreignKey: "user_id"});
+  user_certificate.belongsTo(user, { as: "given_by_user", foreignKey: "given_by"});
+  user.hasMany(user_certificate, { as: "given_by_user_certificates", foreignKey: "given_by"});
+  user_certificate.belongsTo(user, { as: "created_by_user", foreignKey: "created_by"});
+  user.hasMany(user_certificate, { as: "created_by_user_certificates", foreignKey: "created_by"});
+  user_certificate.belongsTo(user, { as: "updated_by_user", foreignKey: "updated_by"});
+  user.hasMany(user_certificate, { as: "updated_by_user_certificates", foreignKey: "updated_by"});
+  user.belongsTo(user, { as: "manager", foreignKey: "manager_id"});
+  user.hasMany(user, { as: "users", foreignKey: "manager_id"});
 
   return {
     activity_log: activity_log,
     admin_panel: admin_panel,
     award: award,
-    award_hash_tag: award_hash_tag,
     badge: badge,
-    badge_hash_tag: badge_hash_tag,
     certificate: certificate,
     configuration: configuration,
     department: department,
@@ -860,7 +800,6 @@ export function initModels(sequelize: Sequelize) {
     program_user: program_user,
     refreshtoken: refreshtoken,
     reward: reward,
-    reward_hash_tag: reward_hash_tag,
     role: role,
     role_screen_mapping: role_screen_mapping,
     schedule_job: schedule_job,
@@ -877,10 +816,8 @@ export function initModels(sequelize: Sequelize) {
     survey_question: survey_question,
     survey_question_bank: survey_question_bank,
     survey_response: survey_response,
-    survey_response_item: survey_response_item,
     template: template,
     user_badge: user_badge,
-    user_badges_hash_tag: user_badges_hash_tag,
     user_certificate: user_certificate,
     user: user,
   };

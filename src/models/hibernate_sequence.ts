@@ -13,16 +13,15 @@ export class hibernate_sequence extends Model<hibernate_sequenceAttributes, hibe
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof hibernate_sequence {
-    return hibernate_sequence.init({
+    return sequelize.define('hibernate_sequence', {
     next_val: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
-    sequelize,
     tableName: 'hibernate_sequence',
     schema: 'public',
     timestamps: false
-  });
+  }) as typeof hibernate_sequence;
   }
 }

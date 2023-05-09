@@ -64,7 +64,7 @@ export class forumcomment extends Model<forumcommentAttributes, forumcommentCrea
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forumcomment {
-    return forumcomment.init({
+    return sequelize.define('forumcomment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -116,7 +116,6 @@ export class forumcomment extends Model<forumcommentAttributes, forumcommentCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'forumcomments',
     schema: 'public',
     timestamps: false,
@@ -153,6 +152,6 @@ export class forumcomment extends Model<forumcommentAttributes, forumcommentCrea
         ]
       },
     ]
-  });
+  }) as typeof forumcomment;
   }
 }

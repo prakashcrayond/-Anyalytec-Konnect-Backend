@@ -57,7 +57,7 @@ export class idea_comment extends Model<idea_commentAttributes, idea_commentCrea
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_comment {
-    return idea_comment.init({
+    return sequelize.define('idea_comment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -102,7 +102,6 @@ export class idea_comment extends Model<idea_commentAttributes, idea_commentCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_comments',
     schema: 'public',
     timestamps: false,
@@ -133,6 +132,6 @@ export class idea_comment extends Model<idea_commentAttributes, idea_commentCrea
         ]
       },
     ]
-  });
+  }) as typeof idea_comment;
   }
 }

@@ -118,7 +118,7 @@ export class forum extends Model<forumAttributes, forumCreationAttributes> imple
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof forum {
-    return forum.init({
+    return sequelize.define('forum', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -165,7 +165,6 @@ export class forum extends Model<forumAttributes, forumCreationAttributes> imple
       }
     }
   }, {
-    sequelize,
     tableName: 'forum',
     schema: 'public',
     timestamps: false,
@@ -190,6 +189,6 @@ export class forum extends Model<forumAttributes, forumCreationAttributes> imple
         ]
       },
     ]
-  });
+  }) as typeof forum;
   }
 }

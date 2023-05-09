@@ -45,7 +45,7 @@ export class program_cash_reward extends Model<program_cash_rewardAttributes, pr
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_cash_reward {
-    return program_cash_reward.init({
+    return sequelize.define('program_cash_reward', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -95,7 +95,6 @@ export class program_cash_reward extends Model<program_cash_rewardAttributes, pr
       }
     }
   }, {
-    sequelize,
     tableName: 'program_cash_reward',
     schema: 'public',
     timestamps: false,
@@ -126,6 +125,6 @@ export class program_cash_reward extends Model<program_cash_rewardAttributes, pr
         ]
       },
     ]
-  });
+  }) as typeof program_cash_reward;
   }
 }

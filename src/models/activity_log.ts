@@ -31,7 +31,7 @@ export class activity_log extends Model<activity_logAttributes, activity_logCrea
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof activity_log {
-    return activity_log.init({
+    return sequelize.define('activity_log', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -65,7 +65,6 @@ export class activity_log extends Model<activity_logAttributes, activity_logCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'activity_log',
     schema: 'public',
     timestamps: false,
@@ -84,6 +83,6 @@ export class activity_log extends Model<activity_logAttributes, activity_logCrea
         ]
       },
     ]
-  });
+  }) as typeof activity_log;
   }
 }

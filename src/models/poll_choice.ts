@@ -44,7 +44,7 @@ export class poll_choice extends Model<poll_choiceAttributes, poll_choiceCreatio
   createCreated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof poll_choice {
-    return poll_choice.init({
+    return sequelize.define('poll_choice', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ export class poll_choice extends Model<poll_choiceAttributes, poll_choiceCreatio
       }
     }
   }, {
-    sequelize,
     tableName: 'poll_choice',
     schema: 'public',
     timestamps: false,
@@ -120,6 +119,6 @@ export class poll_choice extends Model<poll_choiceAttributes, poll_choiceCreatio
         ]
       },
     ]
-  });
+  }) as typeof poll_choice;
   }
 }

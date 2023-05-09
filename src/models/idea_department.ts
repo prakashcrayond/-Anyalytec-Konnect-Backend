@@ -50,7 +50,7 @@ export class idea_department extends Model<idea_departmentAttributes, idea_depar
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_department {
-    return idea_department.init({
+    return sequelize.define('idea_department', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -98,7 +98,6 @@ export class idea_department extends Model<idea_departmentAttributes, idea_depar
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_department',
     schema: 'public',
     timestamps: false,
@@ -135,6 +134,6 @@ export class idea_department extends Model<idea_departmentAttributes, idea_depar
         ]
       },
     ]
-  });
+  }) as typeof idea_department;
   }
 }

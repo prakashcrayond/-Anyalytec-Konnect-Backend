@@ -32,7 +32,7 @@ export class library_badge extends Model<library_badgeAttributes, library_badgeC
   countBadges!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof library_badge {
-    return library_badge.init({
+    return sequelize.define('library_badge', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -50,7 +50,6 @@ export class library_badge extends Model<library_badgeAttributes, library_badgeC
       defaultValue: "NULL"
     }
   }, {
-    sequelize,
     tableName: 'library_badges',
     schema: 'public',
     timestamps: false,
@@ -63,6 +62,6 @@ export class library_badge extends Model<library_badgeAttributes, library_badgeC
         ]
       },
     ]
-  });
+  }) as typeof library_badge;
   }
 }

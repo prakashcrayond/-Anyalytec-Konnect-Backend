@@ -89,7 +89,7 @@ export class department extends Model<departmentAttributes, departmentCreationAt
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof department {
-    return department.init({
+    return sequelize.define('department', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -131,7 +131,6 @@ export class department extends Model<departmentAttributes, departmentCreationAt
       }
     }
   }, {
-    sequelize,
     tableName: 'department',
     schema: 'public',
     timestamps: false,
@@ -163,6 +162,6 @@ export class department extends Model<departmentAttributes, departmentCreationAt
         ]
       },
     ]
-  });
+  }) as typeof department;
   }
 }

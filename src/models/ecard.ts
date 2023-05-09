@@ -64,7 +64,7 @@ export class ecard extends Model<ecardAttributes, ecardCreationAttributes> imple
   createTo_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof ecard {
-    return ecard.init({
+    return sequelize.define('ecard', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -151,7 +151,6 @@ export class ecard extends Model<ecardAttributes, ecardCreationAttributes> imple
       }
     }
   }, {
-    sequelize,
     tableName: 'ecard',
     schema: 'public',
     timestamps: false,
@@ -188,6 +187,6 @@ export class ecard extends Model<ecardAttributes, ecardCreationAttributes> imple
         ]
       },
     ]
-  });
+  }) as typeof ecard;
   }
 }

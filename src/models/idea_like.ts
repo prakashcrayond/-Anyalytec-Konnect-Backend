@@ -33,7 +33,7 @@ export class idea_like extends Model<idea_likeAttributes, idea_likeCreationAttri
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_like {
-    return idea_like.init({
+    return sequelize.define('idea_like', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class idea_like extends Model<idea_likeAttributes, idea_likeCreationAttri
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_likes',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class idea_like extends Model<idea_likeAttributes, idea_likeCreationAttri
         ]
       },
     ]
-  });
+  }) as typeof idea_like;
   }
 }

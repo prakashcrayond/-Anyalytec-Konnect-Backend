@@ -1,7 +1,5 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { hashtag, hashtagId } from './hashtag';
-import type { reward_hash_tag, reward_hash_tagId } from './reward_hash_tag';
 import type { socialwall, socialwallId } from './socialwall';
 import type { user, userId } from './user';
 
@@ -43,30 +41,6 @@ export class reward extends Model<rewardAttributes, rewardCreationAttributes> im
   updated_by?: number;
   user_id?: number;
 
-  // reward belongsToMany hashtag via reward_id and hash_tag_id
-  hash_tag_id_hashtags!: hashtag[];
-  getHash_tag_id_hashtags!: Sequelize.BelongsToManyGetAssociationsMixin<hashtag>;
-  setHash_tag_id_hashtags!: Sequelize.BelongsToManySetAssociationsMixin<hashtag, hashtagId>;
-  addHash_tag_id_hashtag!: Sequelize.BelongsToManyAddAssociationMixin<hashtag, hashtagId>;
-  addHash_tag_id_hashtags!: Sequelize.BelongsToManyAddAssociationsMixin<hashtag, hashtagId>;
-  createHash_tag_id_hashtag!: Sequelize.BelongsToManyCreateAssociationMixin<hashtag>;
-  removeHash_tag_id_hashtag!: Sequelize.BelongsToManyRemoveAssociationMixin<hashtag, hashtagId>;
-  removeHash_tag_id_hashtags!: Sequelize.BelongsToManyRemoveAssociationsMixin<hashtag, hashtagId>;
-  hasHash_tag_id_hashtag!: Sequelize.BelongsToManyHasAssociationMixin<hashtag, hashtagId>;
-  hasHash_tag_id_hashtags!: Sequelize.BelongsToManyHasAssociationsMixin<hashtag, hashtagId>;
-  countHash_tag_id_hashtags!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // reward hasMany reward_hash_tag via reward_id
-  reward_hash_tags!: reward_hash_tag[];
-  getReward_hash_tags!: Sequelize.HasManyGetAssociationsMixin<reward_hash_tag>;
-  setReward_hash_tags!: Sequelize.HasManySetAssociationsMixin<reward_hash_tag, reward_hash_tagId>;
-  addReward_hash_tag!: Sequelize.HasManyAddAssociationMixin<reward_hash_tag, reward_hash_tagId>;
-  addReward_hash_tags!: Sequelize.HasManyAddAssociationsMixin<reward_hash_tag, reward_hash_tagId>;
-  createReward_hash_tag!: Sequelize.HasManyCreateAssociationMixin<reward_hash_tag>;
-  removeReward_hash_tag!: Sequelize.HasManyRemoveAssociationMixin<reward_hash_tag, reward_hash_tagId>;
-  removeReward_hash_tags!: Sequelize.HasManyRemoveAssociationsMixin<reward_hash_tag, reward_hash_tagId>;
-  hasReward_hash_tag!: Sequelize.HasManyHasAssociationMixin<reward_hash_tag, reward_hash_tagId>;
-  hasReward_hash_tags!: Sequelize.HasManyHasAssociationsMixin<reward_hash_tag, reward_hash_tagId>;
-  countReward_hash_tags!: Sequelize.HasManyCountAssociationsMixin;
   // reward hasMany socialwall via reward_id
   socialwalls!: socialwall[];
   getSocialwalls!: Sequelize.HasManyGetAssociationsMixin<socialwall>;
@@ -96,7 +70,7 @@ export class reward extends Model<rewardAttributes, rewardCreationAttributes> im
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof reward {
-    return reward.init({
+    return sequelize.define('reward', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -171,7 +145,6 @@ export class reward extends Model<rewardAttributes, rewardCreationAttributes> im
       }
     }
   }, {
-    sequelize,
     tableName: 'reward',
     schema: 'public',
     timestamps: false,
@@ -202,6 +175,6 @@ export class reward extends Model<rewardAttributes, rewardCreationAttributes> im
         ]
       },
     ]
-  });
+  }) as typeof reward;
   }
 }

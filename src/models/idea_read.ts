@@ -33,7 +33,7 @@ export class idea_read extends Model<idea_readAttributes, idea_readCreationAttri
   createUser!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof idea_read {
-    return idea_read.init({
+    return sequelize.define('idea_read', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -61,7 +61,6 @@ export class idea_read extends Model<idea_readAttributes, idea_readCreationAttri
       }
     }
   }, {
-    sequelize,
     tableName: 'idea_read',
     schema: 'public',
     timestamps: false,
@@ -86,6 +85,6 @@ export class idea_read extends Model<idea_readAttributes, idea_readCreationAttri
         ]
       },
     ]
-  });
+  }) as typeof idea_read;
   }
 }

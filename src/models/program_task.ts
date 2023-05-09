@@ -115,7 +115,7 @@ export class program_task extends Model<program_taskAttributes, program_taskCrea
   createSubmitted_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof program_task {
-    return program_task.init({
+    return sequelize.define('program_task', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -196,7 +196,6 @@ export class program_task extends Model<program_taskAttributes, program_taskCrea
       }
     }
   }, {
-    sequelize,
     tableName: 'program_task',
     schema: 'public',
     timestamps: false,
@@ -233,6 +232,6 @@ export class program_task extends Model<program_taskAttributes, program_taskCrea
         ]
       },
     ]
-  });
+  }) as typeof program_task;
   }
 }

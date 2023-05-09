@@ -53,7 +53,6 @@ import type { survey_important, survey_importantId } from './survey_important';
 import type { survey_question, survey_questionId } from './survey_question';
 import type { survey_question_bank, survey_question_bankId } from './survey_question_bank';
 import type { survey_response, survey_responseId } from './survey_response';
-import type { survey_response_item, survey_response_itemId } from './survey_response_item';
 import type { template, templateId } from './template';
 import type { user_badge, user_badgeId } from './user_badge';
 import type { user_certificate, user_certificateId } from './user_certificate';
@@ -1374,30 +1373,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_survey_response!: Sequelize.HasManyHasAssociationMixin<survey_response, survey_responseId>;
   hasUpdated_by_survey_responses!: Sequelize.HasManyHasAssociationsMixin<survey_response, survey_responseId>;
   countUpdated_by_survey_responses!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey_response_item via created_by
-  survey_response_items!: survey_response_item[];
-  getSurvey_response_items!: Sequelize.HasManyGetAssociationsMixin<survey_response_item>;
-  setSurvey_response_items!: Sequelize.HasManySetAssociationsMixin<survey_response_item, survey_response_itemId>;
-  addSurvey_response_item!: Sequelize.HasManyAddAssociationMixin<survey_response_item, survey_response_itemId>;
-  addSurvey_response_items!: Sequelize.HasManyAddAssociationsMixin<survey_response_item, survey_response_itemId>;
-  createSurvey_response_item!: Sequelize.HasManyCreateAssociationMixin<survey_response_item>;
-  removeSurvey_response_item!: Sequelize.HasManyRemoveAssociationMixin<survey_response_item, survey_response_itemId>;
-  removeSurvey_response_items!: Sequelize.HasManyRemoveAssociationsMixin<survey_response_item, survey_response_itemId>;
-  hasSurvey_response_item!: Sequelize.HasManyHasAssociationMixin<survey_response_item, survey_response_itemId>;
-  hasSurvey_response_items!: Sequelize.HasManyHasAssociationsMixin<survey_response_item, survey_response_itemId>;
-  countSurvey_response_items!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey_response_item via updated_by
-  updated_by_survey_response_items!: survey_response_item[];
-  getUpdated_by_survey_response_items!: Sequelize.HasManyGetAssociationsMixin<survey_response_item>;
-  setUpdated_by_survey_response_items!: Sequelize.HasManySetAssociationsMixin<survey_response_item, survey_response_itemId>;
-  addUpdated_by_survey_response_item!: Sequelize.HasManyAddAssociationMixin<survey_response_item, survey_response_itemId>;
-  addUpdated_by_survey_response_items!: Sequelize.HasManyAddAssociationsMixin<survey_response_item, survey_response_itemId>;
-  createUpdated_by_survey_response_item!: Sequelize.HasManyCreateAssociationMixin<survey_response_item>;
-  removeUpdated_by_survey_response_item!: Sequelize.HasManyRemoveAssociationMixin<survey_response_item, survey_response_itemId>;
-  removeUpdated_by_survey_response_items!: Sequelize.HasManyRemoveAssociationsMixin<survey_response_item, survey_response_itemId>;
-  hasUpdated_by_survey_response_item!: Sequelize.HasManyHasAssociationMixin<survey_response_item, survey_response_itemId>;
-  hasUpdated_by_survey_response_items!: Sequelize.HasManyHasAssociationsMixin<survey_response_item, survey_response_itemId>;
-  countUpdated_by_survey_response_items!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany template via created_by
   templates!: template[];
   getTemplates!: Sequelize.HasManyGetAssociationsMixin<template>;
@@ -1525,7 +1500,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   createManager!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof user {
-    return user.init({
+    return sequelize.define('user', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -1648,7 +1623,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       }
     }
   }, {
-    sequelize,
     tableName: 'users',
     schema: 'public',
     timestamps: false,
@@ -1693,6 +1667,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
         ]
       },
     ]
-  });
+  }) as typeof user;
   }
 }

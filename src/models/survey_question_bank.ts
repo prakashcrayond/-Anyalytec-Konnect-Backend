@@ -42,7 +42,7 @@ export class survey_question_bank extends Model<survey_question_bankAttributes, 
   createUpdated_by_user!: Sequelize.BelongsToCreateAssociationMixin<user>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof survey_question_bank {
-    return survey_question_bank.init({
+    return sequelize.define('survey_question_bank', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -92,7 +92,6 @@ export class survey_question_bank extends Model<survey_question_bankAttributes, 
       }
     }
   }, {
-    sequelize,
     tableName: 'survey_question_bank',
     schema: 'public',
     timestamps: false,
@@ -124,6 +123,6 @@ export class survey_question_bank extends Model<survey_question_bankAttributes, 
         ]
       },
     ]
-  });
+  }) as typeof survey_question_bank;
   }
 }

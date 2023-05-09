@@ -34,11 +34,20 @@ async function main() {
     additional: {
       timestamps: false,
     },
-    noAlias: true,
+    noAlias: false,
     singularize: true,
-    useDefine: false,
+    useDefine: true,
     lang: "ts",
-    skipTables: ["_prisma_migrations"],
+    skipTables: [
+      "_prisma_migrations",
+      "schedule_setting_schedule_message",
+      "schedule_setting_schedule_template",
+      "award_hash_tag",
+      "badge_hash_tag",
+      "reward_hash_tag",
+      "survey_response_item",
+      "user_badges_hash_tag",
+    ],
   };
   const auto = new SequelizeAuto(
     DB_NAME,
