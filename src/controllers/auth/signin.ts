@@ -1,34 +1,36 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
 // const bcrypt = require("bcrypt");
-
-import { ResponseType } from "../../utils";
 import { FastifyInstance } from "fastify";
+import { ResponseType } from "../../utils";
 
+// interface of your payload
 interface payload {
   username: string;
   password: string;
 }
 
+// login function here
 export const authLoginController = (
   body: payload,
   fastify: FastifyInstance
 ) => {
   return new Promise<ResponseType>(async (resolve, reject) => {
     try {
+      // get the payload
       const {
         username,
         // password
       } = body;
 
-      // let pwdhash: string = bcrypt.hashSync(password, 10);
+      // let hashPassword: string = bcrypt.hashSync(password, 10);
 
       let result: any = await prisma.users.findUnique({
         where: {
           username: username,
-          // password: pwdhash,
+          // password: hashPassword,
         },
+        // filter the variables
         select: {
           email: true,
           firstname: true,
@@ -50,6 +52,7 @@ export const authLoginController = (
         });
       }
 
+      // generate the token here
       const access_token = fastify.jwt.sign({ sub: result.username });
 
       return resolve({
@@ -65,7 +68,6 @@ export const authLoginController = (
         },
       });
     } catch (error: any) {
-      console.log(error);
       reject({
         ...globalThis.status_codes?.error,
         message: error?.message,

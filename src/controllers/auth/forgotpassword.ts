@@ -6,16 +6,18 @@ import { ResponseType } from "../../utils";
 import { ALERTS_HUB_RULES } from "../../utils/helpers";
 dotenv.config();
 const prisma = new PrismaClient();
-
 interface payload {
   email: string;
 }
 
+//  Your password forgoting function
 export const authForgotPasswordController = (params: payload) => {
   return new Promise<ResponseType>(async (resolve, reject) => {
     try {
+      // getting params
       const { email } = params;
 
+      // finding you record in users table
       let result: any = await prisma.users.findUnique({
         where: {
           email: email,
@@ -32,7 +34,6 @@ export const authForgotPasswordController = (params: payload) => {
           message: "User not found",
         });
       }
-
       //   const res = await prisma.password_reset_token.create({
       //     data: {
       //     //   token: uuid(),
@@ -45,6 +46,7 @@ export const authForgotPasswordController = (params: payload) => {
       //   const token = `${process.env.FORGOT_PASSWORD}/?token=${res?.token}`;
 
       if (email) {
+        // send the email to user
         sendNotification({
           referenceId: ALERTS_HUB_RULES.SIGN_UP_INVITATION,
           email: {
@@ -60,7 +62,6 @@ export const authForgotPasswordController = (params: payload) => {
         message: "Password reset information has been sent to your email!",
       });
     } catch (error: any) {
-      console.log(error);
       reject({
         ...globalThis.status_codes?.error,
         message: error?.message,
