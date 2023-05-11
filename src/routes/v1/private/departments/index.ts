@@ -1,5 +1,9 @@
 import { FastifyPluginAsync } from "fastify";
-import { CreateDepartment, GetAllDepartments } from "../../../../controllers";
+import {
+  CreateDepartment,
+  GetAllDepartments,
+  UpdateDepartmentStatus,
+} from "../../../../controllers";
 
 const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.post("/department", async (request: any, reply) => {
@@ -15,6 +19,15 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
     try {
       const response = await GetAllDepartments(request.params);
       reply.code(200).send(response);
+    } catch (error) {
+      reply.code(globalThis.status_codes?.error?.status).send(error);
+    }
+  });
+
+  fastify.put("/activedepartment", async (request: any, reply) => {
+    try {
+      const response = await UpdateDepartmentStatus(request.params);
+      reply.code(response.status).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
     }
