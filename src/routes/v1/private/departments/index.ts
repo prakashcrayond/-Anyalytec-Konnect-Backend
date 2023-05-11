@@ -1,9 +1,9 @@
 import { FastifyPluginAsync } from "fastify";
 import {
   CreateDepartment,
+  GetAllDepartments,
   DeleteDepartment,
-  UpdateActiveDepartment,
-  // UpdateDepartment,
+  UpdateDepartment,
 } from "../../../../controllers";
 
 const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
@@ -18,24 +18,21 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.get("/activedepartment", async (request: any, reply) => {
     try {
-      const response = await UpdateActiveDepartment(
-        request.params,
-        request.headers
-      );
+      const response = await GetAllDepartments(request.params);
       reply.code(200).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
     }
   });
 
-  // fastify.put("/department", async (request: any, reply) => {
-  //   try {
-  //     const response = await UpdateDepartment(request.body, request.headers);
-  //     reply.code(response.status).send(response);
-  //   } catch (error) {
-  //     reply.code(globalThis.status_codes?.error?.status).send(error);
-  //   }
-  // });
+  fastify.put("/department", async (request: any, reply) => {
+    try {
+      const response = await UpdateDepartment(request.body, request.headers);
+      reply.code(response.status).send(response);
+    } catch (error) {
+      reply.code(globalThis.status_codes?.error?.status).send(error);
+    }
+  });
 
   fastify.delete("/department", async (request: any, reply) => {
     try {
