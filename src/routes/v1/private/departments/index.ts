@@ -16,10 +16,7 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.get("/activedepartment", async (request: any, reply) => {
     try {
-      const response = await UpdateActiveDepartment(
-        request.params,
-        request.headers
-      );
+      const response = await UpdateActiveDepartment(request.params);
       reply.code(200).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
