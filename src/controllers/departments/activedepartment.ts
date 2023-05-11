@@ -8,7 +8,7 @@ interface Payload {
 }
 
 // create department function here
-export const UpdateActiveDepartment = (params: Payload) => {
+export const GetAllDepartments = (params: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
