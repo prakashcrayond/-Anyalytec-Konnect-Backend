@@ -14,8 +14,6 @@ export const DeleteDepartment = (params: payload, headers: any) => {
       // get the payload
       const { id } = params;
 
-      console.log("====================================================>", id);
-
       // create the department
       await prisma.department.delete({
         where: {

@@ -6,50 +6,31 @@ const prisma = new PrismaClient();
 // interface of your payload
 interface Payload {
   id: number;
-  name: string;
   active: boolean;
 }
 
-// update department function here
-export const UpdateDepartment = (
-  body: Payload,
-  headers: any
+// update department status function here
+export const UpdateDepartmentStatus = (
+  params: Payload
 ): Promise<ResponseType> => {
   return new Promise<ResponseType>(async (resolve, reject) => {
     try {
       // get the payload
-      const { id, name, active } = body;
+      const { id, active } = params;
 
-      // get header token expand
-      const { sub } = headers?.userDetails;
-
-      // find the user
-      const get_user_details = await prisma.users.findUnique({
-        where: {
-          username: sub,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      // create the department
+      // update the department
       await prisma.department.update({
-        where: {
-          id,
-        },
+        where: { id },
         data: {
           active,
-          name,
-          updated_by: get_user_details?.id,
-          updated_at: new Date(),
         },
       });
 
-      // resolve
       return resolve({
         ...(globalThis.status_codes?.success ?? {}),
-        message: "Department updated successfully!",
+        message: `Department ${
+          active ? "activated" : "deactivated"
+        } successfully!`,
       });
     } catch (error: any) {
       console.log(error);
