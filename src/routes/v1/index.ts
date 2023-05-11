@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { readdirSync } from "fs";
 import { join } from "path";
+import { parseJwt } from "../../utils";
 
 const routesLoader = (fastify: FastifyInstance, sourceDir: string) => {
   readdirSync(sourceDir, { withFileTypes: true })
@@ -13,6 +14,14 @@ const routesLoader = (fastify: FastifyInstance, sourceDir: string) => {
 };
 
 const routes = (fastify: FastifyInstance, _: any, done: any) => {
+  fastify.addHook("preHandler", async (request, reply) => {
+    const token = request.headers?.authorization?.split(".")?.[1];
+    if (token) {
+      // Decoded Token
+      request.headers["userDetails"] = parseJwt(token);
+    }
+  });
+
   //Routes of Public API
   routesLoader(fastify, join(__dirname, "public"));
   //Routes of Private API
