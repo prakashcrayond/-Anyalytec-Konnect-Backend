@@ -28,6 +28,12 @@ const options = {
   dotenv: true,
 };
 
+declare module "fastify" {
+  interface FastifyInstance {
+    config: any;
+  }
+}
+
 export default fp<FastifyEnvOptions>(async (fastify) => {
   fastify.register(fastifyEnv, options);
 });
