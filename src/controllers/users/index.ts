@@ -1,1 +1,1 @@
-export * from "./getusersbydepartmentlist";
+export * from "./getusersbydepartmentId";

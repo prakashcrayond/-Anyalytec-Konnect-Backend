@@ -6,14 +6,14 @@ interface Payload {
   dept: number;
 }
 
-// create department function here
+// get UsersByDepartmentList function here
 export const getUsersByDepartmentList = (params: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
       const { dept } = params;
 
-      // get the active departments
+      // get users by department
       const get_user_details = await prisma.users.findMany({
         where: {
           department_id: dept,
