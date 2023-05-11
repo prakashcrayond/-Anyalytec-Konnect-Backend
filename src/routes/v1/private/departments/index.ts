@@ -42,7 +42,7 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
       );
 
       const response = await DeleteDepartment(request.params, request.headers);
-      reply.code(200).send(response);
+      reply.code(response.status).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
     }
