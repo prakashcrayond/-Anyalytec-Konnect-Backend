@@ -1,6 +1,6 @@
-import { join } from "path";
 import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload";
 import { FastifyPluginAsync } from "fastify";
+import { join } from "path";
 import routesV1 from "./routes/v1";
 
 // Global API response data
