@@ -46,7 +46,7 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.delete("/department", async (request: any, reply) => {
     try {
-      const response = await DeleteDepartment(request.params, request.headers);
+      const response = await DeleteDepartment(request.body, request.headers);
       reply.code(response.status).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
