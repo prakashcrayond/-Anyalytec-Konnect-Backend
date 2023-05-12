@@ -99,8 +99,14 @@ export const getUsersByDepartmentList = (params: Payload) => {
           enabledReason: element?.enabled_reason,
           manager: element?.manager_id,
           picName: element?.pic_name,
+          imageByte: "",
           sigName: element?.sig_name,
+          signatureByte: "",
+          createdUser: "",
+          updatedUser: "",
           projectTour: element?.project_tour,
+          tour: "",
+          default: element?.is_default,
           fullName: element?.firstname + " " + element?.lastname,
         });
       }

@@ -7,17 +7,20 @@ interface payload {
   id: number;
 }
 
-// update department function here
-export const DeleteDepartment = (params: payload, headers: any) => {
+// delete department function here
+export const DeleteDepartment = (body: payload, headers: any) => {
   return new Promise<ResponseType>(async (resolve, reject) => {
     try {
       // get the payload
-      const { id } = params;
+      const { id } = body;
 
-      // create the department
-      await prisma.department.delete({
+      // soft delete the department
+      await prisma.department.update({
         where: {
-          id,
+          id: id,
+        },
+        data: {
+          active: false,
         },
       });
 
