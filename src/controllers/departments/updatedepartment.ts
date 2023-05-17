@@ -33,16 +33,26 @@ export const UpdateDepartment = (
         },
       });
 
-      // create the department
+      let filter = {};
+
+      filter = {
+        name,
+        updated_by: get_user_details?.id,
+        updated_at: new Date(),
+      };
+      if (active) {
+        filter = {
+          ...filter,
+          active,
+        };
+      }
+      // update the department
       await prisma.department.update({
         where: {
           id,
         },
         data: {
-          active,
-          name,
-          updated_by: get_user_details?.id,
-          updated_at: new Date(),
+          ...filter,
         },
       });
 

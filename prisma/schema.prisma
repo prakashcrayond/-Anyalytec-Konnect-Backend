@@ -29,6 +29,10 @@ model admin_panel {
   login_logo     String?   @db.VarChar(255)
   time_format    String?   @db.VarChar(255)
   updated_at     DateTime? @db.Timestamp(6)
+  created_by     Int?
+  updated_by     Int?
+  users_admin_panel_created_byTousers                       users?           @relation("admin_panel_created_byTousers", fields: [created_by], references: [id])
+  users_admin_panel_updated_byTousers                       users?           @relation("admin_panel_updated_byTousers", fields: [updated_by], references: [id])
 }
 
 model award {
@@ -1069,6 +1073,8 @@ model users {
   manager_id                                                          Int?
   role_id                                                             Int?
   activity_log                                                        activity_log[]
+  admin_panel_admin_panel_created_byTousers                           admin_panel[]              @relation("admin_panel_created_byTousers")
+  admin_panel_admin_panel_updated_byTousers                           admin_panel[]              @relation("admin_panel_updated_byTousers")
   award_award_created_byTousers                                       award[]                    @relation("award_created_byTousers")
   award_award_updated_byTousers                                       award[]                    @relation("award_updated_byTousers")
   badge_badge_updated_byTousers                                       badge[]                    @relation("badge_updated_byTousers")

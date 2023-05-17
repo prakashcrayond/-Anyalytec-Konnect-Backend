@@ -3,27 +3,36 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 // interface of your payload
-interface Payload {
-  active: boolean;
-}
+// interface Payload {
+//   active: boolean;
+// }
 
 // create department function here
-export const GetAllDepartments = (params: Payload) => {
+export const GetAllDepartments = (query: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
-      const { active } = params;
+      const { active } = query;
 
+      let filter: any = {};
+      if (active) {
+        if (active === "true") {
+          filter["active"] = true;
+        } else {
+          filter["active"] = false;
+        }
+      }
       // get the active departments
       const departments = await prisma.department.findMany({
         where: {
-          active: active,
+          ...filter,
         },
         select: {
           id: true,
           name: true,
           updated_at: true,
           created_at: true,
+          active: true,
           users_department_created_byTousers: {
             select: {
               id: true,
@@ -61,6 +70,7 @@ export const GetAllDepartments = (params: Payload) => {
         response.push({
           id: element.id,
           name: element.name,
+          active: element.active,
           updatedAt: element.updated_at,
           createdAt: element.created_at,
           createdBy: element?.users_department_created_byTousers,
