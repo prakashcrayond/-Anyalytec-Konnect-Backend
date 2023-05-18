@@ -3,20 +3,20 @@ const prisma = new PrismaClient();
 
 // interface of your payload
 interface Payload {
-  dept: number;
+  dept: string;
 }
 
 // get UsersByDepartmentList function here
-export const getUsersByDepartmentList = (params: Payload) => {
+export const getUsersByDepartmentList = (query: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
-      const { dept } = params;
+      const { dept } = query;
 
       // get users by department
       const get_user_details = await prisma.users.findMany({
         where: {
-          department_id: dept,
+          department_id: JSON.parse(dept),
         },
         select: {
           id: true,

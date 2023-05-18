@@ -19,7 +19,7 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.get("/activedepartment", async (request: any, reply) => {
     try {
-      const response = await GetAllDepartments(request.params);
+      const response = await GetAllDepartments(request.query);
       reply.code(200).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);
@@ -46,7 +46,7 @@ const departments: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.delete("/department", async (request: any, reply) => {
     try {
-      const response = await DeleteDepartment(request.body, request.headers);
+      const response = await DeleteDepartment(request.query, request.headers);
       reply.code(response.status).send(response);
     } catch (error) {
       reply.code(globalThis.status_codes?.error?.status).send(error);

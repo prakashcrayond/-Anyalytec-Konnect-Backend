@@ -2,6 +2,7 @@ import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload";
 import { FastifyPluginAsync } from "fastify";
 import { join } from "path";
 import routesV1 from "./routes/v1";
+import fastifyBcrypt from "fastify-bcrypt";
 
 // Global API response data
 declare global {
@@ -44,6 +45,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
   // This loads all plugins defined in routes
   // define your routes in one of these
   void fastify.register(routesV1);
+
+  void fastify.register(fastifyBcrypt);
 };
 
 export default app;
