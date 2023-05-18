@@ -4,31 +4,18 @@ const prisma = new PrismaClient();
 
 // interface of your payload
 interface payload {
-  id: number;
-  color: string;
-  financialYear: number;
-  dateFormat: string;
-  timeFormat: string;
-  language: string;
-  loginLogoByte: string;
-  headerLogoByte: string;
+  id: string;
+  hashtagName: string;
+  colorCode: string;
+  active: string;
 }
 
-// create department function here
-export const updateAdminPanelController = (body: payload, headers: any) => {
+// update hashtag function here
+export const updateHashTagController = (body: payload, headers: any) => {
   return new Promise<ResponseType>(async (resolve, reject) => {
     try {
       // get the payload
-      const {
-        id,
-        color,
-        financialYear,
-        dateFormat,
-        timeFormat,
-        language,
-        loginLogoByte,
-        headerLogoByte,
-      } = body;
+      const { id, hashtagName, colorCode, active } = body;
 
       // get header token expand
       const { sub } = headers?.userDetails;
@@ -43,19 +30,15 @@ export const updateAdminPanelController = (body: payload, headers: any) => {
         },
       });
 
-      // update the admin panel
-      await prisma.admin_panel.update({
+      // update the hashtag
+      await prisma.hashtag.update({
         where: {
-          id,
+          id: JSON.parse(id),
         },
         data: {
-          color,
-          date_format: dateFormat,
-          time_format: timeFormat,
-          language,
-          login_logo: loginLogoByte,
-          header_logo: headerLogoByte,
-          financial_year: financialYear,
+          color_code: colorCode,
+          hashtag_name: hashtagName,
+          active: JSON.parse(active),
           updated_at: new Date(),
           updated_by: get_user_details?.id,
         },
@@ -64,7 +47,7 @@ export const updateAdminPanelController = (body: payload, headers: any) => {
       // resolve
       return resolve({
         ...globalThis.status_codes?.success,
-        message: "Admin Panel updated successfully!",
+        message: "Hash Tag updated successfully!",
       });
     } catch (error: any) {
       console.log(error);

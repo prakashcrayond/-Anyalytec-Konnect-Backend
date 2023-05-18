@@ -34,15 +34,7 @@ export const createAdminUserController = (
         active,
       } = body;
 
-      //   let saltRound = 10
-
       let hash_password = await fastify.bcrypt.hash(password);
-
-      console.log("==========>", hash_password);
-
-      //   let date_birth: any = new Date(dateOfBirth)
-
-      //   let date_joining: any = new Date(dateOfJoining)
 
       //   create the admin user
       await prisma.users.create({
@@ -56,7 +48,7 @@ export const createAdminUserController = (
           date_of_birth: new Date(dateOfBirth),
           date_of_joining: new Date(dateOfJoining),
           active: JSON.parse(active),
-          is_default: designation === "Admin" ? true : false,
+          is_default: designation.toLowerCase() === "admin" ? true : false,
           updated_at: new Date(),
           created_at: new Date(),
         },
