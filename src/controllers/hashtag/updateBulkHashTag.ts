@@ -22,17 +22,15 @@ export const updateBulkHashTagController = (body: any, headers: any) => {
         },
       });
 
-      //   console.log("=========>", hashtag?.value, active?.value);
-
       // update the hashtag
       await prisma.hashtag.updateMany({
         where: {
           id: {
-            in: JSON.parse(hashtag?.value),
+            in: hashtag,
           },
         },
         data: {
-          active: JSON.parse(active?.value),
+          active: active,
           updated_at: new Date(),
           updated_by: get_user_details?.id,
         },

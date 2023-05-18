@@ -29,8 +29,6 @@ export const createHashTagController = (body: payload, headers: any) => {
         },
       });
 
-      console.log(get_user_details);
-
       // create the hashtag
       await prisma.hashtag.create({
         data: {

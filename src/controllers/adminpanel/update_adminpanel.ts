@@ -30,18 +30,18 @@ export const updateAdminPanelController = (body: payload, headers: any) => {
         headerLogoByte,
       } = body;
 
-      //   // get header token expand
-      //   const { sub } = headers?.userDetails;
+      // get header token expand
+      const { sub } = headers?.userDetails;
 
-      //   // find the user
-      //   const get_user_details = await prisma.users.findUnique({
-      //     where: {
-      //       username: sub,
-      //     },
-      //     select: {
-      //       id: true,
-      //     },
-      //   });
+      // find the user
+      const get_user_details = await prisma.users.findUnique({
+        where: {
+          username: sub,
+        },
+        select: {
+          id: true,
+        },
+      });
 
       // update the admin panel
       await prisma.admin_panel.update({
@@ -57,6 +57,7 @@ export const updateAdminPanelController = (body: payload, headers: any) => {
           header_logo: headerLogoByte,
           financial_year: financialYear,
           updated_at: new Date(),
+          updated_by: get_user_details?.id,
         },
       });
 

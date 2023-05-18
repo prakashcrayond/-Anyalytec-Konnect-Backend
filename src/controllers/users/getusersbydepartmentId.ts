@@ -67,6 +67,7 @@ export const getUsersByDepartmentList = (query: Payload) => {
       for (const element of get_user_details) {
         let getCreatedByUser;
 
+        //find the createdby user
         if (get_user_details.created_by) {
           getCreatedByUser = await prisma.users.findUnique({
             where: {
@@ -81,6 +82,7 @@ export const getUsersByDepartmentList = (query: Payload) => {
 
         let getUpdatedByUser;
 
+        //find the updatedby user
         if (get_user_details.updated_by) {
           getUpdatedByUser = await prisma.users.findUnique({
             where: {
