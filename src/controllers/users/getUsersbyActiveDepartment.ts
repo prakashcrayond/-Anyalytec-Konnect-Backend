@@ -3,20 +3,31 @@ const prisma = new PrismaClient();
 
 // interface of your payload
 interface Payload {
-  dept: string;
+  active: string;
 }
 
 // get UsersByDepartmentList function here
-export const getUsersByDepartmentList = (query: Payload) => {
+export const getUsersByActiveDepartmentController = (query: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
-      const { dept } = query;
+      const { active } = query;
+
+      let filter: any = {};
+      if (active) {
+        if (active === "true") {
+          filter["active"] = true;
+        } else if (active === "false") {
+          filter["active"] = false;
+        } else if (active === "all") {
+          filter["active"] = {};
+        }
+      }
 
       // get users by department
       const get_user_details: any = await prisma.users.findMany({
         where: {
-          department_id: JSON.parse(dept),
+          ...filter,
         },
         select: {
           id: true,
