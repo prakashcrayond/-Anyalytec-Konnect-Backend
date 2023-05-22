@@ -6,8 +6,8 @@ interface Payload {
   active: string;
 }
 
-// get UsersByDepartmentList function here
-export const getUsersByActiveDepartmentController = (query: Payload) => {
+// get UsersByActive/InactiveList function here
+export const getAllUsersController = (query: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
@@ -19,12 +19,10 @@ export const getUsersByActiveDepartmentController = (query: Payload) => {
           filter["active"] = true;
         } else if (active === "false") {
           filter["active"] = false;
-        } else if (active === "all") {
-          filter["active"] = {};
         }
       }
 
-      // get users by department
+      // get users by Active/Inactive
       const get_user_details: any = await prisma.users.findMany({
         where: {
           ...filter,
@@ -70,6 +68,9 @@ export const getUsersByActiveDepartmentController = (query: Payload) => {
               is_default: true,
             },
           },
+        },
+        orderBy: {
+          id: "asc",
         },
       });
 

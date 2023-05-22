@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { activity_log, activity_logId } from './activity_log';
+import type { admin_panel, admin_panelId } from './admin_panel';
 import type { award, awardId } from './award';
 import type { badge, badgeId } from './badge';
 import type { certificate, certificateId } from './certificate';
@@ -72,9 +73,7 @@ export interface userAttributes {
   is_default: boolean;
   lastname?: string;
   password?: string;
-  pic_name?: string;
   project_tour?: string;
-  sig_name?: string;
   telephone_number?: string;
   updated_at?: Date;
   updated_by?: number;
@@ -82,11 +81,13 @@ export interface userAttributes {
   department_id?: number;
   manager_id?: number;
   role_id?: number;
+  profile_pic?: string;
+  sign_pic?: string;
 }
 
 export type userPk = "id";
 export type userId = user[userPk];
-export type userOptionalAttributes = "id" | "country_code" | "created_at" | "created_by" | "date_of_birth" | "date_of_joining" | "designation" | "email" | "enabled_reason" | "firstname" | "lastname" | "password" | "pic_name" | "project_tour" | "sig_name" | "telephone_number" | "updated_at" | "updated_by" | "username" | "department_id" | "manager_id" | "role_id";
+export type userOptionalAttributes = "id" | "country_code" | "created_at" | "created_by" | "date_of_birth" | "date_of_joining" | "designation" | "email" | "enabled_reason" | "firstname" | "lastname" | "password" | "project_tour" | "telephone_number" | "updated_at" | "updated_by" | "username" | "department_id" | "manager_id" | "role_id" | "profile_pic" | "sign_pic";
 export type userCreationAttributes = Optional<userAttributes, userOptionalAttributes>;
 
 export class user extends Model<userAttributes, userCreationAttributes> implements userAttributes {
@@ -104,9 +105,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   is_default!: boolean;
   lastname?: string;
   password?: string;
-  pic_name?: string;
   project_tour?: string;
-  sig_name?: string;
   telephone_number?: string;
   updated_at?: Date;
   updated_by?: number;
@@ -114,6 +113,8 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   department_id?: number;
   manager_id?: number;
   role_id?: number;
+  profile_pic?: string;
+  sign_pic?: string;
 
   // user belongsTo department via department_id
   department_department!: department;
@@ -137,6 +138,30 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasActivity_log!: Sequelize.HasManyHasAssociationMixin<activity_log, activity_logId>;
   hasActivity_logs!: Sequelize.HasManyHasAssociationsMixin<activity_log, activity_logId>;
   countActivity_logs!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany admin_panel via created_by
+  admin_panels!: admin_panel[];
+  getAdmin_panels!: Sequelize.HasManyGetAssociationsMixin<admin_panel>;
+  setAdmin_panels!: Sequelize.HasManySetAssociationsMixin<admin_panel, admin_panelId>;
+  addAdmin_panel!: Sequelize.HasManyAddAssociationMixin<admin_panel, admin_panelId>;
+  addAdmin_panels!: Sequelize.HasManyAddAssociationsMixin<admin_panel, admin_panelId>;
+  createAdmin_panel!: Sequelize.HasManyCreateAssociationMixin<admin_panel>;
+  removeAdmin_panel!: Sequelize.HasManyRemoveAssociationMixin<admin_panel, admin_panelId>;
+  removeAdmin_panels!: Sequelize.HasManyRemoveAssociationsMixin<admin_panel, admin_panelId>;
+  hasAdmin_panel!: Sequelize.HasManyHasAssociationMixin<admin_panel, admin_panelId>;
+  hasAdmin_panels!: Sequelize.HasManyHasAssociationsMixin<admin_panel, admin_panelId>;
+  countAdmin_panels!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany admin_panel via updated_by
+  updated_by_admin_panels!: admin_panel[];
+  getUpdated_by_admin_panels!: Sequelize.HasManyGetAssociationsMixin<admin_panel>;
+  setUpdated_by_admin_panels!: Sequelize.HasManySetAssociationsMixin<admin_panel, admin_panelId>;
+  addUpdated_by_admin_panel!: Sequelize.HasManyAddAssociationMixin<admin_panel, admin_panelId>;
+  addUpdated_by_admin_panels!: Sequelize.HasManyAddAssociationsMixin<admin_panel, admin_panelId>;
+  createUpdated_by_admin_panel!: Sequelize.HasManyCreateAssociationMixin<admin_panel>;
+  removeUpdated_by_admin_panel!: Sequelize.HasManyRemoveAssociationMixin<admin_panel, admin_panelId>;
+  removeUpdated_by_admin_panels!: Sequelize.HasManyRemoveAssociationsMixin<admin_panel, admin_panelId>;
+  hasUpdated_by_admin_panel!: Sequelize.HasManyHasAssociationMixin<admin_panel, admin_panelId>;
+  hasUpdated_by_admin_panels!: Sequelize.HasManyHasAssociationsMixin<admin_panel, admin_panelId>;
+  countUpdated_by_admin_panels!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany award via created_by
   awards!: award[];
   getAwards!: Sequelize.HasManyGetAssociationsMixin<award>;
@@ -161,7 +186,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_award!: Sequelize.HasManyHasAssociationMixin<award, awardId>;
   hasUpdated_by_awards!: Sequelize.HasManyHasAssociationsMixin<award, awardId>;
   countUpdated_by_awards!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany badge via updated_by
+  // user hasMany badge via created_by
   badges!: badge[];
   getBadges!: Sequelize.HasManyGetAssociationsMixin<badge>;
   setBadges!: Sequelize.HasManySetAssociationsMixin<badge, badgeId>;
@@ -173,19 +198,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasBadge!: Sequelize.HasManyHasAssociationMixin<badge, badgeId>;
   hasBadges!: Sequelize.HasManyHasAssociationsMixin<badge, badgeId>;
   countBadges!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany badge via created_by
-  created_by_badges!: badge[];
-  getCreated_by_badges!: Sequelize.HasManyGetAssociationsMixin<badge>;
-  setCreated_by_badges!: Sequelize.HasManySetAssociationsMixin<badge, badgeId>;
-  addCreated_by_badge!: Sequelize.HasManyAddAssociationMixin<badge, badgeId>;
-  addCreated_by_badges!: Sequelize.HasManyAddAssociationsMixin<badge, badgeId>;
-  createCreated_by_badge!: Sequelize.HasManyCreateAssociationMixin<badge>;
-  removeCreated_by_badge!: Sequelize.HasManyRemoveAssociationMixin<badge, badgeId>;
-  removeCreated_by_badges!: Sequelize.HasManyRemoveAssociationsMixin<badge, badgeId>;
-  hasCreated_by_badge!: Sequelize.HasManyHasAssociationMixin<badge, badgeId>;
-  hasCreated_by_badges!: Sequelize.HasManyHasAssociationsMixin<badge, badgeId>;
-  countCreated_by_badges!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany certificate via updated_by
+  // user hasMany badge via updated_by
+  updated_by_badges!: badge[];
+  getUpdated_by_badges!: Sequelize.HasManyGetAssociationsMixin<badge>;
+  setUpdated_by_badges!: Sequelize.HasManySetAssociationsMixin<badge, badgeId>;
+  addUpdated_by_badge!: Sequelize.HasManyAddAssociationMixin<badge, badgeId>;
+  addUpdated_by_badges!: Sequelize.HasManyAddAssociationsMixin<badge, badgeId>;
+  createUpdated_by_badge!: Sequelize.HasManyCreateAssociationMixin<badge>;
+  removeUpdated_by_badge!: Sequelize.HasManyRemoveAssociationMixin<badge, badgeId>;
+  removeUpdated_by_badges!: Sequelize.HasManyRemoveAssociationsMixin<badge, badgeId>;
+  hasUpdated_by_badge!: Sequelize.HasManyHasAssociationMixin<badge, badgeId>;
+  hasUpdated_by_badges!: Sequelize.HasManyHasAssociationsMixin<badge, badgeId>;
+  countUpdated_by_badges!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany certificate via created_by
   certificates!: certificate[];
   getCertificates!: Sequelize.HasManyGetAssociationsMixin<certificate>;
   setCertificates!: Sequelize.HasManySetAssociationsMixin<certificate, certificateId>;
@@ -197,19 +222,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasCertificate!: Sequelize.HasManyHasAssociationMixin<certificate, certificateId>;
   hasCertificates!: Sequelize.HasManyHasAssociationsMixin<certificate, certificateId>;
   countCertificates!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany certificate via created_by
-  created_by_certificates!: certificate[];
-  getCreated_by_certificates!: Sequelize.HasManyGetAssociationsMixin<certificate>;
-  setCreated_by_certificates!: Sequelize.HasManySetAssociationsMixin<certificate, certificateId>;
-  addCreated_by_certificate!: Sequelize.HasManyAddAssociationMixin<certificate, certificateId>;
-  addCreated_by_certificates!: Sequelize.HasManyAddAssociationsMixin<certificate, certificateId>;
-  createCreated_by_certificate!: Sequelize.HasManyCreateAssociationMixin<certificate>;
-  removeCreated_by_certificate!: Sequelize.HasManyRemoveAssociationMixin<certificate, certificateId>;
-  removeCreated_by_certificates!: Sequelize.HasManyRemoveAssociationsMixin<certificate, certificateId>;
-  hasCreated_by_certificate!: Sequelize.HasManyHasAssociationMixin<certificate, certificateId>;
-  hasCreated_by_certificates!: Sequelize.HasManyHasAssociationsMixin<certificate, certificateId>;
-  countCreated_by_certificates!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany configuration via updated_by
+  // user hasMany certificate via updated_by
+  updated_by_certificates!: certificate[];
+  getUpdated_by_certificates!: Sequelize.HasManyGetAssociationsMixin<certificate>;
+  setUpdated_by_certificates!: Sequelize.HasManySetAssociationsMixin<certificate, certificateId>;
+  addUpdated_by_certificate!: Sequelize.HasManyAddAssociationMixin<certificate, certificateId>;
+  addUpdated_by_certificates!: Sequelize.HasManyAddAssociationsMixin<certificate, certificateId>;
+  createUpdated_by_certificate!: Sequelize.HasManyCreateAssociationMixin<certificate>;
+  removeUpdated_by_certificate!: Sequelize.HasManyRemoveAssociationMixin<certificate, certificateId>;
+  removeUpdated_by_certificates!: Sequelize.HasManyRemoveAssociationsMixin<certificate, certificateId>;
+  hasUpdated_by_certificate!: Sequelize.HasManyHasAssociationMixin<certificate, certificateId>;
+  hasUpdated_by_certificates!: Sequelize.HasManyHasAssociationsMixin<certificate, certificateId>;
+  countUpdated_by_certificates!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany configuration via created_by
   configurations!: configuration[];
   getConfigurations!: Sequelize.HasManyGetAssociationsMixin<configuration>;
   setConfigurations!: Sequelize.HasManySetAssociationsMixin<configuration, configurationId>;
@@ -221,18 +246,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasConfiguration!: Sequelize.HasManyHasAssociationMixin<configuration, configurationId>;
   hasConfigurations!: Sequelize.HasManyHasAssociationsMixin<configuration, configurationId>;
   countConfigurations!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany configuration via created_by
-  created_by_configurations!: configuration[];
-  getCreated_by_configurations!: Sequelize.HasManyGetAssociationsMixin<configuration>;
-  setCreated_by_configurations!: Sequelize.HasManySetAssociationsMixin<configuration, configurationId>;
-  addCreated_by_configuration!: Sequelize.HasManyAddAssociationMixin<configuration, configurationId>;
-  addCreated_by_configurations!: Sequelize.HasManyAddAssociationsMixin<configuration, configurationId>;
-  createCreated_by_configuration!: Sequelize.HasManyCreateAssociationMixin<configuration>;
-  removeCreated_by_configuration!: Sequelize.HasManyRemoveAssociationMixin<configuration, configurationId>;
-  removeCreated_by_configurations!: Sequelize.HasManyRemoveAssociationsMixin<configuration, configurationId>;
-  hasCreated_by_configuration!: Sequelize.HasManyHasAssociationMixin<configuration, configurationId>;
-  hasCreated_by_configurations!: Sequelize.HasManyHasAssociationsMixin<configuration, configurationId>;
-  countCreated_by_configurations!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany configuration via updated_by
+  updated_by_configurations!: configuration[];
+  getUpdated_by_configurations!: Sequelize.HasManyGetAssociationsMixin<configuration>;
+  setUpdated_by_configurations!: Sequelize.HasManySetAssociationsMixin<configuration, configurationId>;
+  addUpdated_by_configuration!: Sequelize.HasManyAddAssociationMixin<configuration, configurationId>;
+  addUpdated_by_configurations!: Sequelize.HasManyAddAssociationsMixin<configuration, configurationId>;
+  createUpdated_by_configuration!: Sequelize.HasManyCreateAssociationMixin<configuration>;
+  removeUpdated_by_configuration!: Sequelize.HasManyRemoveAssociationMixin<configuration, configurationId>;
+  removeUpdated_by_configurations!: Sequelize.HasManyRemoveAssociationsMixin<configuration, configurationId>;
+  hasUpdated_by_configuration!: Sequelize.HasManyHasAssociationMixin<configuration, configurationId>;
+  hasUpdated_by_configurations!: Sequelize.HasManyHasAssociationsMixin<configuration, configurationId>;
+  countUpdated_by_configurations!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany department via created_by
   departments!: department[];
   getDepartments!: Sequelize.HasManyGetAssociationsMixin<department>;
@@ -257,7 +282,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_department!: Sequelize.HasManyHasAssociationMixin<department, departmentId>;
   hasUpdated_by_departments!: Sequelize.HasManyHasAssociationsMixin<department, departmentId>;
   countUpdated_by_departments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany ecard via from_user_id
+  // user hasMany ecard via created_by
   ecards!: ecard[];
   getEcards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
   setEcards!: Sequelize.HasManySetAssociationsMixin<ecard, ecardId>;
@@ -269,30 +294,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasEcard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
   hasEcards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
   countEcards!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany ecard via created_by
-  created_by_ecards!: ecard[];
-  getCreated_by_ecards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
-  setCreated_by_ecards!: Sequelize.HasManySetAssociationsMixin<ecard, ecardId>;
-  addCreated_by_ecard!: Sequelize.HasManyAddAssociationMixin<ecard, ecardId>;
-  addCreated_by_ecards!: Sequelize.HasManyAddAssociationsMixin<ecard, ecardId>;
-  createCreated_by_ecard!: Sequelize.HasManyCreateAssociationMixin<ecard>;
-  removeCreated_by_ecard!: Sequelize.HasManyRemoveAssociationMixin<ecard, ecardId>;
-  removeCreated_by_ecards!: Sequelize.HasManyRemoveAssociationsMixin<ecard, ecardId>;
-  hasCreated_by_ecard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
-  hasCreated_by_ecards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
-  countCreated_by_ecards!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany ecard via updated_by
-  updated_by_ecards!: ecard[];
-  getUpdated_by_ecards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
-  setUpdated_by_ecards!: Sequelize.HasManySetAssociationsMixin<ecard, ecardId>;
-  addUpdated_by_ecard!: Sequelize.HasManyAddAssociationMixin<ecard, ecardId>;
-  addUpdated_by_ecards!: Sequelize.HasManyAddAssociationsMixin<ecard, ecardId>;
-  createUpdated_by_ecard!: Sequelize.HasManyCreateAssociationMixin<ecard>;
-  removeUpdated_by_ecard!: Sequelize.HasManyRemoveAssociationMixin<ecard, ecardId>;
-  removeUpdated_by_ecards!: Sequelize.HasManyRemoveAssociationsMixin<ecard, ecardId>;
-  hasUpdated_by_ecard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
-  hasUpdated_by_ecards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
-  countUpdated_by_ecards!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany ecard via from_user_id
+  from_user_ecards!: ecard[];
+  getFrom_user_ecards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
+  setFrom_user_ecards!: Sequelize.HasManySetAssociationsMixin<ecard, ecardId>;
+  addFrom_user_ecard!: Sequelize.HasManyAddAssociationMixin<ecard, ecardId>;
+  addFrom_user_ecards!: Sequelize.HasManyAddAssociationsMixin<ecard, ecardId>;
+  createFrom_user_ecard!: Sequelize.HasManyCreateAssociationMixin<ecard>;
+  removeFrom_user_ecard!: Sequelize.HasManyRemoveAssociationMixin<ecard, ecardId>;
+  removeFrom_user_ecards!: Sequelize.HasManyRemoveAssociationsMixin<ecard, ecardId>;
+  hasFrom_user_ecard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
+  hasFrom_user_ecards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
+  countFrom_user_ecards!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany ecard via to_user_id
   to_user_ecards!: ecard[];
   getTo_user_ecards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
@@ -305,6 +318,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasTo_user_ecard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
   hasTo_user_ecards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
   countTo_user_ecards!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany ecard via updated_by
+  updated_by_ecards!: ecard[];
+  getUpdated_by_ecards!: Sequelize.HasManyGetAssociationsMixin<ecard>;
+  setUpdated_by_ecards!: Sequelize.HasManySetAssociationsMixin<ecard, ecardId>;
+  addUpdated_by_ecard!: Sequelize.HasManyAddAssociationMixin<ecard, ecardId>;
+  addUpdated_by_ecards!: Sequelize.HasManyAddAssociationsMixin<ecard, ecardId>;
+  createUpdated_by_ecard!: Sequelize.HasManyCreateAssociationMixin<ecard>;
+  removeUpdated_by_ecard!: Sequelize.HasManyRemoveAssociationMixin<ecard, ecardId>;
+  removeUpdated_by_ecards!: Sequelize.HasManyRemoveAssociationsMixin<ecard, ecardId>;
+  hasUpdated_by_ecard!: Sequelize.HasManyHasAssociationMixin<ecard, ecardId>;
+  hasUpdated_by_ecards!: Sequelize.HasManyHasAssociationsMixin<ecard, ecardId>;
+  countUpdated_by_ecards!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany forum via created_by
   forums!: forum[];
   getForums!: Sequelize.HasManyGetAssociationsMixin<forum>;
@@ -425,7 +450,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasForum_read!: Sequelize.HasManyHasAssociationMixin<forum_read, forum_readId>;
   hasForum_reads!: Sequelize.HasManyHasAssociationsMixin<forum_read, forum_readId>;
   countForum_reads!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany forumcomment via updated_by
+  // user hasMany forumcomment via created_by
   forumcomments!: forumcomment[];
   getForumcomments!: Sequelize.HasManyGetAssociationsMixin<forumcomment>;
   setForumcomments!: Sequelize.HasManySetAssociationsMixin<forumcomment, forumcommentId>;
@@ -437,18 +462,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasForumcomment!: Sequelize.HasManyHasAssociationMixin<forumcomment, forumcommentId>;
   hasForumcomments!: Sequelize.HasManyHasAssociationsMixin<forumcomment, forumcommentId>;
   countForumcomments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany forumcomment via created_by
-  created_by_forumcomments!: forumcomment[];
-  getCreated_by_forumcomments!: Sequelize.HasManyGetAssociationsMixin<forumcomment>;
-  setCreated_by_forumcomments!: Sequelize.HasManySetAssociationsMixin<forumcomment, forumcommentId>;
-  addCreated_by_forumcomment!: Sequelize.HasManyAddAssociationMixin<forumcomment, forumcommentId>;
-  addCreated_by_forumcomments!: Sequelize.HasManyAddAssociationsMixin<forumcomment, forumcommentId>;
-  createCreated_by_forumcomment!: Sequelize.HasManyCreateAssociationMixin<forumcomment>;
-  removeCreated_by_forumcomment!: Sequelize.HasManyRemoveAssociationMixin<forumcomment, forumcommentId>;
-  removeCreated_by_forumcomments!: Sequelize.HasManyRemoveAssociationsMixin<forumcomment, forumcommentId>;
-  hasCreated_by_forumcomment!: Sequelize.HasManyHasAssociationMixin<forumcomment, forumcommentId>;
-  hasCreated_by_forumcomments!: Sequelize.HasManyHasAssociationsMixin<forumcomment, forumcommentId>;
-  countCreated_by_forumcomments!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany forumcomment via updated_by
+  updated_by_forumcomments!: forumcomment[];
+  getUpdated_by_forumcomments!: Sequelize.HasManyGetAssociationsMixin<forumcomment>;
+  setUpdated_by_forumcomments!: Sequelize.HasManySetAssociationsMixin<forumcomment, forumcommentId>;
+  addUpdated_by_forumcomment!: Sequelize.HasManyAddAssociationMixin<forumcomment, forumcommentId>;
+  addUpdated_by_forumcomments!: Sequelize.HasManyAddAssociationsMixin<forumcomment, forumcommentId>;
+  createUpdated_by_forumcomment!: Sequelize.HasManyCreateAssociationMixin<forumcomment>;
+  removeUpdated_by_forumcomment!: Sequelize.HasManyRemoveAssociationMixin<forumcomment, forumcommentId>;
+  removeUpdated_by_forumcomments!: Sequelize.HasManyRemoveAssociationsMixin<forumcomment, forumcommentId>;
+  hasUpdated_by_forumcomment!: Sequelize.HasManyHasAssociationMixin<forumcomment, forumcommentId>;
+  hasUpdated_by_forumcomments!: Sequelize.HasManyHasAssociationsMixin<forumcomment, forumcommentId>;
+  countUpdated_by_forumcomments!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany hashtag via created_by
   hashtags!: hashtag[];
   getHashtags!: Sequelize.HasManyGetAssociationsMixin<hashtag>;
@@ -473,7 +498,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_hashtag!: Sequelize.HasManyHasAssociationMixin<hashtag, hashtagId>;
   hasUpdated_by_hashtags!: Sequelize.HasManyHasAssociationsMixin<hashtag, hashtagId>;
   countUpdated_by_hashtags!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany idea via updated_by
+  // user hasMany idea via created_by
   ideas!: idea[];
   getIdeas!: Sequelize.HasManyGetAssociationsMixin<idea>;
   setIdeas!: Sequelize.HasManySetAssociationsMixin<idea, ideaId>;
@@ -485,18 +510,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasIdea!: Sequelize.HasManyHasAssociationMixin<idea, ideaId>;
   hasIdeas!: Sequelize.HasManyHasAssociationsMixin<idea, ideaId>;
   countIdeas!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany idea via created_by
-  created_by_ideas!: idea[];
-  getCreated_by_ideas!: Sequelize.HasManyGetAssociationsMixin<idea>;
-  setCreated_by_ideas!: Sequelize.HasManySetAssociationsMixin<idea, ideaId>;
-  addCreated_by_idea!: Sequelize.HasManyAddAssociationMixin<idea, ideaId>;
-  addCreated_by_ideas!: Sequelize.HasManyAddAssociationsMixin<idea, ideaId>;
-  createCreated_by_idea!: Sequelize.HasManyCreateAssociationMixin<idea>;
-  removeCreated_by_idea!: Sequelize.HasManyRemoveAssociationMixin<idea, ideaId>;
-  removeCreated_by_ideas!: Sequelize.HasManyRemoveAssociationsMixin<idea, ideaId>;
-  hasCreated_by_idea!: Sequelize.HasManyHasAssociationMixin<idea, ideaId>;
-  hasCreated_by_ideas!: Sequelize.HasManyHasAssociationsMixin<idea, ideaId>;
-  countCreated_by_ideas!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany idea via updated_by
+  updated_by_ideas!: idea[];
+  getUpdated_by_ideas!: Sequelize.HasManyGetAssociationsMixin<idea>;
+  setUpdated_by_ideas!: Sequelize.HasManySetAssociationsMixin<idea, ideaId>;
+  addUpdated_by_idea!: Sequelize.HasManyAddAssociationMixin<idea, ideaId>;
+  addUpdated_by_ideas!: Sequelize.HasManyAddAssociationsMixin<idea, ideaId>;
+  createUpdated_by_idea!: Sequelize.HasManyCreateAssociationMixin<idea>;
+  removeUpdated_by_idea!: Sequelize.HasManyRemoveAssociationMixin<idea, ideaId>;
+  removeUpdated_by_ideas!: Sequelize.HasManyRemoveAssociationsMixin<idea, ideaId>;
+  hasUpdated_by_idea!: Sequelize.HasManyHasAssociationMixin<idea, ideaId>;
+  hasUpdated_by_ideas!: Sequelize.HasManyHasAssociationsMixin<idea, ideaId>;
+  countUpdated_by_ideas!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany idea_attachment via created_by
   idea_attachments!: idea_attachment[];
   getIdea_attachments!: Sequelize.HasManyGetAssociationsMixin<idea_attachment>;
@@ -605,7 +630,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasIdea_read!: Sequelize.HasManyHasAssociationMixin<idea_read, idea_readId>;
   hasIdea_reads!: Sequelize.HasManyHasAssociationsMixin<idea_read, idea_readId>;
   countIdea_reads!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany ideacomments_attachment via updated_by
+  // user hasMany ideacomments_attachment via created_by
   ideacomments_attachments!: ideacomments_attachment[];
   getIdeacomments_attachments!: Sequelize.HasManyGetAssociationsMixin<ideacomments_attachment>;
   setIdeacomments_attachments!: Sequelize.HasManySetAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
@@ -617,19 +642,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasIdeacomments_attachment!: Sequelize.HasManyHasAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
   hasIdeacomments_attachments!: Sequelize.HasManyHasAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
   countIdeacomments_attachments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany ideacomments_attachment via created_by
-  created_by_ideacomments_attachments!: ideacomments_attachment[];
-  getCreated_by_ideacomments_attachments!: Sequelize.HasManyGetAssociationsMixin<ideacomments_attachment>;
-  setCreated_by_ideacomments_attachments!: Sequelize.HasManySetAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  addCreated_by_ideacomments_attachment!: Sequelize.HasManyAddAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  addCreated_by_ideacomments_attachments!: Sequelize.HasManyAddAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  createCreated_by_ideacomments_attachment!: Sequelize.HasManyCreateAssociationMixin<ideacomments_attachment>;
-  removeCreated_by_ideacomments_attachment!: Sequelize.HasManyRemoveAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  removeCreated_by_ideacomments_attachments!: Sequelize.HasManyRemoveAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  hasCreated_by_ideacomments_attachment!: Sequelize.HasManyHasAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  hasCreated_by_ideacomments_attachments!: Sequelize.HasManyHasAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
-  countCreated_by_ideacomments_attachments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany manage_award_nomination via user_id
+  // user hasMany ideacomments_attachment via updated_by
+  updated_by_ideacomments_attachments!: ideacomments_attachment[];
+  getUpdated_by_ideacomments_attachments!: Sequelize.HasManyGetAssociationsMixin<ideacomments_attachment>;
+  setUpdated_by_ideacomments_attachments!: Sequelize.HasManySetAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  addUpdated_by_ideacomments_attachment!: Sequelize.HasManyAddAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  addUpdated_by_ideacomments_attachments!: Sequelize.HasManyAddAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  createUpdated_by_ideacomments_attachment!: Sequelize.HasManyCreateAssociationMixin<ideacomments_attachment>;
+  removeUpdated_by_ideacomments_attachment!: Sequelize.HasManyRemoveAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  removeUpdated_by_ideacomments_attachments!: Sequelize.HasManyRemoveAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  hasUpdated_by_ideacomments_attachment!: Sequelize.HasManyHasAssociationMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  hasUpdated_by_ideacomments_attachments!: Sequelize.HasManyHasAssociationsMixin<ideacomments_attachment, ideacomments_attachmentId>;
+  countUpdated_by_ideacomments_attachments!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany manage_award_nomination via created_by
   manage_award_nominations!: manage_award_nomination[];
   getManage_award_nominations!: Sequelize.HasManyGetAssociationsMixin<manage_award_nomination>;
   setManage_award_nominations!: Sequelize.HasManySetAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
@@ -641,18 +666,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasManage_award_nomination!: Sequelize.HasManyHasAssociationMixin<manage_award_nomination, manage_award_nominationId>;
   hasManage_award_nominations!: Sequelize.HasManyHasAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
   countManage_award_nominations!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany manage_award_nomination via created_by
-  created_by_manage_award_nominations!: manage_award_nomination[];
-  getCreated_by_manage_award_nominations!: Sequelize.HasManyGetAssociationsMixin<manage_award_nomination>;
-  setCreated_by_manage_award_nominations!: Sequelize.HasManySetAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
-  addCreated_by_manage_award_nomination!: Sequelize.HasManyAddAssociationMixin<manage_award_nomination, manage_award_nominationId>;
-  addCreated_by_manage_award_nominations!: Sequelize.HasManyAddAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
-  createCreated_by_manage_award_nomination!: Sequelize.HasManyCreateAssociationMixin<manage_award_nomination>;
-  removeCreated_by_manage_award_nomination!: Sequelize.HasManyRemoveAssociationMixin<manage_award_nomination, manage_award_nominationId>;
-  removeCreated_by_manage_award_nominations!: Sequelize.HasManyRemoveAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
-  hasCreated_by_manage_award_nomination!: Sequelize.HasManyHasAssociationMixin<manage_award_nomination, manage_award_nominationId>;
-  hasCreated_by_manage_award_nominations!: Sequelize.HasManyHasAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
-  countCreated_by_manage_award_nominations!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany manage_award_nomination via updated_by
   updated_by_manage_award_nominations!: manage_award_nomination[];
   getUpdated_by_manage_award_nominations!: Sequelize.HasManyGetAssociationsMixin<manage_award_nomination>;
@@ -665,7 +678,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_manage_award_nomination!: Sequelize.HasManyHasAssociationMixin<manage_award_nomination, manage_award_nominationId>;
   hasUpdated_by_manage_award_nominations!: Sequelize.HasManyHasAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
   countUpdated_by_manage_award_nominations!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany manage_award via updated_by
+  // user hasMany manage_award_nomination via user_id
+  user_manage_award_nominations!: manage_award_nomination[];
+  getUser_manage_award_nominations!: Sequelize.HasManyGetAssociationsMixin<manage_award_nomination>;
+  setUser_manage_award_nominations!: Sequelize.HasManySetAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
+  addUser_manage_award_nomination!: Sequelize.HasManyAddAssociationMixin<manage_award_nomination, manage_award_nominationId>;
+  addUser_manage_award_nominations!: Sequelize.HasManyAddAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
+  createUser_manage_award_nomination!: Sequelize.HasManyCreateAssociationMixin<manage_award_nomination>;
+  removeUser_manage_award_nomination!: Sequelize.HasManyRemoveAssociationMixin<manage_award_nomination, manage_award_nominationId>;
+  removeUser_manage_award_nominations!: Sequelize.HasManyRemoveAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
+  hasUser_manage_award_nomination!: Sequelize.HasManyHasAssociationMixin<manage_award_nomination, manage_award_nominationId>;
+  hasUser_manage_award_nominations!: Sequelize.HasManyHasAssociationsMixin<manage_award_nomination, manage_award_nominationId>;
+  countUser_manage_award_nominations!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany manage_award via created_by
   manage_awards!: manage_award[];
   getManage_awards!: Sequelize.HasManyGetAssociationsMixin<manage_award>;
   setManage_awards!: Sequelize.HasManySetAssociationsMixin<manage_award, manage_awardId>;
@@ -701,18 +726,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasNominator_manage_award!: Sequelize.HasManyHasAssociationMixin<manage_award, manage_awardId>;
   hasNominator_manage_awards!: Sequelize.HasManyHasAssociationsMixin<manage_award, manage_awardId>;
   countNominator_manage_awards!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany manage_award via created_by
-  created_by_manage_awards!: manage_award[];
-  getCreated_by_manage_awards!: Sequelize.HasManyGetAssociationsMixin<manage_award>;
-  setCreated_by_manage_awards!: Sequelize.HasManySetAssociationsMixin<manage_award, manage_awardId>;
-  addCreated_by_manage_award!: Sequelize.HasManyAddAssociationMixin<manage_award, manage_awardId>;
-  addCreated_by_manage_awards!: Sequelize.HasManyAddAssociationsMixin<manage_award, manage_awardId>;
-  createCreated_by_manage_award!: Sequelize.HasManyCreateAssociationMixin<manage_award>;
-  removeCreated_by_manage_award!: Sequelize.HasManyRemoveAssociationMixin<manage_award, manage_awardId>;
-  removeCreated_by_manage_awards!: Sequelize.HasManyRemoveAssociationsMixin<manage_award, manage_awardId>;
-  hasCreated_by_manage_award!: Sequelize.HasManyHasAssociationMixin<manage_award, manage_awardId>;
-  hasCreated_by_manage_awards!: Sequelize.HasManyHasAssociationsMixin<manage_award, manage_awardId>;
-  countCreated_by_manage_awards!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany manage_award via updated_by
+  updated_by_manage_awards!: manage_award[];
+  getUpdated_by_manage_awards!: Sequelize.HasManyGetAssociationsMixin<manage_award>;
+  setUpdated_by_manage_awards!: Sequelize.HasManySetAssociationsMixin<manage_award, manage_awardId>;
+  addUpdated_by_manage_award!: Sequelize.HasManyAddAssociationMixin<manage_award, manage_awardId>;
+  addUpdated_by_manage_awards!: Sequelize.HasManyAddAssociationsMixin<manage_award, manage_awardId>;
+  createUpdated_by_manage_award!: Sequelize.HasManyCreateAssociationMixin<manage_award>;
+  removeUpdated_by_manage_award!: Sequelize.HasManyRemoveAssociationMixin<manage_award, manage_awardId>;
+  removeUpdated_by_manage_awards!: Sequelize.HasManyRemoveAssociationsMixin<manage_award, manage_awardId>;
+  hasUpdated_by_manage_award!: Sequelize.HasManyHasAssociationMixin<manage_award, manage_awardId>;
+  hasUpdated_by_manage_awards!: Sequelize.HasManyHasAssociationsMixin<manage_award, manage_awardId>;
+  countUpdated_by_manage_awards!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany message via created_by
   messages!: message[];
   getMessages!: Sequelize.HasManyGetAssociationsMixin<message>;
@@ -761,7 +786,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasPassword_reset_token!: Sequelize.HasManyHasAssociationMixin<password_reset_token, password_reset_tokenId>;
   hasPassword_reset_tokens!: Sequelize.HasManyHasAssociationsMixin<password_reset_token, password_reset_tokenId>;
   countPassword_reset_tokens!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll_choice via updated_by
+  // user hasMany poll_choice via created_by
   poll_choices!: poll_choice[];
   getPoll_choices!: Sequelize.HasManyGetAssociationsMixin<poll_choice>;
   setPoll_choices!: Sequelize.HasManySetAssociationsMixin<poll_choice, poll_choiceId>;
@@ -773,19 +798,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasPoll_choice!: Sequelize.HasManyHasAssociationMixin<poll_choice, poll_choiceId>;
   hasPoll_choices!: Sequelize.HasManyHasAssociationsMixin<poll_choice, poll_choiceId>;
   countPoll_choices!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll_choice via created_by
-  created_by_poll_choices!: poll_choice[];
-  getCreated_by_poll_choices!: Sequelize.HasManyGetAssociationsMixin<poll_choice>;
-  setCreated_by_poll_choices!: Sequelize.HasManySetAssociationsMixin<poll_choice, poll_choiceId>;
-  addCreated_by_poll_choice!: Sequelize.HasManyAddAssociationMixin<poll_choice, poll_choiceId>;
-  addCreated_by_poll_choices!: Sequelize.HasManyAddAssociationsMixin<poll_choice, poll_choiceId>;
-  createCreated_by_poll_choice!: Sequelize.HasManyCreateAssociationMixin<poll_choice>;
-  removeCreated_by_poll_choice!: Sequelize.HasManyRemoveAssociationMixin<poll_choice, poll_choiceId>;
-  removeCreated_by_poll_choices!: Sequelize.HasManyRemoveAssociationsMixin<poll_choice, poll_choiceId>;
-  hasCreated_by_poll_choice!: Sequelize.HasManyHasAssociationMixin<poll_choice, poll_choiceId>;
-  hasCreated_by_poll_choices!: Sequelize.HasManyHasAssociationsMixin<poll_choice, poll_choiceId>;
-  countCreated_by_poll_choices!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll_response via user_id
+  // user hasMany poll_choice via updated_by
+  updated_by_poll_choices!: poll_choice[];
+  getUpdated_by_poll_choices!: Sequelize.HasManyGetAssociationsMixin<poll_choice>;
+  setUpdated_by_poll_choices!: Sequelize.HasManySetAssociationsMixin<poll_choice, poll_choiceId>;
+  addUpdated_by_poll_choice!: Sequelize.HasManyAddAssociationMixin<poll_choice, poll_choiceId>;
+  addUpdated_by_poll_choices!: Sequelize.HasManyAddAssociationsMixin<poll_choice, poll_choiceId>;
+  createUpdated_by_poll_choice!: Sequelize.HasManyCreateAssociationMixin<poll_choice>;
+  removeUpdated_by_poll_choice!: Sequelize.HasManyRemoveAssociationMixin<poll_choice, poll_choiceId>;
+  removeUpdated_by_poll_choices!: Sequelize.HasManyRemoveAssociationsMixin<poll_choice, poll_choiceId>;
+  hasUpdated_by_poll_choice!: Sequelize.HasManyHasAssociationMixin<poll_choice, poll_choiceId>;
+  hasUpdated_by_poll_choices!: Sequelize.HasManyHasAssociationsMixin<poll_choice, poll_choiceId>;
+  countUpdated_by_poll_choices!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany poll_response via created_by
   poll_responses!: poll_response[];
   getPoll_responses!: Sequelize.HasManyGetAssociationsMixin<poll_response>;
   setPoll_responses!: Sequelize.HasManySetAssociationsMixin<poll_response, poll_responseId>;
@@ -797,18 +822,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasPoll_response!: Sequelize.HasManyHasAssociationMixin<poll_response, poll_responseId>;
   hasPoll_responses!: Sequelize.HasManyHasAssociationsMixin<poll_response, poll_responseId>;
   countPoll_responses!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll_response via created_by
-  created_by_poll_responses!: poll_response[];
-  getCreated_by_poll_responses!: Sequelize.HasManyGetAssociationsMixin<poll_response>;
-  setCreated_by_poll_responses!: Sequelize.HasManySetAssociationsMixin<poll_response, poll_responseId>;
-  addCreated_by_poll_response!: Sequelize.HasManyAddAssociationMixin<poll_response, poll_responseId>;
-  addCreated_by_poll_responses!: Sequelize.HasManyAddAssociationsMixin<poll_response, poll_responseId>;
-  createCreated_by_poll_response!: Sequelize.HasManyCreateAssociationMixin<poll_response>;
-  removeCreated_by_poll_response!: Sequelize.HasManyRemoveAssociationMixin<poll_response, poll_responseId>;
-  removeCreated_by_poll_responses!: Sequelize.HasManyRemoveAssociationsMixin<poll_response, poll_responseId>;
-  hasCreated_by_poll_response!: Sequelize.HasManyHasAssociationMixin<poll_response, poll_responseId>;
-  hasCreated_by_poll_responses!: Sequelize.HasManyHasAssociationsMixin<poll_response, poll_responseId>;
-  countCreated_by_poll_responses!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany poll_response via updated_by
   updated_by_poll_responses!: poll_response[];
   getUpdated_by_poll_responses!: Sequelize.HasManyGetAssociationsMixin<poll_response>;
@@ -821,7 +834,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_poll_response!: Sequelize.HasManyHasAssociationMixin<poll_response, poll_responseId>;
   hasUpdated_by_poll_responses!: Sequelize.HasManyHasAssociationsMixin<poll_response, poll_responseId>;
   countUpdated_by_poll_responses!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll via updated_by
+  // user hasMany poll_response via user_id
+  user_poll_responses!: poll_response[];
+  getUser_poll_responses!: Sequelize.HasManyGetAssociationsMixin<poll_response>;
+  setUser_poll_responses!: Sequelize.HasManySetAssociationsMixin<poll_response, poll_responseId>;
+  addUser_poll_response!: Sequelize.HasManyAddAssociationMixin<poll_response, poll_responseId>;
+  addUser_poll_responses!: Sequelize.HasManyAddAssociationsMixin<poll_response, poll_responseId>;
+  createUser_poll_response!: Sequelize.HasManyCreateAssociationMixin<poll_response>;
+  removeUser_poll_response!: Sequelize.HasManyRemoveAssociationMixin<poll_response, poll_responseId>;
+  removeUser_poll_responses!: Sequelize.HasManyRemoveAssociationsMixin<poll_response, poll_responseId>;
+  hasUser_poll_response!: Sequelize.HasManyHasAssociationMixin<poll_response, poll_responseId>;
+  hasUser_poll_responses!: Sequelize.HasManyHasAssociationsMixin<poll_response, poll_responseId>;
+  countUser_poll_responses!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany poll via created_by
   polls!: poll[];
   getPolls!: Sequelize.HasManyGetAssociationsMixin<poll>;
   setPolls!: Sequelize.HasManySetAssociationsMixin<poll, pollId>;
@@ -833,19 +858,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasPoll!: Sequelize.HasManyHasAssociationMixin<poll, pollId>;
   hasPolls!: Sequelize.HasManyHasAssociationsMixin<poll, pollId>;
   countPolls!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany poll via created_by
-  created_by_polls!: poll[];
-  getCreated_by_polls!: Sequelize.HasManyGetAssociationsMixin<poll>;
-  setCreated_by_polls!: Sequelize.HasManySetAssociationsMixin<poll, pollId>;
-  addCreated_by_poll!: Sequelize.HasManyAddAssociationMixin<poll, pollId>;
-  addCreated_by_polls!: Sequelize.HasManyAddAssociationsMixin<poll, pollId>;
-  createCreated_by_poll!: Sequelize.HasManyCreateAssociationMixin<poll>;
-  removeCreated_by_poll!: Sequelize.HasManyRemoveAssociationMixin<poll, pollId>;
-  removeCreated_by_polls!: Sequelize.HasManyRemoveAssociationsMixin<poll, pollId>;
-  hasCreated_by_poll!: Sequelize.HasManyHasAssociationMixin<poll, pollId>;
-  hasCreated_by_polls!: Sequelize.HasManyHasAssociationsMixin<poll, pollId>;
-  countCreated_by_polls!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany program via updated_by
+  // user hasMany poll via updated_by
+  updated_by_polls!: poll[];
+  getUpdated_by_polls!: Sequelize.HasManyGetAssociationsMixin<poll>;
+  setUpdated_by_polls!: Sequelize.HasManySetAssociationsMixin<poll, pollId>;
+  addUpdated_by_poll!: Sequelize.HasManyAddAssociationMixin<poll, pollId>;
+  addUpdated_by_polls!: Sequelize.HasManyAddAssociationsMixin<poll, pollId>;
+  createUpdated_by_poll!: Sequelize.HasManyCreateAssociationMixin<poll>;
+  removeUpdated_by_poll!: Sequelize.HasManyRemoveAssociationMixin<poll, pollId>;
+  removeUpdated_by_polls!: Sequelize.HasManyRemoveAssociationsMixin<poll, pollId>;
+  hasUpdated_by_poll!: Sequelize.HasManyHasAssociationMixin<poll, pollId>;
+  hasUpdated_by_polls!: Sequelize.HasManyHasAssociationsMixin<poll, pollId>;
+  countUpdated_by_polls!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany program via created_by
   programs!: program[];
   getPrograms!: Sequelize.HasManyGetAssociationsMixin<program>;
   setPrograms!: Sequelize.HasManySetAssociationsMixin<program, programId>;
@@ -869,18 +894,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasManager_program!: Sequelize.HasManyHasAssociationMixin<program, programId>;
   hasManager_programs!: Sequelize.HasManyHasAssociationsMixin<program, programId>;
   countManager_programs!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany program via created_by
-  created_by_programs!: program[];
-  getCreated_by_programs!: Sequelize.HasManyGetAssociationsMixin<program>;
-  setCreated_by_programs!: Sequelize.HasManySetAssociationsMixin<program, programId>;
-  addCreated_by_program!: Sequelize.HasManyAddAssociationMixin<program, programId>;
-  addCreated_by_programs!: Sequelize.HasManyAddAssociationsMixin<program, programId>;
-  createCreated_by_program!: Sequelize.HasManyCreateAssociationMixin<program>;
-  removeCreated_by_program!: Sequelize.HasManyRemoveAssociationMixin<program, programId>;
-  removeCreated_by_programs!: Sequelize.HasManyRemoveAssociationsMixin<program, programId>;
-  hasCreated_by_program!: Sequelize.HasManyHasAssociationMixin<program, programId>;
-  hasCreated_by_programs!: Sequelize.HasManyHasAssociationsMixin<program, programId>;
-  countCreated_by_programs!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany program via updated_by
+  updated_by_programs!: program[];
+  getUpdated_by_programs!: Sequelize.HasManyGetAssociationsMixin<program>;
+  setUpdated_by_programs!: Sequelize.HasManySetAssociationsMixin<program, programId>;
+  addUpdated_by_program!: Sequelize.HasManyAddAssociationMixin<program, programId>;
+  addUpdated_by_programs!: Sequelize.HasManyAddAssociationsMixin<program, programId>;
+  createUpdated_by_program!: Sequelize.HasManyCreateAssociationMixin<program>;
+  removeUpdated_by_program!: Sequelize.HasManyRemoveAssociationMixin<program, programId>;
+  removeUpdated_by_programs!: Sequelize.HasManyRemoveAssociationsMixin<program, programId>;
+  hasUpdated_by_program!: Sequelize.HasManyHasAssociationMixin<program, programId>;
+  hasUpdated_by_programs!: Sequelize.HasManyHasAssociationsMixin<program, programId>;
+  countUpdated_by_programs!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany program_cash_reward via created_by
   program_cash_rewards!: program_cash_reward[];
   getProgram_cash_rewards!: Sequelize.HasManyGetAssociationsMixin<program_cash_reward>;
@@ -929,18 +954,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasProgram_task!: Sequelize.HasManyHasAssociationMixin<program_task, program_taskId>;
   hasProgram_tasks!: Sequelize.HasManyHasAssociationsMixin<program_task, program_taskId>;
   countProgram_tasks!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany program_task via updated_by
-  updated_by_program_tasks!: program_task[];
-  getUpdated_by_program_tasks!: Sequelize.HasManyGetAssociationsMixin<program_task>;
-  setUpdated_by_program_tasks!: Sequelize.HasManySetAssociationsMixin<program_task, program_taskId>;
-  addUpdated_by_program_task!: Sequelize.HasManyAddAssociationMixin<program_task, program_taskId>;
-  addUpdated_by_program_tasks!: Sequelize.HasManyAddAssociationsMixin<program_task, program_taskId>;
-  createUpdated_by_program_task!: Sequelize.HasManyCreateAssociationMixin<program_task>;
-  removeUpdated_by_program_task!: Sequelize.HasManyRemoveAssociationMixin<program_task, program_taskId>;
-  removeUpdated_by_program_tasks!: Sequelize.HasManyRemoveAssociationsMixin<program_task, program_taskId>;
-  hasUpdated_by_program_task!: Sequelize.HasManyHasAssociationMixin<program_task, program_taskId>;
-  hasUpdated_by_program_tasks!: Sequelize.HasManyHasAssociationsMixin<program_task, program_taskId>;
-  countUpdated_by_program_tasks!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany program_task via submitted_by
   submitted_by_program_tasks!: program_task[];
   getSubmitted_by_program_tasks!: Sequelize.HasManyGetAssociationsMixin<program_task>;
@@ -953,6 +966,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSubmitted_by_program_task!: Sequelize.HasManyHasAssociationMixin<program_task, program_taskId>;
   hasSubmitted_by_program_tasks!: Sequelize.HasManyHasAssociationsMixin<program_task, program_taskId>;
   countSubmitted_by_program_tasks!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany program_task via updated_by
+  updated_by_program_tasks!: program_task[];
+  getUpdated_by_program_tasks!: Sequelize.HasManyGetAssociationsMixin<program_task>;
+  setUpdated_by_program_tasks!: Sequelize.HasManySetAssociationsMixin<program_task, program_taskId>;
+  addUpdated_by_program_task!: Sequelize.HasManyAddAssociationMixin<program_task, program_taskId>;
+  addUpdated_by_program_tasks!: Sequelize.HasManyAddAssociationsMixin<program_task, program_taskId>;
+  createUpdated_by_program_task!: Sequelize.HasManyCreateAssociationMixin<program_task>;
+  removeUpdated_by_program_task!: Sequelize.HasManyRemoveAssociationMixin<program_task, program_taskId>;
+  removeUpdated_by_program_tasks!: Sequelize.HasManyRemoveAssociationsMixin<program_task, program_taskId>;
+  hasUpdated_by_program_task!: Sequelize.HasManyHasAssociationMixin<program_task, program_taskId>;
+  hasUpdated_by_program_tasks!: Sequelize.HasManyHasAssociationsMixin<program_task, program_taskId>;
+  countUpdated_by_program_tasks!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany program_task_attachment via created_by
   program_task_attachments!: program_task_attachment[];
   getProgram_task_attachments!: Sequelize.HasManyGetAssociationsMixin<program_task_attachment>;
@@ -977,7 +1002,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_program_task_attachment!: Sequelize.HasManyHasAssociationMixin<program_task_attachment, program_task_attachmentId>;
   hasUpdated_by_program_task_attachments!: Sequelize.HasManyHasAssociationsMixin<program_task_attachment, program_task_attachmentId>;
   countUpdated_by_program_task_attachments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany program_task_comment via updated_by
+  // user hasMany program_task_comment via created_by
   program_task_comments!: program_task_comment[];
   getProgram_task_comments!: Sequelize.HasManyGetAssociationsMixin<program_task_comment>;
   setProgram_task_comments!: Sequelize.HasManySetAssociationsMixin<program_task_comment, program_task_commentId>;
@@ -989,18 +1014,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasProgram_task_comment!: Sequelize.HasManyHasAssociationMixin<program_task_comment, program_task_commentId>;
   hasProgram_task_comments!: Sequelize.HasManyHasAssociationsMixin<program_task_comment, program_task_commentId>;
   countProgram_task_comments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany program_task_comment via created_by
-  created_by_program_task_comments!: program_task_comment[];
-  getCreated_by_program_task_comments!: Sequelize.HasManyGetAssociationsMixin<program_task_comment>;
-  setCreated_by_program_task_comments!: Sequelize.HasManySetAssociationsMixin<program_task_comment, program_task_commentId>;
-  addCreated_by_program_task_comment!: Sequelize.HasManyAddAssociationMixin<program_task_comment, program_task_commentId>;
-  addCreated_by_program_task_comments!: Sequelize.HasManyAddAssociationsMixin<program_task_comment, program_task_commentId>;
-  createCreated_by_program_task_comment!: Sequelize.HasManyCreateAssociationMixin<program_task_comment>;
-  removeCreated_by_program_task_comment!: Sequelize.HasManyRemoveAssociationMixin<program_task_comment, program_task_commentId>;
-  removeCreated_by_program_task_comments!: Sequelize.HasManyRemoveAssociationsMixin<program_task_comment, program_task_commentId>;
-  hasCreated_by_program_task_comment!: Sequelize.HasManyHasAssociationMixin<program_task_comment, program_task_commentId>;
-  hasCreated_by_program_task_comments!: Sequelize.HasManyHasAssociationsMixin<program_task_comment, program_task_commentId>;
-  countCreated_by_program_task_comments!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany program_task_comment via updated_by
+  updated_by_program_task_comments!: program_task_comment[];
+  getUpdated_by_program_task_comments!: Sequelize.HasManyGetAssociationsMixin<program_task_comment>;
+  setUpdated_by_program_task_comments!: Sequelize.HasManySetAssociationsMixin<program_task_comment, program_task_commentId>;
+  addUpdated_by_program_task_comment!: Sequelize.HasManyAddAssociationMixin<program_task_comment, program_task_commentId>;
+  addUpdated_by_program_task_comments!: Sequelize.HasManyAddAssociationsMixin<program_task_comment, program_task_commentId>;
+  createUpdated_by_program_task_comment!: Sequelize.HasManyCreateAssociationMixin<program_task_comment>;
+  removeUpdated_by_program_task_comment!: Sequelize.HasManyRemoveAssociationMixin<program_task_comment, program_task_commentId>;
+  removeUpdated_by_program_task_comments!: Sequelize.HasManyRemoveAssociationsMixin<program_task_comment, program_task_commentId>;
+  hasUpdated_by_program_task_comment!: Sequelize.HasManyHasAssociationMixin<program_task_comment, program_task_commentId>;
+  hasUpdated_by_program_task_comments!: Sequelize.HasManyHasAssociationsMixin<program_task_comment, program_task_commentId>;
+  countUpdated_by_program_task_comments!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany program_task_user via user_id
   program_task_users!: program_task_user[];
   getProgram_task_users!: Sequelize.HasManyGetAssociationsMixin<program_task_user>;
@@ -1097,7 +1122,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_role!: Sequelize.HasManyHasAssociationMixin<role, roleId>;
   hasUpdated_by_roles!: Sequelize.HasManyHasAssociationsMixin<role, roleId>;
   countUpdated_by_roles!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany role_screen_mapping via updated_by
+  // user hasMany role_screen_mapping via created_by
   role_screen_mappings!: role_screen_mapping[];
   getRole_screen_mappings!: Sequelize.HasManyGetAssociationsMixin<role_screen_mapping>;
   setRole_screen_mappings!: Sequelize.HasManySetAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
@@ -1109,18 +1134,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasRole_screen_mapping!: Sequelize.HasManyHasAssociationMixin<role_screen_mapping, role_screen_mappingId>;
   hasRole_screen_mappings!: Sequelize.HasManyHasAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
   countRole_screen_mappings!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany role_screen_mapping via created_by
-  created_by_role_screen_mappings!: role_screen_mapping[];
-  getCreated_by_role_screen_mappings!: Sequelize.HasManyGetAssociationsMixin<role_screen_mapping>;
-  setCreated_by_role_screen_mappings!: Sequelize.HasManySetAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
-  addCreated_by_role_screen_mapping!: Sequelize.HasManyAddAssociationMixin<role_screen_mapping, role_screen_mappingId>;
-  addCreated_by_role_screen_mappings!: Sequelize.HasManyAddAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
-  createCreated_by_role_screen_mapping!: Sequelize.HasManyCreateAssociationMixin<role_screen_mapping>;
-  removeCreated_by_role_screen_mapping!: Sequelize.HasManyRemoveAssociationMixin<role_screen_mapping, role_screen_mappingId>;
-  removeCreated_by_role_screen_mappings!: Sequelize.HasManyRemoveAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
-  hasCreated_by_role_screen_mapping!: Sequelize.HasManyHasAssociationMixin<role_screen_mapping, role_screen_mappingId>;
-  hasCreated_by_role_screen_mappings!: Sequelize.HasManyHasAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
-  countCreated_by_role_screen_mappings!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany role_screen_mapping via updated_by
+  updated_by_role_screen_mappings!: role_screen_mapping[];
+  getUpdated_by_role_screen_mappings!: Sequelize.HasManyGetAssociationsMixin<role_screen_mapping>;
+  setUpdated_by_role_screen_mappings!: Sequelize.HasManySetAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
+  addUpdated_by_role_screen_mapping!: Sequelize.HasManyAddAssociationMixin<role_screen_mapping, role_screen_mappingId>;
+  addUpdated_by_role_screen_mappings!: Sequelize.HasManyAddAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
+  createUpdated_by_role_screen_mapping!: Sequelize.HasManyCreateAssociationMixin<role_screen_mapping>;
+  removeUpdated_by_role_screen_mapping!: Sequelize.HasManyRemoveAssociationMixin<role_screen_mapping, role_screen_mappingId>;
+  removeUpdated_by_role_screen_mappings!: Sequelize.HasManyRemoveAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
+  hasUpdated_by_role_screen_mapping!: Sequelize.HasManyHasAssociationMixin<role_screen_mapping, role_screen_mappingId>;
+  hasUpdated_by_role_screen_mappings!: Sequelize.HasManyHasAssociationsMixin<role_screen_mapping, role_screen_mappingId>;
+  countUpdated_by_role_screen_mappings!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany schedule_setting via created_by
   schedule_settings!: schedule_setting[];
   getSchedule_settings!: Sequelize.HasManyGetAssociationsMixin<schedule_setting>;
@@ -1145,7 +1170,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_schedule_setting!: Sequelize.HasManyHasAssociationMixin<schedule_setting, schedule_settingId>;
   hasUpdated_by_schedule_settings!: Sequelize.HasManyHasAssociationsMixin<schedule_setting, schedule_settingId>;
   countUpdated_by_schedule_settings!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany scheduler via updated_by
+  // user hasMany scheduler via created_by
   schedulers!: scheduler[];
   getSchedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
   setSchedulers!: Sequelize.HasManySetAssociationsMixin<scheduler, schedulerId>;
@@ -1157,18 +1182,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasScheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
   hasSchedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
   countSchedulers!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany scheduler via nominator_id
-  nominator_schedulers!: scheduler[];
-  getNominator_schedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
-  setNominator_schedulers!: Sequelize.HasManySetAssociationsMixin<scheduler, schedulerId>;
-  addNominator_scheduler!: Sequelize.HasManyAddAssociationMixin<scheduler, schedulerId>;
-  addNominator_schedulers!: Sequelize.HasManyAddAssociationsMixin<scheduler, schedulerId>;
-  createNominator_scheduler!: Sequelize.HasManyCreateAssociationMixin<scheduler>;
-  removeNominator_scheduler!: Sequelize.HasManyRemoveAssociationMixin<scheduler, schedulerId>;
-  removeNominator_schedulers!: Sequelize.HasManyRemoveAssociationsMixin<scheduler, schedulerId>;
-  hasNominator_scheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
-  hasNominator_schedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
-  countNominator_schedulers!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany scheduler via judge_id
   judge_schedulers!: scheduler[];
   getJudge_schedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
@@ -1181,18 +1194,30 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasJudge_scheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
   hasJudge_schedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
   countJudge_schedulers!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany scheduler via created_by
-  created_by_schedulers!: scheduler[];
-  getCreated_by_schedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
-  setCreated_by_schedulers!: Sequelize.HasManySetAssociationsMixin<scheduler, schedulerId>;
-  addCreated_by_scheduler!: Sequelize.HasManyAddAssociationMixin<scheduler, schedulerId>;
-  addCreated_by_schedulers!: Sequelize.HasManyAddAssociationsMixin<scheduler, schedulerId>;
-  createCreated_by_scheduler!: Sequelize.HasManyCreateAssociationMixin<scheduler>;
-  removeCreated_by_scheduler!: Sequelize.HasManyRemoveAssociationMixin<scheduler, schedulerId>;
-  removeCreated_by_schedulers!: Sequelize.HasManyRemoveAssociationsMixin<scheduler, schedulerId>;
-  hasCreated_by_scheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
-  hasCreated_by_schedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
-  countCreated_by_schedulers!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany scheduler via nominator_id
+  nominator_schedulers!: scheduler[];
+  getNominator_schedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
+  setNominator_schedulers!: Sequelize.HasManySetAssociationsMixin<scheduler, schedulerId>;
+  addNominator_scheduler!: Sequelize.HasManyAddAssociationMixin<scheduler, schedulerId>;
+  addNominator_schedulers!: Sequelize.HasManyAddAssociationsMixin<scheduler, schedulerId>;
+  createNominator_scheduler!: Sequelize.HasManyCreateAssociationMixin<scheduler>;
+  removeNominator_scheduler!: Sequelize.HasManyRemoveAssociationMixin<scheduler, schedulerId>;
+  removeNominator_schedulers!: Sequelize.HasManyRemoveAssociationsMixin<scheduler, schedulerId>;
+  hasNominator_scheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
+  hasNominator_schedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
+  countNominator_schedulers!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany scheduler via updated_by
+  updated_by_schedulers!: scheduler[];
+  getUpdated_by_schedulers!: Sequelize.HasManyGetAssociationsMixin<scheduler>;
+  setUpdated_by_schedulers!: Sequelize.HasManySetAssociationsMixin<scheduler, schedulerId>;
+  addUpdated_by_scheduler!: Sequelize.HasManyAddAssociationMixin<scheduler, schedulerId>;
+  addUpdated_by_schedulers!: Sequelize.HasManyAddAssociationsMixin<scheduler, schedulerId>;
+  createUpdated_by_scheduler!: Sequelize.HasManyCreateAssociationMixin<scheduler>;
+  removeUpdated_by_scheduler!: Sequelize.HasManyRemoveAssociationMixin<scheduler, schedulerId>;
+  removeUpdated_by_schedulers!: Sequelize.HasManyRemoveAssociationsMixin<scheduler, schedulerId>;
+  hasUpdated_by_scheduler!: Sequelize.HasManyHasAssociationMixin<scheduler, schedulerId>;
+  hasUpdated_by_schedulers!: Sequelize.HasManyHasAssociationsMixin<scheduler, schedulerId>;
+  countUpdated_by_schedulers!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany social_wall_likepost via user_id
   social_wall_likeposts!: social_wall_likepost[];
   getSocial_wall_likeposts!: Sequelize.HasManyGetAssociationsMixin<social_wall_likepost>;
@@ -1205,7 +1230,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSocial_wall_likepost!: Sequelize.HasManyHasAssociationMixin<social_wall_likepost, social_wall_likepostId>;
   hasSocial_wall_likeposts!: Sequelize.HasManyHasAssociationsMixin<social_wall_likepost, social_wall_likepostId>;
   countSocial_wall_likeposts!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany socialwall via updated_by
+  // user hasMany socialwall via created_by
   socialwalls!: socialwall[];
   getSocialwalls!: Sequelize.HasManyGetAssociationsMixin<socialwall>;
   setSocialwalls!: Sequelize.HasManySetAssociationsMixin<socialwall, socialwallId>;
@@ -1217,19 +1242,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSocialwall!: Sequelize.HasManyHasAssociationMixin<socialwall, socialwallId>;
   hasSocialwalls!: Sequelize.HasManyHasAssociationsMixin<socialwall, socialwallId>;
   countSocialwalls!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany socialwall via created_by
-  created_by_socialwalls!: socialwall[];
-  getCreated_by_socialwalls!: Sequelize.HasManyGetAssociationsMixin<socialwall>;
-  setCreated_by_socialwalls!: Sequelize.HasManySetAssociationsMixin<socialwall, socialwallId>;
-  addCreated_by_socialwall!: Sequelize.HasManyAddAssociationMixin<socialwall, socialwallId>;
-  addCreated_by_socialwalls!: Sequelize.HasManyAddAssociationsMixin<socialwall, socialwallId>;
-  createCreated_by_socialwall!: Sequelize.HasManyCreateAssociationMixin<socialwall>;
-  removeCreated_by_socialwall!: Sequelize.HasManyRemoveAssociationMixin<socialwall, socialwallId>;
-  removeCreated_by_socialwalls!: Sequelize.HasManyRemoveAssociationsMixin<socialwall, socialwallId>;
-  hasCreated_by_socialwall!: Sequelize.HasManyHasAssociationMixin<socialwall, socialwallId>;
-  hasCreated_by_socialwalls!: Sequelize.HasManyHasAssociationsMixin<socialwall, socialwallId>;
-  countCreated_by_socialwalls!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany socialwallcomment via updated_by
+  // user hasMany socialwall via updated_by
+  updated_by_socialwalls!: socialwall[];
+  getUpdated_by_socialwalls!: Sequelize.HasManyGetAssociationsMixin<socialwall>;
+  setUpdated_by_socialwalls!: Sequelize.HasManySetAssociationsMixin<socialwall, socialwallId>;
+  addUpdated_by_socialwall!: Sequelize.HasManyAddAssociationMixin<socialwall, socialwallId>;
+  addUpdated_by_socialwalls!: Sequelize.HasManyAddAssociationsMixin<socialwall, socialwallId>;
+  createUpdated_by_socialwall!: Sequelize.HasManyCreateAssociationMixin<socialwall>;
+  removeUpdated_by_socialwall!: Sequelize.HasManyRemoveAssociationMixin<socialwall, socialwallId>;
+  removeUpdated_by_socialwalls!: Sequelize.HasManyRemoveAssociationsMixin<socialwall, socialwallId>;
+  hasUpdated_by_socialwall!: Sequelize.HasManyHasAssociationMixin<socialwall, socialwallId>;
+  hasUpdated_by_socialwalls!: Sequelize.HasManyHasAssociationsMixin<socialwall, socialwallId>;
+  countUpdated_by_socialwalls!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany socialwallcomment via created_by
   socialwallcomments!: socialwallcomment[];
   getSocialwallcomments!: Sequelize.HasManyGetAssociationsMixin<socialwallcomment>;
   setSocialwallcomments!: Sequelize.HasManySetAssociationsMixin<socialwallcomment, socialwallcommentId>;
@@ -1241,19 +1266,19 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSocialwallcomment!: Sequelize.HasManyHasAssociationMixin<socialwallcomment, socialwallcommentId>;
   hasSocialwallcomments!: Sequelize.HasManyHasAssociationsMixin<socialwallcomment, socialwallcommentId>;
   countSocialwallcomments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany socialwallcomment via created_by
-  created_by_socialwallcomments!: socialwallcomment[];
-  getCreated_by_socialwallcomments!: Sequelize.HasManyGetAssociationsMixin<socialwallcomment>;
-  setCreated_by_socialwallcomments!: Sequelize.HasManySetAssociationsMixin<socialwallcomment, socialwallcommentId>;
-  addCreated_by_socialwallcomment!: Sequelize.HasManyAddAssociationMixin<socialwallcomment, socialwallcommentId>;
-  addCreated_by_socialwallcomments!: Sequelize.HasManyAddAssociationsMixin<socialwallcomment, socialwallcommentId>;
-  createCreated_by_socialwallcomment!: Sequelize.HasManyCreateAssociationMixin<socialwallcomment>;
-  removeCreated_by_socialwallcomment!: Sequelize.HasManyRemoveAssociationMixin<socialwallcomment, socialwallcommentId>;
-  removeCreated_by_socialwallcomments!: Sequelize.HasManyRemoveAssociationsMixin<socialwallcomment, socialwallcommentId>;
-  hasCreated_by_socialwallcomment!: Sequelize.HasManyHasAssociationMixin<socialwallcomment, socialwallcommentId>;
-  hasCreated_by_socialwallcomments!: Sequelize.HasManyHasAssociationsMixin<socialwallcomment, socialwallcommentId>;
-  countCreated_by_socialwallcomments!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey via updated_by
+  // user hasMany socialwallcomment via updated_by
+  updated_by_socialwallcomments!: socialwallcomment[];
+  getUpdated_by_socialwallcomments!: Sequelize.HasManyGetAssociationsMixin<socialwallcomment>;
+  setUpdated_by_socialwallcomments!: Sequelize.HasManySetAssociationsMixin<socialwallcomment, socialwallcommentId>;
+  addUpdated_by_socialwallcomment!: Sequelize.HasManyAddAssociationMixin<socialwallcomment, socialwallcommentId>;
+  addUpdated_by_socialwallcomments!: Sequelize.HasManyAddAssociationsMixin<socialwallcomment, socialwallcommentId>;
+  createUpdated_by_socialwallcomment!: Sequelize.HasManyCreateAssociationMixin<socialwallcomment>;
+  removeUpdated_by_socialwallcomment!: Sequelize.HasManyRemoveAssociationMixin<socialwallcomment, socialwallcommentId>;
+  removeUpdated_by_socialwallcomments!: Sequelize.HasManyRemoveAssociationsMixin<socialwallcomment, socialwallcommentId>;
+  hasUpdated_by_socialwallcomment!: Sequelize.HasManyHasAssociationMixin<socialwallcomment, socialwallcommentId>;
+  hasUpdated_by_socialwallcomments!: Sequelize.HasManyHasAssociationsMixin<socialwallcomment, socialwallcommentId>;
+  countUpdated_by_socialwallcomments!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany survey via created_by
   surveys!: survey[];
   getSurveys!: Sequelize.HasManyGetAssociationsMixin<survey>;
   setSurveys!: Sequelize.HasManySetAssociationsMixin<survey, surveyId>;
@@ -1265,18 +1290,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSurvey!: Sequelize.HasManyHasAssociationMixin<survey, surveyId>;
   hasSurveys!: Sequelize.HasManyHasAssociationsMixin<survey, surveyId>;
   countSurveys!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey via created_by
-  created_by_surveys!: survey[];
-  getCreated_by_surveys!: Sequelize.HasManyGetAssociationsMixin<survey>;
-  setCreated_by_surveys!: Sequelize.HasManySetAssociationsMixin<survey, surveyId>;
-  addCreated_by_survey!: Sequelize.HasManyAddAssociationMixin<survey, surveyId>;
-  addCreated_by_surveys!: Sequelize.HasManyAddAssociationsMixin<survey, surveyId>;
-  createCreated_by_survey!: Sequelize.HasManyCreateAssociationMixin<survey>;
-  removeCreated_by_survey!: Sequelize.HasManyRemoveAssociationMixin<survey, surveyId>;
-  removeCreated_by_surveys!: Sequelize.HasManyRemoveAssociationsMixin<survey, surveyId>;
-  hasCreated_by_survey!: Sequelize.HasManyHasAssociationMixin<survey, surveyId>;
-  hasCreated_by_surveys!: Sequelize.HasManyHasAssociationsMixin<survey, surveyId>;
-  countCreated_by_surveys!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany survey via updated_by
+  updated_by_surveys!: survey[];
+  getUpdated_by_surveys!: Sequelize.HasManyGetAssociationsMixin<survey>;
+  setUpdated_by_surveys!: Sequelize.HasManySetAssociationsMixin<survey, surveyId>;
+  addUpdated_by_survey!: Sequelize.HasManyAddAssociationMixin<survey, surveyId>;
+  addUpdated_by_surveys!: Sequelize.HasManyAddAssociationsMixin<survey, surveyId>;
+  createUpdated_by_survey!: Sequelize.HasManyCreateAssociationMixin<survey>;
+  removeUpdated_by_survey!: Sequelize.HasManyRemoveAssociationMixin<survey, surveyId>;
+  removeUpdated_by_surveys!: Sequelize.HasManyRemoveAssociationsMixin<survey, surveyId>;
+  hasUpdated_by_survey!: Sequelize.HasManyHasAssociationMixin<survey, surveyId>;
+  hasUpdated_by_surveys!: Sequelize.HasManyHasAssociationsMixin<survey, surveyId>;
+  countUpdated_by_surveys!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany survey_important via user_id
   survey_importants!: survey_important[];
   getSurvey_importants!: Sequelize.HasManyGetAssociationsMixin<survey_important>;
@@ -1289,7 +1314,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSurvey_important!: Sequelize.HasManyHasAssociationMixin<survey_important, survey_importantId>;
   hasSurvey_importants!: Sequelize.HasManyHasAssociationsMixin<survey_important, survey_importantId>;
   countSurvey_importants!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey_question via updated_by
+  // user hasMany survey_question via created_by
   survey_questions!: survey_question[];
   getSurvey_questions!: Sequelize.HasManyGetAssociationsMixin<survey_question>;
   setSurvey_questions!: Sequelize.HasManySetAssociationsMixin<survey_question, survey_questionId>;
@@ -1301,18 +1326,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSurvey_question!: Sequelize.HasManyHasAssociationMixin<survey_question, survey_questionId>;
   hasSurvey_questions!: Sequelize.HasManyHasAssociationsMixin<survey_question, survey_questionId>;
   countSurvey_questions!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey_question via created_by
-  created_by_survey_questions!: survey_question[];
-  getCreated_by_survey_questions!: Sequelize.HasManyGetAssociationsMixin<survey_question>;
-  setCreated_by_survey_questions!: Sequelize.HasManySetAssociationsMixin<survey_question, survey_questionId>;
-  addCreated_by_survey_question!: Sequelize.HasManyAddAssociationMixin<survey_question, survey_questionId>;
-  addCreated_by_survey_questions!: Sequelize.HasManyAddAssociationsMixin<survey_question, survey_questionId>;
-  createCreated_by_survey_question!: Sequelize.HasManyCreateAssociationMixin<survey_question>;
-  removeCreated_by_survey_question!: Sequelize.HasManyRemoveAssociationMixin<survey_question, survey_questionId>;
-  removeCreated_by_survey_questions!: Sequelize.HasManyRemoveAssociationsMixin<survey_question, survey_questionId>;
-  hasCreated_by_survey_question!: Sequelize.HasManyHasAssociationMixin<survey_question, survey_questionId>;
-  hasCreated_by_survey_questions!: Sequelize.HasManyHasAssociationsMixin<survey_question, survey_questionId>;
-  countCreated_by_survey_questions!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany survey_question via updated_by
+  updated_by_survey_questions!: survey_question[];
+  getUpdated_by_survey_questions!: Sequelize.HasManyGetAssociationsMixin<survey_question>;
+  setUpdated_by_survey_questions!: Sequelize.HasManySetAssociationsMixin<survey_question, survey_questionId>;
+  addUpdated_by_survey_question!: Sequelize.HasManyAddAssociationMixin<survey_question, survey_questionId>;
+  addUpdated_by_survey_questions!: Sequelize.HasManyAddAssociationsMixin<survey_question, survey_questionId>;
+  createUpdated_by_survey_question!: Sequelize.HasManyCreateAssociationMixin<survey_question>;
+  removeUpdated_by_survey_question!: Sequelize.HasManyRemoveAssociationMixin<survey_question, survey_questionId>;
+  removeUpdated_by_survey_questions!: Sequelize.HasManyRemoveAssociationsMixin<survey_question, survey_questionId>;
+  hasUpdated_by_survey_question!: Sequelize.HasManyHasAssociationMixin<survey_question, survey_questionId>;
+  hasUpdated_by_survey_questions!: Sequelize.HasManyHasAssociationsMixin<survey_question, survey_questionId>;
+  countUpdated_by_survey_questions!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany survey_question_bank via created_by
   survey_question_banks!: survey_question_bank[];
   getSurvey_question_banks!: Sequelize.HasManyGetAssociationsMixin<survey_question_bank>;
@@ -1349,18 +1374,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasSurvey_response!: Sequelize.HasManyHasAssociationMixin<survey_response, survey_responseId>;
   hasSurvey_responses!: Sequelize.HasManyHasAssociationsMixin<survey_response, survey_responseId>;
   countSurvey_responses!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany survey_response via user_id
-  user_survey_responses!: survey_response[];
-  getUser_survey_responses!: Sequelize.HasManyGetAssociationsMixin<survey_response>;
-  setUser_survey_responses!: Sequelize.HasManySetAssociationsMixin<survey_response, survey_responseId>;
-  addUser_survey_response!: Sequelize.HasManyAddAssociationMixin<survey_response, survey_responseId>;
-  addUser_survey_responses!: Sequelize.HasManyAddAssociationsMixin<survey_response, survey_responseId>;
-  createUser_survey_response!: Sequelize.HasManyCreateAssociationMixin<survey_response>;
-  removeUser_survey_response!: Sequelize.HasManyRemoveAssociationMixin<survey_response, survey_responseId>;
-  removeUser_survey_responses!: Sequelize.HasManyRemoveAssociationsMixin<survey_response, survey_responseId>;
-  hasUser_survey_response!: Sequelize.HasManyHasAssociationMixin<survey_response, survey_responseId>;
-  hasUser_survey_responses!: Sequelize.HasManyHasAssociationsMixin<survey_response, survey_responseId>;
-  countUser_survey_responses!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany survey_response via updated_by
   updated_by_survey_responses!: survey_response[];
   getUpdated_by_survey_responses!: Sequelize.HasManyGetAssociationsMixin<survey_response>;
@@ -1373,6 +1386,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_survey_response!: Sequelize.HasManyHasAssociationMixin<survey_response, survey_responseId>;
   hasUpdated_by_survey_responses!: Sequelize.HasManyHasAssociationsMixin<survey_response, survey_responseId>;
   countUpdated_by_survey_responses!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany survey_response via user_id
+  user_survey_responses!: survey_response[];
+  getUser_survey_responses!: Sequelize.HasManyGetAssociationsMixin<survey_response>;
+  setUser_survey_responses!: Sequelize.HasManySetAssociationsMixin<survey_response, survey_responseId>;
+  addUser_survey_response!: Sequelize.HasManyAddAssociationMixin<survey_response, survey_responseId>;
+  addUser_survey_responses!: Sequelize.HasManyAddAssociationsMixin<survey_response, survey_responseId>;
+  createUser_survey_response!: Sequelize.HasManyCreateAssociationMixin<survey_response>;
+  removeUser_survey_response!: Sequelize.HasManyRemoveAssociationMixin<survey_response, survey_responseId>;
+  removeUser_survey_responses!: Sequelize.HasManyRemoveAssociationsMixin<survey_response, survey_responseId>;
+  hasUser_survey_response!: Sequelize.HasManyHasAssociationMixin<survey_response, survey_responseId>;
+  hasUser_survey_responses!: Sequelize.HasManyHasAssociationsMixin<survey_response, survey_responseId>;
+  countUser_survey_responses!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany template via created_by
   templates!: template[];
   getTemplates!: Sequelize.HasManyGetAssociationsMixin<template>;
@@ -1397,7 +1422,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_template!: Sequelize.HasManyHasAssociationMixin<template, templateId>;
   hasUpdated_by_templates!: Sequelize.HasManyHasAssociationsMixin<template, templateId>;
   countUpdated_by_templates!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany user_badge via updated_by
+  // user hasMany user_badge via created_by
   user_badges!: user_badge[];
   getUser_badges!: Sequelize.HasManyGetAssociationsMixin<user_badge>;
   setUser_badges!: Sequelize.HasManySetAssociationsMixin<user_badge, user_badgeId>;
@@ -1421,18 +1446,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasGiven_by_user_badge!: Sequelize.HasManyHasAssociationMixin<user_badge, user_badgeId>;
   hasGiven_by_user_badges!: Sequelize.HasManyHasAssociationsMixin<user_badge, user_badgeId>;
   countGiven_by_user_badges!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany user_badge via created_by
-  created_by_user_badges!: user_badge[];
-  getCreated_by_user_badges!: Sequelize.HasManyGetAssociationsMixin<user_badge>;
-  setCreated_by_user_badges!: Sequelize.HasManySetAssociationsMixin<user_badge, user_badgeId>;
-  addCreated_by_user_badge!: Sequelize.HasManyAddAssociationMixin<user_badge, user_badgeId>;
-  addCreated_by_user_badges!: Sequelize.HasManyAddAssociationsMixin<user_badge, user_badgeId>;
-  createCreated_by_user_badge!: Sequelize.HasManyCreateAssociationMixin<user_badge>;
-  removeCreated_by_user_badge!: Sequelize.HasManyRemoveAssociationMixin<user_badge, user_badgeId>;
-  removeCreated_by_user_badges!: Sequelize.HasManyRemoveAssociationsMixin<user_badge, user_badgeId>;
-  hasCreated_by_user_badge!: Sequelize.HasManyHasAssociationMixin<user_badge, user_badgeId>;
-  hasCreated_by_user_badges!: Sequelize.HasManyHasAssociationsMixin<user_badge, user_badgeId>;
-  countCreated_by_user_badges!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany user_badge via updated_by
+  updated_by_user_badges!: user_badge[];
+  getUpdated_by_user_badges!: Sequelize.HasManyGetAssociationsMixin<user_badge>;
+  setUpdated_by_user_badges!: Sequelize.HasManySetAssociationsMixin<user_badge, user_badgeId>;
+  addUpdated_by_user_badge!: Sequelize.HasManyAddAssociationMixin<user_badge, user_badgeId>;
+  addUpdated_by_user_badges!: Sequelize.HasManyAddAssociationsMixin<user_badge, user_badgeId>;
+  createUpdated_by_user_badge!: Sequelize.HasManyCreateAssociationMixin<user_badge>;
+  removeUpdated_by_user_badge!: Sequelize.HasManyRemoveAssociationMixin<user_badge, user_badgeId>;
+  removeUpdated_by_user_badges!: Sequelize.HasManyRemoveAssociationsMixin<user_badge, user_badgeId>;
+  hasUpdated_by_user_badge!: Sequelize.HasManyHasAssociationMixin<user_badge, user_badgeId>;
+  hasUpdated_by_user_badges!: Sequelize.HasManyHasAssociationsMixin<user_badge, user_badgeId>;
+  countUpdated_by_user_badges!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany user_badge via user_id
   user_user_badges!: user_badge[];
   getUser_user_badges!: Sequelize.HasManyGetAssociationsMixin<user_badge>;
@@ -1445,7 +1470,7 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUser_user_badge!: Sequelize.HasManyHasAssociationMixin<user_badge, user_badgeId>;
   hasUser_user_badges!: Sequelize.HasManyHasAssociationsMixin<user_badge, user_badgeId>;
   countUser_user_badges!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany user_certificate via user_id
+  // user hasMany user_certificate via created_by
   user_certificates!: user_certificate[];
   getUser_certificates!: Sequelize.HasManyGetAssociationsMixin<user_certificate>;
   setUser_certificates!: Sequelize.HasManySetAssociationsMixin<user_certificate, user_certificateId>;
@@ -1469,18 +1494,6 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasGiven_by_user_certificate!: Sequelize.HasManyHasAssociationMixin<user_certificate, user_certificateId>;
   hasGiven_by_user_certificates!: Sequelize.HasManyHasAssociationsMixin<user_certificate, user_certificateId>;
   countGiven_by_user_certificates!: Sequelize.HasManyCountAssociationsMixin;
-  // user hasMany user_certificate via created_by
-  created_by_user_certificates!: user_certificate[];
-  getCreated_by_user_certificates!: Sequelize.HasManyGetAssociationsMixin<user_certificate>;
-  setCreated_by_user_certificates!: Sequelize.HasManySetAssociationsMixin<user_certificate, user_certificateId>;
-  addCreated_by_user_certificate!: Sequelize.HasManyAddAssociationMixin<user_certificate, user_certificateId>;
-  addCreated_by_user_certificates!: Sequelize.HasManyAddAssociationsMixin<user_certificate, user_certificateId>;
-  createCreated_by_user_certificate!: Sequelize.HasManyCreateAssociationMixin<user_certificate>;
-  removeCreated_by_user_certificate!: Sequelize.HasManyRemoveAssociationMixin<user_certificate, user_certificateId>;
-  removeCreated_by_user_certificates!: Sequelize.HasManyRemoveAssociationsMixin<user_certificate, user_certificateId>;
-  hasCreated_by_user_certificate!: Sequelize.HasManyHasAssociationMixin<user_certificate, user_certificateId>;
-  hasCreated_by_user_certificates!: Sequelize.HasManyHasAssociationsMixin<user_certificate, user_certificateId>;
-  countCreated_by_user_certificates!: Sequelize.HasManyCountAssociationsMixin;
   // user hasMany user_certificate via updated_by
   updated_by_user_certificates!: user_certificate[];
   getUpdated_by_user_certificates!: Sequelize.HasManyGetAssociationsMixin<user_certificate>;
@@ -1493,6 +1506,18 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
   hasUpdated_by_user_certificate!: Sequelize.HasManyHasAssociationMixin<user_certificate, user_certificateId>;
   hasUpdated_by_user_certificates!: Sequelize.HasManyHasAssociationsMixin<user_certificate, user_certificateId>;
   countUpdated_by_user_certificates!: Sequelize.HasManyCountAssociationsMixin;
+  // user hasMany user_certificate via user_id
+  user_user_certificates!: user_certificate[];
+  getUser_user_certificates!: Sequelize.HasManyGetAssociationsMixin<user_certificate>;
+  setUser_user_certificates!: Sequelize.HasManySetAssociationsMixin<user_certificate, user_certificateId>;
+  addUser_user_certificate!: Sequelize.HasManyAddAssociationMixin<user_certificate, user_certificateId>;
+  addUser_user_certificates!: Sequelize.HasManyAddAssociationsMixin<user_certificate, user_certificateId>;
+  createUser_user_certificate!: Sequelize.HasManyCreateAssociationMixin<user_certificate>;
+  removeUser_user_certificate!: Sequelize.HasManyRemoveAssociationMixin<user_certificate, user_certificateId>;
+  removeUser_user_certificates!: Sequelize.HasManyRemoveAssociationsMixin<user_certificate, user_certificateId>;
+  hasUser_user_certificate!: Sequelize.HasManyHasAssociationMixin<user_certificate, user_certificateId>;
+  hasUser_user_certificates!: Sequelize.HasManyHasAssociationsMixin<user_certificate, user_certificateId>;
+  countUser_user_certificates!: Sequelize.HasManyCountAssociationsMixin;
   // user belongsTo user via manager_id
   manager!: user;
   getManager!: Sequelize.BelongsToGetAssociationMixin<user>;
@@ -1566,19 +1591,9 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
       allowNull: true,
       defaultValue: "NULL"
     },
-    pic_name: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      defaultValue: "NULL"
-    },
     project_tour: {
       type: DataTypes.TEXT,
       allowNull: true
-    },
-    sig_name: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      defaultValue: "NULL"
     },
     telephone_number: {
       type: DataTypes.STRING(255),
@@ -1621,30 +1636,20 @@ export class user extends Model<userAttributes, userCreationAttributes> implemen
         model: 'role',
         key: 'id'
       }
+    },
+    profile_pic: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    sign_pic: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'users',
     schema: 'public',
     timestamps: false,
     indexes: [
-      {
-        name: "FK4qu1gr772nnf6ve5af002rwya",
-        fields: [
-          { name: "role_id" },
-        ]
-      },
-      {
-        name: "FK5p1ci5btqfwvtaqx5n2wxi182",
-        fields: [
-          { name: "manager_id" },
-        ]
-      },
-      {
-        name: "FKfi832e3qv89fq376fuh8920y4",
-        fields: [
-          { name: "department_id" },
-        ]
-      },
       {
         name: "UK6dotkott2kjsp8vw4d0m25fb7",
         unique: true,
