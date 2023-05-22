@@ -10,8 +10,6 @@ export const UploadFiles = async (body: any) => {
     try {
       const { image } = body;
 
-      console.log("=================>", image?.file?.bytesRead);
-
       let uploaded_files: uploaded_files_type[] = [];
 
       if (image?.file?.bytesRead === 0) {

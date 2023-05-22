@@ -5,6 +5,7 @@ import {
   getUsersByActiveDepartmentController,
   getUsersByDepartmentList,
   getUsersByIDController,
+  updateUserController,
 } from "../../../../controllers";
 import {
   createUsersSchema,
@@ -14,7 +15,6 @@ import {
   getUsersbyIdSchema,
   updateUsersSchema,
 } from "./schema";
-import { updateUserController } from "../../../../controllers/users/updateUser";
 
 const users: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get(

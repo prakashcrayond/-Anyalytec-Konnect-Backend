@@ -8,8 +8,6 @@ const file: FastifyPluginAsync = async (fastify): Promise<void> => {
     UploadFilesSchema,
     async (request: any, reply) => {
       try {
-        console.log("------------------>", request.body);
-
         const response = await UploadFiles(request.body);
         reply.code(response.status).send(response);
       } catch (error) {
