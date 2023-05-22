@@ -20,7 +20,7 @@ dotenv.config();
 const S3_BUCKET = process.env.AWS_BUCKET_NAME;
 
 const s3 = new AWS.S3({
-  endpoint: process.env.S3_URL,
+  region: process.env.S3_URL,
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_SECRET,
 });
@@ -37,13 +37,14 @@ export const s3Upload = (file: any) => {
       const s3Params: any = {
         Bucket: S3_BUCKET,
         Key: Date.now().toString() + "." + fileType,
-        Body: file?.buffer,
+        Body: await file?.toBuffer(),
       };
 
       s3.putObject(s3Params)
         .promise()
         .then(() => {
           let url = `https://${S3_BUCKET}.${process.env.S3_URL}/${s3Params.Key}`;
+
           resolve({
             status: 200,
             message: "Success",
