@@ -7,7 +7,7 @@ interface Payload {
 }
 
 // get UsersByActive/InactiveList function here
-export const getUsersbyActiveInactiveController = (query: Payload) => {
+export const getAllUsersController = (query: Payload) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get the payload
@@ -19,8 +19,6 @@ export const getUsersbyActiveInactiveController = (query: Payload) => {
           filter["active"] = true;
         } else if (active === "false") {
           filter["active"] = false;
-        } else if (active === "all") {
-          filter["active"] = {};
         }
       }
 
@@ -43,9 +41,9 @@ export const getUsersbyActiveInactiveController = (query: Payload) => {
           is_default: true,
           lastname: true,
           password: true,
-          pic_name: true,
+          profile_pic: true,
           project_tour: true,
-          sig_name: true,
+          sign_pic: true,
           telephone_number: true,
           updated_at: true,
           created_by: true,
@@ -70,6 +68,9 @@ export const getUsersbyActiveInactiveController = (query: Payload) => {
               is_default: true,
             },
           },
+        },
+        orderBy: {
+          id: "asc",
         },
       });
 

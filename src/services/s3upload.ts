@@ -20,7 +20,7 @@ dotenv.config();
 const S3_BUCKET = process.env.AWS_BUCKET_NAME;
 
 const s3 = new AWS.S3({
-  region: process.env.S3_URL,
+  endpoint: process.env.AWS_ENDPOINT,
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_SECRET,
 });
@@ -29,7 +29,7 @@ export const s3Upload = (file: any) => {
   return new Promise<{
     status: number;
     message: string;
-    filepath: string;
+    url: string;
     key: string;
   }>(async (resolve, reject) => {
     try {
@@ -40,19 +40,14 @@ export const s3Upload = (file: any) => {
         Body: await file?.toBuffer(),
       };
 
-      s3.putObject(s3Params)
-        .promise()
-        .then(() => {
-          let url = `https://${S3_BUCKET}.${process.env.S3_URL}/${s3Params.Key}`;
+      const response = await s3.upload(s3Params).promise();
 
-          resolve({
-            status: 200,
-            message: "Success",
-            filepath: url,
-            key: s3Params.Key,
-          });
-        })
-        .catch(reject);
+      resolve({
+        status: 200,
+        message: "Success",
+        url: response.Location,
+        key: s3Params.Key,
+      });
     } catch (error: any) {
       console.log("Error while uploading file to S3 : ", error);
       reject({ status: 400, message: error.message });

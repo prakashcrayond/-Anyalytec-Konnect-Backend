@@ -1062,9 +1062,9 @@ model users {
   is_default                                                          Boolean
   lastname                                                            String?                    @db.VarChar(20)
   password                                                            String?                    @db.VarChar(120)
-  pic_name                                                            String?                    @db.VarChar(255)
+  profile_pic                                                         String?                    @db.VarChar
   project_tour                                                        String?
-  sig_name                                                            String?                    @db.VarChar(255)
+  sign_pic                                                            String?                    @db.VarChar
   telephone_number                                                    String?                    @db.VarChar(255)
   updated_at                                                          DateTime?                  @db.Timestamp(6)
   updated_by                                                          Int?

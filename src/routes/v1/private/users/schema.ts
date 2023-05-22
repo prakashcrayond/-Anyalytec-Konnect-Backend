@@ -918,3 +918,163 @@ export const getUsersbyActiveInactiveSchema: any = {
     },
   },
 };
+
+export const createUsersSchema: any = {
+  description: "A Add Users Details Schema",
+  tags: ["Users"],
+  headers: {
+    type: "object",
+    properties: {
+      authorization: { type: "string" },
+    },
+    required: ["authorization"],
+  },
+  body: {
+    type: "object",
+    properties: {
+      countryCode: { type: "string", nullable: false },
+      profilePic: { type: "string", nullable: false },
+      username: { type: "string", nullable: false },
+      firstname: { type: "string", nullable: false },
+      lastname: { type: "string", nullable: false },
+      designation: { type: "string", nullable: false },
+      department: { type: "object", properties: { id: { type: "number" } } },
+      manager: { type: "object", properties: { id: { type: "number" } } },
+      email: { type: "string", nullable: false },
+      telephoneNumber: { type: "string", nullable: false },
+      dateOfJoining: { type: "string", nullable: false },
+      dateOfBirth: { type: "string", nullable: false },
+      role: { type: "object", properties: { id: { type: "number" } } },
+      password: { type: "string", nullable: false },
+      active: { type: "boolean", nullable: false },
+    },
+    required: [
+      "countryCode",
+      "profilePic",
+      "username",
+      "firstname",
+      "lastname",
+      "designation",
+      "department",
+      "manager",
+      "email",
+      "telephoneNumber",
+      "dateOfJoining",
+      "dateOfBirth",
+      "role",
+      "password",
+      "active",
+    ],
+  },
+  response: {
+    200: {
+      description: "Successful response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    400: {
+      description: "Bad Request",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    401: {
+      description: "Un Authorized response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      description: "Internal Server Error Response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const updateUsersSchema: any = {
+  description: "A Add Users Details Schema",
+  tags: ["Users"],
+  headers: {
+    type: "object",
+    properties: {
+      authorization: { type: "string" },
+    },
+    required: ["authorization"],
+  },
+  body: {
+    type: "object",
+    properties: {
+      id: { type: "number", nullable: false },
+      countryCode: { type: "string", nullable: false },
+      profilePic: { type: "string", nullable: false },
+      signPic: { type: "string", nullable: false },
+      username: { type: "string", nullable: false },
+      firstname: { type: "string", nullable: false },
+      lastname: { type: "string", nullable: false },
+      designation: { type: "string", nullable: false },
+      department: { type: "object", properties: { id: { type: "number" } } },
+      manager: { type: "object", properties: { id: { type: "number" } } },
+      email: { type: "string", nullable: false },
+      telephoneNumber: { type: "string", nullable: false },
+      dateOfJoining: { type: "string", nullable: false },
+      dateOfBirth: { type: "string", nullable: false },
+      role: { type: "object", properties: { id: { type: "number" } } },
+      password: { type: "string", nullable: false },
+      active: { type: "boolean", nullable: false },
+    },
+    required: ["id"],
+  },
+  response: {
+    200: {
+      description: "Successful response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    400: {
+      description: "Bad Request",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    401: {
+      description: "Un Authorized response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      description: "Internal Server Error Response",
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        api_status: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+  },
+};

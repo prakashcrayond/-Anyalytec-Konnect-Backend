@@ -21,6 +21,8 @@ export const UploadFiles = async (body: any) => {
         });
       }
 
+      // if (image?.mimetype != "png" || "jpg" || "svg"  )
+
       if (image && Array.isArray(image) && image?.length > 0) {
         for (const i of image) {
           let result: any = await s3Upload(i);
